@@ -9,7 +9,7 @@
   @keyframes marq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 </style>
 
-<div class="relative space-y-16 md:space-y-20">
+<div class="relative space-y-6 md:space-y-8">
 
   <!-- ===== HERO: full-viewport, perfectly centered ===== -->
   <section class="min-h-[90vh] md:min-h-[92vh] flex items-center -mt-6">
@@ -48,9 +48,267 @@
       </form>
     </div>
   </section>
+  
 
-  <!-- ===== IMAGE SECTION: smaller + closer to hero ===== -->
-  <section class="pt-0 -mt-8 md:-mt-10 pb-10 md:pb-14">
+<!-- ===== MISSION (Apple-clean: bigger type, glass card, soft motion) ===== -->
+<section class="py-10 md:py-14" aria-labelledby="mission-heading" data-anim>
+  <div class="max-w-5xl mx-auto px-4 md:px-6">
+
+    <!-- Title + accent -->
+    <div class="text-center">
+      <h2 id="mission-heading" class="text-4xl md:text-5xl font-semibold tracking-tight text-slate-900">
+        Our Mission
+      </h2>
+      <div class="mx-auto mt-4 h-1.5 w-20 rounded-full bg-sky-600/80"></div>
+    </div>
+
+    <!-- Glass card -->
+    <div
+      class="mt-8 md:mt-10 rounded-3xl bg-white/80 backdrop-blur-xl
+             ring-1 ring-slate-200 shadow-[0_10px_30px_rgba(15,23,42,.08)]
+             transition hover:shadow-[0_18px_42px_rgba(15,23,42,.12)] hover:-translate-y-0.5">
+
+      <div class="p-6 md:p-10">
+        <!-- Mission statement -->
+        <p class="text-xl md:text-xl text-slate-800 leading-relaxed text-center">
+          Our mission is to enhance patient quality of life by delivering dependable, affordable,
+          and medically approved healthcare equipment without delay.
+        </p>
+
+        <!-- Divider -->
+        <div class="my-8 h-px w-full bg-gradient-to-r from-transparent via-slate-200 to-transparent"></div>
+
+        <!-- Two-column content -->
+        <div class="grid gap-6 md:grid-cols-2">
+          <!-- Left feature list -->
+          <div
+            class="rounded-2xl p-5 md:p-6 ring-1 ring-slate-200/70 bg-white/70
+                   shadow-[0_6px_18px_rgba(15,23,42,.06)]">
+            <h3 class="text-lg md:text-xl font-semibold text-slate-900 mb-3">
+              We aim to empower independence and comfort by:
+            </h3>
+            <ul class="space-y-3 text-base md:text-lg text-slate-700">
+              <li class="flex items-start gap-3">
+                <span class="mt-1 inline-block h-2 w-2 rounded-full bg-sky-600"></span>
+                <span>Providing access to reliable medical devices from <strong>McKesson</strong> and <strong>Medline</strong></span>
+              </li>
+              <li class="flex items-start gap-3">
+                <span class="mt-1 inline-block h-2 w-2 rounded-full bg-sky-600"></span>
+                <span>Educating patients and caregivers on safe use and maintenance</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <span class="mt-1 inline-block h-2 w-2 rounded-full bg-sky-600"></span>
+                <span>Ensuring equitable access through insurance partnerships</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <span class="mt-1 inline-block h-2 w-2 rounded-full bg-sky-600"></span>
+                <span>Maintaining a patient-first approach rooted in respect and dignity</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Right: why it matters (with AI emphasis) -->
+          <div
+            class="relative overflow-hidden rounded-2xl p-5 md:p-6 ring-1 ring-slate-200/70 bg-gradient-to-br from-sky-50/80 to-white/80
+                   shadow-[0_6px_18px_rgba(15,23,42,.06)]">
+            <h3 class="text-lg md:text-xl font-semibold text-slate-900 mb-3">
+              Why it matters
+            </h3>
+            <p class="text-base md:text-lg text-slate-700 leading-relaxed">
+              Speed and clarity change outcomes. By aligning vetted suppliers with transparent requirements,
+              we reduce delays and help patients regain independence sooner.
+              Our <strong>AI automation</strong> acts as a bridge between patient, provider, and supplier—surfacing
+              missing documents, verifying eligibility, and streamlining prior authorization—so insurance moves faster
+              and patients receive the equipment they need without unnecessary wait.
+            </p>
+
+            <!-- Soft animated accents -->
+            <div class="pointer-events-none absolute inset-0">
+              <span class="absolute -right-6 -top-4 h-28 w-28 rounded-full bg-sky-300/20 blur-3xl animate-pulse"></span>
+              <span class="absolute right-8 bottom-8 h-24 w-24 rounded-full bg-cyan-300/20 blur-3xl animate-[pulse_3s_ease-in-out_infinite]"></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Single CTA: Learn more (black, /about) -->
+        <div class="mt-8 flex justify-center">
+          <a href="/about"
+             class="rounded-full bg-black px-6 md:px-7 py-3 md:py-3.5 text-white
+                    hover:bg-slate-900 transition hover:-translate-y-0.5 hover:shadow-lg">
+            Learn more
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<br><br><br>
+
+
+<!-- ===== CATEGORIES (fixed min-width tiles to prevent overlap, smooth slide) ===== -->
+<section class="space-y-6" aria-labelledby="browse-heading">
+<div class="grid grid-cols-3 items-end">
+  <!-- left spacer -->
+  <div></div>
+
+  <!-- centered heading + underline -->
+  <div class="text-center">
+    <h3
+  id="browse-heading"
+  class="whitespace-nowrap leading-tight font-semibold tracking-tight text-slate-900
+         text-3xl md:text-4xl lg:text-5xl">
+  Browse by Category
+</h3>
+    <div class="mx-auto mt-4 h-1.5 w-20 rounded-full bg-sky-600/80"></div>
+  </div>
+
+  <!-- right-aligned link -->
+  <div class="text-right self-center">
+    <a href="/catalog" class="text-sky-700 hover:underline text-sm">View all</a>
+  </div>
+</div>
+<br>
+
+  <style>
+    .tile-shadow{
+      box-shadow:
+        0 8px 16px rgba(15,23,42,.05),
+        0 2px 6px rgba(15,23,42,.03);
+    }
+    .tile-shadow:hover{
+      box-shadow:
+        0 12px 22px rgba(15,23,42,.08),
+        0 3px 8px rgba(15,23,42,.04);
+    }
+    @keyframes catSlide { from { transform: translateX(0) } to { transform: translateX(-50%) } }
+  </style>
+
+  {% set cats = [
+    ("Wheelchairs","wheelchair","wheelchairs.png"),
+    ("Walkers","walker","walkers.png"),
+    ("Hospital Beds","bed","beds.png"),
+    ("Bathroom Safety","bathroom","bathroom.png"),
+    ("Incontinence","incontinence","incontinence.png"),
+    ("Lifts & Scooters","lift","lifts.png"),
+    ("Crutches","crutches","crutches.png"),
+    ("CPAP & Supplies","cpap","cpap.png"),
+    ("Orthopedics","orthopedics","orthopedics.png"),
+    ("Respiratory","respiratory","respiratory.png")
+  ] %}
+
+  <div class="relative overflow-hidden rounded-xl">
+    <div class="pointer-events-none absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-white to-transparent"></div>
+    <div class="pointer-events-none absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-white to-transparent"></div>
+
+    <!-- Two tracks for seamless loop -->
+    <div class="flex gap-3 md:gap-4 animate-[catSlide_16s_linear_infinite] will-change-transform">
+
+      <!-- Copy A -->
+      <div class="flex gap-3 md:gap-4">
+        {% for label, q, img in cats %}
+          <a href="/catalog?q={{ q }}"
+             class="group shrink-0 min-w-[220px] sm:min-w-[240px] md:min-w-[260px] lg:min-w-[280px] xl:min-w-[300px]
+                    rounded-2xl bg-white p-4 md:p-5 transition hover:-translate-y-1 tile-shadow
+                    border border-slate-200 text-center"
+             aria-label="Browse {{ label }}">
+            <div class="mb-3 grid place-items-center rounded-xl bg-white">
+              <img
+                src="{{ url_for('static', path='categories/' ~ img) }}"
+                alt="{{ label }}"
+                class="object-contain max-h-28 md:max-h-32 w-auto"
+                loading="lazy" decoding="async">
+            </div>
+            <div class="text-lg font-semibold text-slate-900 truncate">{{ label }}</div>
+            <div class="text-sm text-slate-500 truncate">Shop {{ label | lower }}</div>
+          </a>
+        {% endfor %}
+      </div>
+
+      <!-- Copy B -->
+      <div class="flex gap-3 md:gap-4">
+        {% for label, q, img in cats %}
+          <a href="/catalog?q={{ q }}"
+             class="group shrink-0 min-w-[220px] sm:min-w-[240px] md:min-w-[260px] lg:min-w-[280px] xl:min-w-[300px]
+                    rounded-2xl bg-white p-4 md:p-5 transition hover:-translate-y-1 tile-shadow
+                    border border-slate-200 text-center"
+             aria-label="Browse {{ label }}">
+            <div class="mb-3 grid place-items-center rounded-xl bg-white">
+              <img
+                src="{{ url_for('static', path='categories/' ~ img) }}"
+                alt="{{ label }}"
+                class="object-contain max-h-28 md:max-h-32 w-auto"
+                loading="lazy" decoding="async">
+            </div>
+            <div class="text-lg font-semibold text-slate-900 truncate">{{ label }}</div>
+            <div class="text-sm text-slate-500 truncate">Shop {{ label | lower }}</div>
+          </a>
+        {% endfor %}
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<br><br><br>
+
+<!-- ===== HOW IT WORKS (3-card layout) ===== -->
+<section aria-labelledby="how3-heading" class="py-10">
+  <div class="text-center mb-8">
+    <h3 id="how3-heading" class="text-4xl md:text-5xl font-semibold tracking-tight text-slate-900">
+      How It Works
+    </h3>
+    <div class="mx-auto mt-4 h-1.5 w-20 rounded-full bg-sky-600/80"></div>
+  </div>
+
+  <div class="mx-auto max-w-6xl px-4 md:px-6 grid gap-6 md:grid-cols-3">
+    <!-- 1) Customer Inquiry -->
+    <div class="rounded-3xl bg-slate-50 ring-1 ring-slate-200 p-5 md:p-6 shadow-sm hover:shadow-md transition">
+      <div class="rounded-2xl bg-white ring-1 ring-slate-200 p-4 mb-4">
+        <!-- placeholder visual; replace with your own UI shot if desired -->
+        <div class="h-40 rounded-xl bg-gradient-to-br from-slate-50 to-white ring-1 ring-slate-200/60"></div>
+      </div>
+      <h4 class="text-xl md:text-2xl font-semibold text-slate-900 text-center">
+        1) Customer Inquiry
+      </h4>
+      <p class="mt-2 text-slate-600 text-center">
+        Patients or caregivers tell us what they need—via web or provider referral. Upload insurance files for automatic processing.
+      </p>
+    </div>
+
+    <!-- 2) AI Automated Authentication -->
+    <div class="rounded-3xl bg-slate-50 ring-1 ring-slate-200 p-5 md:p-6 shadow-sm hover:shadow-md transition">
+      <div class="rounded-2xl bg-white ring-1 ring-slate-200 p-4 mb-4">
+        <div class="h-40 rounded-xl bg-gradient-to-br from-slate-50 to-white ring-1 ring-slate-200/60"></div>
+      </div>
+      <h4 class="text-xl md:text-2xl font-semibold text-slate-900 text-center">
+        2) AI Automated Authentication
+      </h4>
+      <p class="mt-2 text-slate-600 text-center">
+        Our AI bridges patient, provider, and supplier—verifying documents
+        and accelerating prior auth & eligibility.
+      </p>
+    </div>
+
+    <!-- 3) Fast Delivery -->
+    <div class="rounded-3xl bg-slate-50 ring-1 ring-slate-200 p-5 md:p-6 shadow-sm hover:shadow-md transition">
+      <div class="rounded-2xl bg-white ring-1 ring-slate-200 p-4 mb-4">
+        <div class="h-40 rounded-xl bg-gradient-to-br from-slate-50 to-white ring-1 ring-slate-200/60"></div>
+      </div>
+      <h4 class="text-xl md:text-2xl font-semibold text-slate-900 text-center">
+        3) Fast Delivery
+      </h4>
+      <p class="mt-2 text-slate-600 text-center">
+        Smart vendor routing, real-time tracking, and resupply reminders—typically 48–72-hour delivery.
+      </p>
+    </div>
+  </div>
+</section>
+
+
+
+    <!-- ===== IMAGE SECTION: smaller + closer to hero ===== -->
+  <!-- <section class="pt-0 -mt-8 md:-mt-10 pb-10 md:pb-14">
     <div class="max-w-4xl mx-auto px-4 md:px-6" data-anim>
       <div class="relative">
         <div
@@ -76,128 +334,80 @@
         A clean, patient-friendly ordering experience.
       </p>
     </div>
-  </section>
+  </section> -->
+<br><br><br>
 
-<!-- ===== CATEGORIES (5 visible, subtle shadow + thin border, smooth slide) ===== -->
-<section class="space-y-6" aria-labelledby="browse-heading">
-  <div class="flex items-end justify-between">
-    <h3 id="browse-heading" class="text-2xl font-semibold tracking-tight text-slate-900">Browse by category</h3>
-    <a href="/catalog" class="text-sky-700 hover:underline text-sm">View all</a>
+<!-- ===== PARTNERS / AS FEATURED IN (tighter spacing + faster scroll) ===== -->
+<section aria-labelledby="partners-heading" class="py-10" data-anim>
+  <div class="text-center mb-6">
+    <h3 id="partners-heading" class="text-4xl md:text-5xl font-semibold tracking-tight text-slate-900">
+      Partners
+    </h3>
+    <div class="mx-auto mt-4 h-1.5 w-20 rounded-full bg-sky-600/80"></div>
+    <p class="mt-3 text-slate-500 text-sm md:text-base">
+      Trusted by leading suppliers, investors, and academic medical centers
+    </p>
   </div>
 
   <style>
-    /* softer, restrained shadow */
-    .tile-shadow{
-      box-shadow:
-        0 8px 16px rgba(15,23,42,.06),
-        0 2px 6px rgba(15,23,42,.04);
+    @keyframes partnerSlide { from { transform: translateX(0) } to { transform: translateX(-50%) } }
+    .logo-card{
+      box-shadow: 0 10px 24px rgba(15,23,42,.06), 0 2px 6px rgba(15,23,42,.04);
     }
-    .tile-shadow:hover{
-      box-shadow:
-        0 12px 22px rgba(15,23,42,.09),
-        0 3px 8px rgba(15,23,42,.05);
-    }
-    /* marquee slide */
-    @keyframes catSlide { from { transform: translateX(0) } to { transform: translateX(-50%) } }
   </style>
 
-  <!-- Viewport -->
-  <div class="relative overflow-hidden rounded-xl">
-    <!-- edge fades -->
-    <div class="pointer-events-none absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-white to-transparent"></div>
-    <div class="pointer-events-none absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-white to-transparent"></div>
+  {% set logos = [
+    ("medline.png",   "Medline"),
+    ("mckesson.png",  "McKesson"),
+    ("brown.png",     "Brown University"),
+    ("wams.png",      "The Warren Alpert Medical School"),
+    ("gaingels.png",  "Gaingels VC"),
+    ("pear.png",      "Pear VC")
+  ] %}
+
+  <div class="relative overflow-hidden">
+    <!-- narrower edge fades so more logos show -->
+    <div class="pointer-events-none absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-white to-transparent"></div>
+    <div class="pointer-events-none absolute inset-y-0 right-0 w-20 bg-gradient-to-l from-white to-transparent"></div>
 
     <!-- Track (two copies for seamless loop) -->
-    <div class="flex gap-4 animate-[catSlide_16s_linear_infinite] will-change-transform">
-      {% set cats = [
-        ("Wheelchairs","wheelchair"),
-        ("Walkers","walker"),
-        ("Hospital Beds","bed"),
-        ("Bathroom Safety","bathroom"),
-        ("Incontinence","incontinence"),
-        ("Lifts & Scooters","lift"),
-        ("Crutches","crutches"),
-        ("CPAP & Supplies","cpap"),
-        ("Orthopedics","orthopedics"),
-        ("Respiratory","respiratory")
-      ] %}
+    <div class="flex items-center gap-4 md:gap-6 whitespace-nowrap animate-[partnerSlide_14s_linear_infinite] will-change-transform">
 
       <!-- Copy A -->
-      <div class="flex gap-4">
-        {% for label, q in cats %}
-          <a href="/catalog?q={{ q }}"
-             class="group shrink-0 basis-[42%] sm:basis-[30%] md:basis-[23%] lg:basis-[18%] xl:basis-[17%]
-                    rounded-2xl bg-white p-5 md:p-6 transition hover:-translate-y-1 tile-shadow
-                    border border-slate-200"
-             aria-label="Browse {{ label }}">
-            <div class="h-16 w-16 rounded-2xl border border-slate-200 bg-gradient-to-br from-slate-50 to-sky-50 mb-4
-                        group-hover:scale-105 transition"></div>
-            <div class="text-lg font-semibold text-slate-900 truncate">{{ label }}</div>
-            <div class="text-sm text-slate-500 mt-1">Shop {{ label | lower }}</div>
-          </a>
+      <div class="flex items-center gap-4 md:gap-6">
+        {% for file, alt in logos %}
+          <div class="logo-card inline-flex items-center justify-center
+                      h-28 md:h-32 min-w-[220px] md:min-w-[260px]
+                      rounded-2xl bg-white ring-1 ring-slate-200 px-5 md:px-6">
+            <img
+              src="{{ url_for('static', path='Partners/' ~ file) }}"
+              alt="{{ alt }}"
+              class="h-14 md:h-16 w-auto object-contain"
+              loading="lazy" decoding="async">
+          </div>
         {% endfor %}
       </div>
 
       <!-- Copy B -->
-      <div class="flex gap-4">
-        {% for label, q in cats %}
-          <a href="/catalog?q={{ q }}"
-             class="group shrink-0 basis-[42%] sm:basis-[30%] md:basis-[23%] lg:basis-[18%] xl:basis-[17%]
-                    rounded-2xl bg-white p-5 md:p-6 transition hover:-translate-y-1 tile-shadow
-                    border border-slate-200"
-             aria-label="Browse {{ label }}">
-            <div class="h-16 w-16 rounded-2xl border border-slate-200 bg-gradient-to-br from-slate-50 to-sky-50 mb-4
-                        group-hover:scale-105 transition"></div>
-            <div class="text-lg font-semibold text-slate-900 truncate">{{ label }}</div>
-            <div class="text-sm text-slate-500 mt-1">Shop {{ label | lower }}</div>
-          </a>
+      <div class="flex items-center gap-4 md:gap-6">
+        {% for file, alt in logos %}
+          <div class="logo-card inline-flex items-center justify-center
+                      h-28 md:h-32 min-w-[220px] md:min-w-[260px]
+                      rounded-2xl bg-white ring-1 ring-slate-200 px-5 md:px-6">
+            <img
+              src="{{ url_for('static', path='Partners/' ~ file) }}"
+              alt="{{ alt }}"
+              class="h-14 md:h-16 w-auto object-contain"
+              loading="lazy" decoding="async">
+          </div>
         {% endfor %}
       </div>
+
     </div>
   </div>
 </section>
 
-  <!-- ===== HOW IT WORKS -->
-  <section>
-    <h3 class="text-2xl font-semibold text-slate-900 mb-6">How it works</h3>
-    <div class="grid md:grid-cols-4 gap-6">
-      <div data-anim>
-        <div class="mb-2 h-6 w-6 rounded-full bg-sky-500 ring-4 ring-sky-200/50"></div>
-        <div class="font-semibold text-slate-900">1. Intake</div>
-        <p class="mt-2 text-slate-600 text-sm">Upload scripts & docs, or cash-pay checkout.</p>
-      </div>
-      <div data-anim>
-        <div class="mb-2 h-6 w-6 rounded-full bg-sky-500 ring-4 ring-sky-200/50"></div>
-        <div class="font-semibold text-slate-900">2. Eligibility</div>
-        <p class="mt-2 text-slate-600 text-sm">Automated checks and clear requirements.</p>
-      </div>
-      <div data-anim>
-        <div class="mb-2 h-6 w-6 rounded-full bg-sky-500 ring-4 ring-sky-200/50"></div>
-        <div class="font-semibold text-slate-900">3. Prior Auth</div>
-        <p class="mt-2 text-slate-600 text-sm">Track decisions and timelines.</p>
-      </div>
-      <div data-anim>
-        <div class="mb-2 h-6 w-6 rounded-full bg-sky-500 ring-4 ring-sky-200/50"></div>
-        <div class="font-semibold text-slate-900">4. Fulfillment</div>
-        <p class="mt-2 text-slate-600 text-sm">Smart routing, tracking, resupply reminders.</p>
-      </div>
-    </div>
-  </section>
 
-  <!-- ===== PARTNERS (marquee) -->
-  <section data-anim>
-    <div class="text-slate-500 text-sm mb-3">Trusted partners</div>
-    <div class="relative overflow-hidden">
-      <div class="flex items-center gap-6 whitespace-nowrap animate-[marq_18s_linear_infinite]">
-        {% for name in ["Medline","McKesson","Brightree","Kyron AI","Cardinal","Drive DeVilbiss","Invacare","Sunrise Medical","ResMed","Philips"] %}
-          <span class="text-slate-700 hover:text-slate-900 transition">{{ name }}</span>
-        {% endfor %}
-        {% for name in ["Medline","McKesson","Brightree","Kyron AI","Cardinal","Drive DeVilbiss","Invacare","Sunrise Medical","ResMed","Philips"] %}
-          <span class="text-slate-700 hover:text-slate-900 transition">{{ name }}</span>
-        {% endfor %}
-      </div>
-    </div>
-  </section>
 
   <!-- ===== CTA -->
   <section data-anim>
