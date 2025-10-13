@@ -14,26 +14,19 @@
   <!-- ===== HERO: full-viewport, perfectly centered ===== -->
   <section class="min-h-[90vh] md:min-h-[92vh] flex items-center -mt-6">
     <div class="max-w-4xl mx-auto px-4 md:px-6 text-center" data-anim>
-<!-- Kicker (smaller so the headline dominates) -->
-<!-- <p class="text-sky-600 font-semibold mb-4 text-xl md:text-2xl tracking-tight">
-  Global Rounds Medical 
-</p> -->
 
-<!-- Headline (DME Solution same size as the H1) -->
-<h1 class="text-5xl md:text-6xl lg:text-7xl font-semibold tracking-tight text-slate-900 leading-tight">
-  Healthcare’s Latest
-  <br>
-  <!-- <span class="bg-[linear-gradient(90deg,#0f3b67_0%,#1b5e93_55%,#2a6fb1_100%)] bg-clip-text text-transparent">
-    DME Solution
-  </span> -->
-  <span class="bg-[linear-gradient(90deg,#0f3b67_0%,#2a6fb1_50%,#0f3b67_100%)] bg-clip-text text-transparent">
-  DME Solution
-</span>
-</h1>
+      <!-- Headline (with gradient word) -->
+      <h1 class="text-5xl md:text-6xl lg:text-7xl font-semibold tracking-tight text-slate-900 leading-tight">
+        Healthcare’s Latest
+        <br>
+        <span class="bg-[linear-gradient(90deg,#0f3b67_0%,#2a6fb1_50%,#0f3b67_100%)] bg-clip-text text-transparent">
+          DME Solution
+        </span>
+      </h1>
 
-      <!-- Support line (speed + clarity + automation) -->
+      <!-- Support line -->
       <p class="mt-5 text-slate-600 text-lg md:text-xl leading-relaxed">
-       Faster care. Fewer delays. Modern shopping for patients and caregivers. 
+        Faster care. Fewer delays. Modern shopping for patients and caregivers.
       </p>
 
       <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
@@ -60,7 +53,6 @@
   <section class="pt-0 -mt-8 md:-mt-10 pb-10 md:pb-14">
     <div class="max-w-4xl mx-auto px-4 md:px-6" data-anim>
       <div class="relative">
-        <!-- subtle backdrop glow -->
         <div
           class="pointer-events-none absolute inset-0 -z-10 rounded-3xl
                  bg-gradient-to-br from-slate-900/10 via-slate-900/0 to-sky-500/10
@@ -86,51 +78,84 @@
     </div>
   </section>
 
-  <!-- ===== VALUE STRIP (simple, airy) -->
-  <section class="grid gap-8 md:grid-cols-3">
-    <div class="group" data-anim>
-      <div class="h-10 w-10 rounded-xl bg-gradient-to-br from-sky-500 to-cyan-400 mb-3"></div>
-      <h3 class="text-lg font-semibold text-slate-900">Fast, reliable</h3>
-      <p class="mt-2 text-slate-600">We route to top vendors with transparent inventory and shipping updates.</p>
-    </div>
-    <div class="group" data-anim>
-      <div class="h-10 w-10 rounded-xl bg-gradient-to-br from-sky-500 to-cyan-400 mb-3"></div>
-      <h3 class="text-lg font-semibold text-slate-900">Compliance by default</h3>
-      <p class="mt-2 text-slate-600">HIPAA-aware workflows and audit trails across intake → billing.</p>
-    </div>
-    <div class="group" data-anim>
-      <div class="h-10 w-10 rounded-xl bg-gradient-to-br from-sky-500 to-cyan-400 mb-3"></div>
-      <h3 class="text-lg font-semibold text-slate-900">People + AI</h3>
-      <p class="mt-2 text-slate-600">Automation for speed with human oversight for care and quality.</p>
-    </div>
-  </section>
+<!-- ===== CATEGORIES (5 visible, subtle shadow + thin border, smooth slide) ===== -->
+<section class="space-y-6" aria-labelledby="browse-heading">
+  <div class="flex items-end justify-between">
+    <h3 id="browse-heading" class="text-2xl font-semibold tracking-tight text-slate-900">Browse by category</h3>
+    <a href="/catalog" class="text-sky-700 hover:underline text-sm">View all</a>
+  </div>
 
-  <!-- ===== CATEGORIES (clean tiles, light hover) -->
-  <section class="space-y-6">
-    <div class="flex items-end justify-between">
-      <h3 class="text-2xl font-semibold tracking-tight text-slate-900">Browse by category</h3>
-      <a href="/catalog" class="text-sky-700 hover:underline text-sm">View all</a>
-    </div>
+  <style>
+    /* softer, restrained shadow */
+    .tile-shadow{
+      box-shadow:
+        0 8px 16px rgba(15,23,42,.06),
+        0 2px 6px rgba(15,23,42,.04);
+    }
+    .tile-shadow:hover{
+      box-shadow:
+        0 12px 22px rgba(15,23,42,.09),
+        0 3px 8px rgba(15,23,42,.05);
+    }
+    /* marquee slide */
+    @keyframes catSlide { from { transform: translateX(0) } to { transform: translateX(-50%) } }
+  </style>
 
-    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+  <!-- Viewport -->
+  <div class="relative overflow-hidden rounded-xl">
+    <!-- edge fades -->
+    <div class="pointer-events-none absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-white to-transparent"></div>
+    <div class="pointer-events-none absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-white to-transparent"></div>
+
+    <!-- Track (two copies for seamless loop) -->
+    <div class="flex gap-4 animate-[catSlide_16s_linear_infinite] will-change-transform">
       {% set cats = [
         ("Wheelchairs","wheelchair"),
         ("Walkers","walker"),
         ("Hospital Beds","bed"),
         ("Bathroom Safety","bathroom"),
         ("Incontinence","incontinence"),
-        ("Lifts & Scooters","lift")
+        ("Lifts & Scooters","lift"),
+        ("Crutches","crutches"),
+        ("CPAP & Supplies","cpap"),
+        ("Orthopedics","orthopedics"),
+        ("Respiratory","respiratory")
       ] %}
-      {% for label, q in cats %}
-      <a href="/catalog?q={{ q }}"
-         class="group rounded-xl p-5 transition hover:-translate-y-1 hover:shadow-md bg-white" data-anim>
-        <div class="h-14 w-14 rounded-xl border border-slate-200 bg-gradient-to-br from-slate-50 to-sky-50 mb-3 group-hover:scale-105 transition"></div>
-        <div class="font-medium text-slate-900">{{ label }}</div>
-        <div class="text-sm text-slate-500">Shop {{ label | lower }}</div>
-      </a>
-      {% endfor %}
+
+      <!-- Copy A -->
+      <div class="flex gap-4">
+        {% for label, q in cats %}
+          <a href="/catalog?q={{ q }}"
+             class="group shrink-0 basis-[42%] sm:basis-[30%] md:basis-[23%] lg:basis-[18%] xl:basis-[17%]
+                    rounded-2xl bg-white p-5 md:p-6 transition hover:-translate-y-1 tile-shadow
+                    border border-slate-200"
+             aria-label="Browse {{ label }}">
+            <div class="h-16 w-16 rounded-2xl border border-slate-200 bg-gradient-to-br from-slate-50 to-sky-50 mb-4
+                        group-hover:scale-105 transition"></div>
+            <div class="text-lg font-semibold text-slate-900 truncate">{{ label }}</div>
+            <div class="text-sm text-slate-500 mt-1">Shop {{ label | lower }}</div>
+          </a>
+        {% endfor %}
+      </div>
+
+      <!-- Copy B -->
+      <div class="flex gap-4">
+        {% for label, q in cats %}
+          <a href="/catalog?q={{ q }}"
+             class="group shrink-0 basis-[42%] sm:basis-[30%] md:basis-[23%] lg:basis-[18%] xl:basis-[17%]
+                    rounded-2xl bg-white p-5 md:p-6 transition hover:-translate-y-1 tile-shadow
+                    border border-slate-200"
+             aria-label="Browse {{ label }}">
+            <div class="h-16 w-16 rounded-2xl border border-slate-200 bg-gradient-to-br from-slate-50 to-sky-50 mb-4
+                        group-hover:scale-105 transition"></div>
+            <div class="text-lg font-semibold text-slate-900 truncate">{{ label }}</div>
+            <div class="text-sm text-slate-500 mt-1">Shop {{ label | lower }}</div>
+          </a>
+        {% endfor %}
+      </div>
     </div>
-  </section>
+  </div>
+</section>
 
   <!-- ===== HOW IT WORKS -->
   <section>
