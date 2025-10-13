@@ -1,183 +1,191 @@
 {% extends "base.html" %}
 {% block content %}
 
-<!-- Page background + minimal helpers -->
+<!-- Minimal helpers -->
 <style>
-  /* Soft noise overlay for subtle texture */
-  .noise:before{
-    content:""; position:fixed; inset:0; pointer-events:none; z-index:-1;
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.015'/%3E%3C/svg%3E");
+  /* subtle noise + uniform fade */
+  .noise:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.015'/%3E%3C/svg%3E")}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+  [data-anim]{opacity:0;animation:fadeUp .6s ease .05s forwards}
+  @keyframes marq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  /* Respect reduced motion */
+  @media (prefers-reduced-motion: reduce){
+    [data-anim]{animation:none;opacity:1}
   }
-  /* simple appear (uniform timing) */
-  @keyframes fadeUp { from{opacity:0; transform:translateY(10px)} to{opacity:1; transform:translateY(0)} }
-  [data-anim]{ opacity:0; animation: fadeUp .6s ease .05s forwards; }
-  /* partners marquee */
-  @keyframes marq { from{transform:translateX(0)} to{transform:translateX(-50%)} }
 </style>
 
-<div class="noise relative">
-  <div class="absolute inset-0 -z-10 bg-gradient-to-br from-sky-100 via-white to-white"></div>
+<div class="noise relative space-y-20">
 
-  <div class="space-y-20">
+  <!-- FULL-BLEED HERO -->
+  <section class="relative overflow-hidden">
+    <div class="absolute inset-0 -z-10 bg-[radial-gradient(1200px_600px_at_10%_10%,#e6f3ff_0%,transparent_60%)] md:bg-[radial-gradient(1400px_700px_at_15%_15%,#e6f3ff_0%,transparent_65%)]"></div>
+    <div class="absolute inset-0 -z-10 bg-gradient-to-br from-sky-50/70 via-white to-white"></div>
 
-    <!-- FULL-BLEED HERO (no rounded card, no cutoff) -->
-<section class="relative overflow-hidden">
-  <!-- full-width gradient background -->
-  <div class="absolute inset-0 -z-10 bg-[radial-gradient(1200px_600px_at_10%_10%,#e6f3ff_0%,transparent_60%)] md:bg-[radial-gradient(1400px_700px_at_15%_15%,#e6f3ff_0%,transparent_65%)]"></div>
-  <div class="absolute inset-0 -z-10 bg-gradient-to-br from-sky-50/70 via-white to-white"></div>
+    <div class="max-w-7xl mx-auto px-4 md:px-6 py-14 md:py-20">
+      <div class="grid gap-10 md:grid-cols-2 md:items-center">
+        <div data-anim>
+          <p class="text-sky-700 font-medium mb-3">Durable Medical Equipment</p>
+          <h1 class="text-5xl md:text-6xl font-semibold tracking-tight text-slate-900 leading-tight">
+            Healthcare’s cleanest way to get DME.
+          </h1>
+          <p class="mt-5 text-slate-600 text-lg leading-relaxed max-w-xl">
+            Modern shopping for patients and caregivers. Insurance automation that reduces delays.
+          </p>
 
-  <!-- content container (centers layout) -->
-  <div class="max-w-7xl mx-auto px-4 md:px-6 py-14 md:py-20">
-    <div class="grid gap-10 md:grid-cols-2 md:items-center">
-      <div>
-        <p class="text-sky-700 font-medium mb-3">Durable Medical Equipment</p>
-        <h1 class="text-5xl md:text-6xl font-semibold tracking-tight text-slate-900 leading-tight">
-          Healthcare’s cleanest way to get DME.
-        </h1>
-        <p class="mt-5 text-slate-600 text-lg leading-relaxed max-w-xl">
-          Modern shopping for patients and caregivers. Insurance automation that reduces delays.
-        </p>
+          <div class="mt-8 flex flex-wrap items-center gap-3">
+            <a href="/catalog"
+               class="rounded-full bg-slate-900 px-6 py-3 text-white hover:bg-black transition hover:-translate-y-0.5 hover:shadow-lg">
+              Shop products
+            </a>
+            <a href="/about"
+               class="rounded-full border border-slate-200 px-6 py-3 text-slate-900 hover:bg-slate-50 transition">
+              How we work
+            </a>
+          </div>
 
-        <div class="mt-8 flex flex-wrap items-center gap-3">
-          <a href="/catalog"
-             class="rounded-full bg-slate-900 px-6 py-3 text-white hover:bg-black transition hover:-translate-y-0.5 hover:shadow-lg">
-            Shop products
-          </a>
-          <a href="/about"
-             class="rounded-full border border-slate-200 px-6 py-3 text-slate-900 hover:bg-slate-50 transition">
-            How we work
-          </a>
+          <form action="/catalog" class="mt-6 flex items-center gap-2">
+            <input name="q" placeholder="Search walkers, wheelchairs, hospital beds…"
+                   class="w-full rounded-xl border border-slate-200 px-4 py-3 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-500">
+            <button class="rounded-xl bg-sky-600 px-4 py-3 text-white hover:bg-sky-700 transition">Search</button>
+          </form>
         </div>
 
-        <form action="/catalog" class="mt-6 flex items-center gap-2">
-          <input name="q" placeholder="Search walkers, wheelchairs, hospital beds…"
-                 class="w-full rounded-xl border border-slate-200 px-4 py-3 text-slate-900 placeholder-slate-400
-                        focus:outline-none focus:ring-2 focus:ring-sky-500">
-          <button class="rounded-xl bg-sky-600 px-4 py-3 text-white hover:bg-sky-700 transition">Search</button>
-        </form>
-      </div>
+        <!-- RIGHT: interactive image with backdrop shadow + hover motion -->
+        <div class="relative" data-anim>
+          <!-- backdrop glow/shadow -->
+          <div
+            class="pointer-events-none absolute inset-0 -z-10 rounded-3xl
+                   bg-gradient-to-br from-slate-900/10 via-slate-900/0 to-sky-500/10
+                   blur-2xl"
+            aria-hidden="true">
+          </div>
 
-      <!-- simple visual, NO card -->
-      <div class="relative">
-        <div class="aspect-[4/3] w-full rounded-2xl bg-gradient-to-br from-white to-sky-50"></div>
-        <div class="absolute -bottom-5 -right-5 w-64 rounded-xl bg-white/95 p-4 shadow-sm ring-1 ring-slate-200/70">
-          <div class="text-sm text-slate-500">Typical delivery</div>
-          <div class="mt-1 text-lg font-semibold text-slate-900">48–72 hours</div>
+          <!-- image card -->
+          <img
+            src="{{ url_for('static', path='Home.png') }}"
+            alt="Global Rounds — durable medical equipment experience"
+            class="w-full rounded-2xl ring-1 ring-slate-200/70 shadow-xl
+                   transition-transform duration-300 ease-out will-change-transform
+                   hover:-translate-y-1 hover:scale-[1.02] hover:rotate-[0.3deg]
+                   hover:shadow-2xl hover:ring-sky-300/50
+                   object-cover aspect-[4/3]"
+            loading="eager"
+            decoding="async"
+          >
+
+          <!-- Floating stat card (also lifts a touch) -->
+          <div class="absolute -bottom-5 -right-5 w-64 rounded-xl bg-white/95 p-4 shadow-lg ring-1 ring-slate-200/70
+                      transition-transform duration-300 ease-out hover:-translate-y-0.5">
+            <div class="text-sm text-slate-500">Typical delivery</div>
+            <div class="mt-1 text-lg font-semibold text-slate-900">48–72 hours</div>
+          </div>
         </div>
+
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-    <!-- VALUE CARDS -->
-    <section class="grid gap-5 md:grid-cols-3">
-      <div class="rounded-2xl border border-white/70 bg-white/70 backdrop-blur-xl p-6 shadow-sm hover:shadow-lg hover:-translate-y-0.5 transition" data-anim>
-        <div class="h-10 w-10 rounded-xl bg-gradient-to-br from-sky-500 to-cyan-400 mb-3"></div>
-        <div class="text-lg font-semibold text-slate-900">Fast, reliable</div>
-        <p class="mt-2 text-slate-600">We route to top vendors with transparent inventory and shipping updates.</p>
-      </div>
-      <div class="rounded-2xl border border-white/70 bg-white/70 backdrop-blur-xl p-6 shadow-sm hover:shadow-lg hover:-translate-y-0.5 transition" data-anim>
-        <div class="h-10 w-10 rounded-xl bg-gradient-to-br from-sky-500 to-cyan-400 mb-3"></div>
-        <div class="text-lg font-semibold text-slate-900">Compliance by default</div>
-        <p class="mt-2 text-slate-600">HIPAA-aware workflows and audit trails across intake → billing.</p>
-      </div>
-      <div class="rounded-2xl border border-white/70 bg-white/70 backdrop-blur-xl p-6 shadow-sm hover:shadow-lg hover:-translate-y-0.5 transition" data-anim>
-        <div class="h-10 w-10 rounded-xl bg-gradient-to-br from-sky-500 to-cyan-400 mb-3"></div>
-        <div class="text-lg font-semibold text-slate-900">People + AI</div>
-        <p class="mt-2 text-slate-600">Automation for speed with human oversight for care and quality.</p>
-      </div>
-    </section>
+  <!-- VALUE STRIP (simple, airy) -->
+  <section class="grid gap-8 md:grid-cols-3">
+    <div class="group" data-anim>
+      <div class="h-10 w-10 rounded-xl bg-gradient-to-br from-sky-500 to-cyan-400 mb-3"></div>
+      <h3 class="text-lg font-semibold text-slate-900">Fast, reliable</h3>
+      <p class="mt-2 text-slate-600">We route to top vendors with transparent inventory and shipping updates.</p>
+    </div>
+    <div class="group" data-anim>
+      <div class="h-10 w-10 rounded-xl bg-gradient-to-br from-sky-500 to-cyan-400 mb-3"></div>
+      <h3 class="text-lg font-semibold text-slate-900">Compliance by default</h3>
+      <p class="mt-2 text-slate-600">HIPAA-aware workflows and audit trails across intake → billing.</p>
+    </div>
+    <div class="group" data-anim>
+      <div class="h-10 w-10 rounded-xl bg-gradient-to-br from-sky-500 to-cyan-400 mb-3"></div>
+      <h3 class="text-lg font-semibold text-slate-900">People + AI</h3>
+      <p class="mt-2 text-slate-600">Automation for speed with human oversight for care and quality.</p>
+    </div>
+  </section>
 
-    <!-- CATEGORIES -->
-    <section class="space-y-6">
-      <div class="flex items-end justify-between">
-        <h3 class="text-2xl font-semibold tracking-tight text-slate-900">Browse by category</h3>
-        <a href="/catalog" class="text-sky-700 hover:underline text-sm">View all</a>
+  <!-- CATEGORIES (clean tiles, light hover) -->
+  <section class="space-y-6">
+    <div class="flex items-end justify-between">
+      <h3 class="text-2xl font-semibold tracking-tight text-slate-900">Browse by category</h3>
+      <a href="/catalog" class="text-sky-700 hover:underline text-sm">View all</a>
+    </div>
+
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+      {% set cats = [
+        ("Wheelchairs","wheelchair"),
+        ("Walkers","walker"),
+        ("Hospital Beds","bed"),
+        ("Bathroom Safety","bathroom"),
+        ("Incontinence","incontinence"),
+        ("Lifts & Scooters","lift")
+      ] %}
+      {% for label, q in cats %}
+      <a href="/catalog?q={{ q }}"
+         class="group rounded-xl p-5 transition hover:-translate-y-1 hover:shadow-md bg-white" data-anim>
+        <div class="h-14 w-14 rounded-xl border border-slate-200 bg-gradient-to-br from-slate-50 to-sky-50 mb-3 group-hover:scale-105 transition"></div>
+        <div class="font-medium text-slate-900">{{ label }}</div>
+        <div class="text-sm text-slate-500">Shop {{ label | lower }}</div>
+      </a>
+      {% endfor %}
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section>
+    <h3 class="text-2xl font-semibold text-slate-900 mb-6">How it works</h3>
+    <div class="grid md:grid-cols-4 gap-6">
+      <div data-anim>
+        <div class="mb-2 h-6 w-6 rounded-full bg-sky-500 ring-4 ring-sky-200/50"></div>
+        <div class="font-semibold text-slate-900">1. Intake</div>
+        <p class="mt-2 text-slate-600 text-sm">Upload scripts & docs, or cash-pay checkout.</p>
       </div>
-      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
-        {% set cats = [
-          ("Wheelchairs","wheelchair"),
-          ("Walkers","walker"),
-          ("Hospital Beds","bed"),
-          ("Bathroom Safety","bathroom"),
-          ("Incontinence","incontinence"),
-          ("Lifts & Scooters","lift")
-        ] %}
-        {% for label, q in cats %}
-        <a href="/catalog?q={{ q }}"
-           class="group rounded-2xl border border-white/70 bg-white/60 backdrop-blur-xl p-5 shadow-sm transition
-                  hover:-translate-y-1 hover:shadow-xl hover:bg-white/80"
-           data-anim>
-          <div class="h-14 w-14 rounded-xl border border-slate-200 bg-gradient-to-br from-slate-50 to-sky-50 mb-3
-                      group-hover:scale-105 group-hover:from-sky-50 group-hover:to-white transition"></div>
-          <div class="font-medium text-slate-900">{{ label }}</div>
-          <div class="text-sm text-slate-500">Shop {{ label | lower }}</div>
-        </a>
+      <div data-anim>
+        <div class="mb-2 h-6 w-6 rounded-full bg-sky-500 ring-4 ring-sky-200/50"></div>
+        <div class="font-semibold text-slate-900">2. Eligibility</div>
+        <p class="mt-2 text-slate-600 text-sm">Automated checks and clear requirements.</p>
+      </div>
+      <div data-anim>
+        <div class="mb-2 h-6 w-6 rounded-full bg-sky-500 ring-4 ring-sky-200/50"></div>
+        <div class="font-semibold text-slate-900">3. Prior Auth</div>
+        <p class="mt-2 text-slate-600 text-sm">Track decisions and timelines.</p>
+      </div>
+      <div data-anim>
+        <div class="mb-2 h-6 w-6 rounded-full bg-sky-500 ring-4 ring-sky-200/50"></div>
+        <div class="font-semibold text-slate-900">4. Fulfillment</div>
+        <p class="mt-2 text-slate-600 text-sm">Smart routing, tracking, resupply reminders.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PARTNERS (marquee) -->
+  <section data-anim>
+    <div class="text-slate-500 text-sm mb-3">Trusted partners</div>
+    <div class="relative overflow-hidden">
+      <div class="flex items-center gap-6 whitespace-nowrap animate-[marq_18s_linear_infinite]">
+        {% for name in ["Medline","McKesson","Brightree","Kyron AI","Cardinal","Drive DeVilbiss","Invacare","Sunrise Medical","ResMed","Philips"] %}
+          <span class="text-slate-700 hover:text-slate-900 transition">{{ name }}</span>
+        {% endfor %}
+        {% for name in ["Medline","McKesson","Brightree","Kyron AI","Cardinal","Drive DeVilbiss","Invacare","Sunrise Medical","ResMed","Philips"] %}
+          <span class="text-slate-700 hover:text-slate-900 transition">{{ name }}</span>
         {% endfor %}
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- HOW IT WORKS -->
-    <section class="rounded-3xl border border-white/70 bg-white/70 backdrop-blur-xl p-8 shadow-sm" data-anim>
-      <h3 class="text-2xl font-semibold text-slate-900 mb-6">How it works</h3>
-      <div class="grid md:grid-cols-4 gap-6">
-        <div class="relative p-5 rounded-2xl border border-slate-200/70 bg-white hover:shadow-md transition" data-anim>
-          <div class="absolute -top-3 -left-3 h-6 w-6 rounded-full bg-sky-500 shadow-sm ring-4 ring-sky-200/50"></div>
-          <div class="font-semibold text-slate-900">1. Intake</div>
-          <p class="mt-2 text-slate-600 text-sm leading-relaxed">Simple upload of scripts & docs, or cash-pay checkout.</p>
-        </div>
-        <div class="relative p-5 rounded-2xl border border-slate-200/70 bg-white hover:shadow-md transition" data-anim>
-          <div class="absolute -top-3 -left-3 h-6 w-6 rounded-full bg-sky-500 shadow-sm ring-4 ring-sky-200/50"></div>
-          <div class="font-semibold text-slate-900">2. Eligibility</div>
-          <p class="mt-2 text-slate-600 text-sm leading-relaxed">Automated checks and requirements surfaced clearly.</p>
-        </div>
-        <div class="relative p-5 rounded-2xl border border-slate-200/70 bg-white hover:shadow-md transition" data-anim>
-          <div class="absolute -top-3 -left-3 h-6 w-6 rounded-full bg-sky-500 shadow-sm ring-4 ring-sky-200/50"></div>
-          <div class="font-semibold text-slate-900">3. Prior Auth</div>
-          <p class="mt-2 text-slate-600 text-sm leading-relaxed">Track decisions and timelines without the guesswork.</p>
-        </div>
-        <div class="relative p-5 rounded-2xl border border-slate-200/70 bg-white hover:shadow-md transition" data-anim>
-          <div class="absolute -top-3 -left-3 h-6 w-6 rounded-full bg-sky-500 shadow-sm ring-4 ring-sky-200/50"></div>
-          <div class="font-semibold text-slate-900">4. Fulfillment</div>
-          <p class="mt-2 text-slate-600 text-sm leading-relaxed">Smart routing, tracking, and resupply reminders.</p>
-        </div>
+  <!-- CTA -->
+  <section data-anim>
+    <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+      <div>
+        <h3 class="text-2xl font-semibold text-slate-900">Need help choosing?</h3>
+        <p class="mt-2 text-slate-600">Browse the catalog or talk to our team—we’ll help you get the right fit.</p>
       </div>
-    </section>
-
-    <!-- PARTNERS (marquee) -->
-    <section class="rounded-3xl border border-white/70 bg-white/70 backdrop-blur-xl p-6 shadow-sm overflow-hidden" data-anim>
-      <div class="text-slate-500 text-sm mb-3">Trusted partners</div>
-      <div class="relative">
-        <div class="flex items-center gap-4 whitespace-nowrap animate-[marq_20s_linear_infinite]">
-          {% for name in ["Medline","McKesson","Brightree","Kyron AI","Cardinal","Drive DeVilbiss","Invacare","Sunrise Medical","ResMed","Philips"] %}
-          <span class="rounded-xl border border-slate-200 bg-white px-6 py-3 text-slate-700 shadow-sm hover:-translate-y-0.5 hover:shadow-md transition">{{ name }}</span>
-          {% endfor %}
-          {% for name in ["Medline","McKesson","Brightree","Kyron AI","Cardinal","Drive DeVilbiss","Invacare","Sunrise Medical","ResMed","Philips"] %}
-          <span class="rounded-xl border border-slate-200 bg-white px-6 py-3 text-slate-700 shadow-sm hover:-translate-y-0.5 hover:shadow-md transition">{{ name }}</span>
-          {% endfor %}
-        </div>
+      <div class="flex gap-3">
+        <a href="/catalog" class="rounded-full bg-slate-900 px-6 py-3 text-white hover:bg-black transition">Shop now</a>
+        <a href="/contact" class="rounded-full border border-slate-200 px-6 py-3 text-slate-900 hover:bg-slate-50 transition">Contact us</a>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- CTA -->
-    <section class="rounded-3xl border border-white/70 bg-gradient-to-br from-sky-100/80 to-white/80 backdrop-blur-xl p-8 md:p-12 shadow-sm" data-anim>
-      <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-        <div>
-          <h3 class="text-2xl font-semibold text-slate-900">Need help choosing?</h3>
-          <p class="mt-2 text-slate-600">Browse the catalog or talk to our team—we’ll help you get the right fit.</p>
-        </div>
-        <div class="flex gap-3">
-          <a href="/catalog" class="rounded-full bg-slate-900 px-6 py-3 text-white hover:bg-black transition hover:-translate-y-0.5 hover:shadow-lg">
-            Shop now
-          </a>
-          <a href="/contact" class="rounded-full border border-slate-200 bg-white/80 px-6 py-3 text-slate-900 backdrop-blur hover:bg-white transition">
-            Contact us
-          </a>
-        </div>
-      </div>
-    </section>
-
-  </div>
 </div>
-
 {% endblock %}

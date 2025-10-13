@@ -4,24 +4,49 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>{{ title or "Global Rounds Medical Supply" }}</title>
+
+  <!-- Tailwind CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Streaml-style layered background (soft color blocks + gentle gradients) -->
+  <style>
+    .bg-streaml { position: relative; min-height: 100%; isolation: isolate; }
+    .bg-streaml > .layer {
+      position: fixed; /* full-bleed layers */
+      inset: 0; z-index: -1; pointer-events: none;
+    }
+    .bg-streaml .block { position: absolute; border-radius: 28px; filter: saturate(110%); }
+    @media (min-width: 768px) { .bg-streaml .block { border-radius: 36px; } }
+  </style>
 </head>
-<body class="bg-white text-slate-900">
-  <!-- Top bar / brand -->
-  <header class="border-b">
-    <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+
+<body class="bg-white text-slate-900 bg-streaml">
+  <!-- Layer 1: base -->
+  <div class="layer">
+    <div class="absolute inset-0 bg-white"></div>
+  </div>
+
+  <!-- Layer 2: color blocks -->
+  <div class="layer">
+    <div class="block left-[-6%] top-[-4%] w-[44vw] h-[34vh] bg-sky-50"></div>
+    <div class="block right-[-4%] top-[12%] w-[42vw] h-[36vh] bg-violet-50"></div>
+    <div class="block left-[-8%] bottom-[10%] w-[40vw] h-[32vh] bg-cyan-50"></div>
+  </div>
+
+  <!-- Layer 3: gentle gradient washes -->
+  <div class="layer">
+    <div class="absolute inset-0 bg-gradient-to-br from-sky-50/60 via-white/70 to-white"></div>
+    <div class="absolute right-[-20%] top-[10%] h-[420px] w-[420px] rounded-full bg-sky-200/30 blur-3xl"></div>
+    <div class="absolute left-1/3 bottom-[8%] h-[360px] w-[360px] rounded-full bg-fuchsia-200/25 blur-3xl"></div>
+  </div>
+
+  <!-- Header -->
+  <header class="border-b bg-white/80 backdrop-blur">
+    <div class="max-w-7xl mx-auto px-4 md:px-6 py-4 flex items-center justify-between">
       <a href="/" class="flex items-center gap-3 font-semibold text-slate-900">
-        <!-- Logo size -->
-        <img
-        src="{{ url_for('static', path='logo.png') }}?v=1"
-        alt="Global Rounds logo"
-        class="h-8 w-auto sm:h-11 md:h-12"
-        >
-        <!-- Text size -->
-        <span class="text-lg sm:text-xl md:text-2xl tracking-tight">
-           Global Rounds
-        </span>
-       </a>
+        <img src="{{ url_for('static', path='logo.png') }}?v=1" alt="Global Rounds logo" class="h-8 w-auto sm:h-10 md:h-11">
+        <span class="text-lg sm:text-xl md:text-2xl tracking-tight">Global Rounds</span>
+      </a>
 
       <!-- Desktop nav -->
       <nav class="hidden sm:flex items-center gap-6 text-sm">
@@ -31,16 +56,15 @@
         <a href="/locations" class="hover:underline">Locations</a>
         <a href="/contact" class="hover:underline">Contact</a>
         <a href="/cart" class="hover:underline">Cart</a>
-
         {% if request.session.get('user_id') %}
           <a href="/logout" class="text-slate-700 hover:underline">Logout</a>
         {% else %}
           <a href="/login" class="text-slate-700 hover:underline">Login</a>
-          <a href="/signup" class="px-3 py-1.5 rounded bg-sky-600 text-white">Sign up</a>
+          <a href="/signup" class="px-3 py-1.5 rounded-full bg-sky-600 text-white">Sign up</a>
         {% endif %}
       </nav>
 
-      <!-- Mobile nav (collapsed to two key links) -->
+      <!-- Mobile nav -->
       <nav class="sm:hidden flex items-center gap-3 text-sm">
         <a href="/catalog" class="hover:underline">Products</a>
         <a href="/cart" class="hover:underline">Cart</a>
@@ -53,20 +77,20 @@
     </div>
   </header>
 
-  <!-- Optional flash area -->
+  <!-- Flash (optional) -->
   {% if flash %}
-  <div class="max-w-6xl mx-auto px-4 pt-4">
+  <div class="max-w-7xl mx-auto px-4 md:px-6 pt-4">
     <div class="rounded-md border border-sky-200 bg-sky-50 text-sky-900 px-4 py-3 text-sm">{{ flash }}</div>
   </div>
   {% endif %}
 
   <!-- Page content -->
-  <main class="max-w-6xl mx-auto px-4 py-8">
+  <main class="max-w-7xl mx-auto px-4 md:px-6 py-10">
     {% block content %}{% endblock %}
   </main>
 
-  <footer class="border-t">
-    <div class="max-w-6xl mx-auto px-4 py-6 text-sm text-slate-500">
+  <footer class="border-t bg-white/80">
+    <div class="max-w-7xl mx-auto px-4 md:px-6 py-6 text-sm text-slate-500">
       © 2025 Global Rounds Medical Supply
     </div>
   </footer>
