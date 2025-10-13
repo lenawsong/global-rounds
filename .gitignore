@@ -1,0 +1,16 @@
+# Python
+__pycache__/
+*.pyc
+
+# Virtual env
+.venv/
+
+# Local DB & caches
+app.db
+
+# Env / secrets
+.env
+
+# OS / editor junk
+.DS_Store
+.vscode/

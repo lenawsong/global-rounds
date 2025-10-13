@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+{% if error %}
+  <p class="text-red-600">{{ error }}</p>
+{% else %}
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+  <div>
+    {% if p.image_url %}
+      <img src="{{ p.image_url }}" class="w-full rounded" alt="{{ p.name }}">
+    {% endif %}
+  </div>
+  <div>
+    <h1 class="text-2xl font-semibold mb-2">{{ p.name }}</h1>
+    <div class="text-slate-600 mb-2">{{ p.sku }}</div>
+    <div class="text-xl font-bold mb-4">${{ '%.2f' | format(p.price_cents/100) }}</div>
+
+    <!-- Add-to-cart form -->
+    <form method="post" action="/cart/add" class="flex items-center gap-2 mb-4">
+      <input type="hidden" name="product_id" value="{{ p.id }}">
+      <input type="number" name="quantity" value="1" min="1" class="border rounded px-2 py-1 w-20">
+      <button class="bg-sky-600 text-white rounded px-4 py-2">Add to cart</button>
+    </form>
+
+    <p class="text-slate-700">{{ p.description }}</p>
+  </div>
+</div>
+{% endif %}
+{% endblock %}
+

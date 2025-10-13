@@ -1,0 +1,9 @@
+{% extends "base.html" %}{% block content %}
+{% if order and order.status == "paid" %}
+  <h1 class="text-xl font-semibold mb-2">Thank you! Your order is confirmed.</h1>
+  <p>Order #{{ order.id }} • Total ${{ '%.2f' | format(order.total_cents/100) }}</p>
+{% else %}
+  <h1 class="text-xl font-semibold mb-2">Order received</h1>
+  <p>Waiting for payment confirmation…</p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{{ title or "Global Rounds Medical Supply" }}</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-white text-slate-900">
+  <!-- Top bar / brand -->
+  <header class="border-b">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+      <a href="/" class="flex items-center gap-2 font-semibold text-slate-900">
+        <span class="inline-block w-2.5 h-2.5 rounded-full bg-sky-600"></span>
+        Global Rounds
+      </a>
+
+      <!-- Desktop nav -->
+      <nav class="hidden sm:flex items-center gap-6 text-sm">
+        <a href="/catalog" class="hover:underline">Products</a>
+        <a href="/about" class="hover:underline">About</a>
+        <a href="/mission" class="hover:underline">Our Mission</a>
+        <a href="/locations" class="hover:underline">Locations</a>
+        <a href="/contact" class="hover:underline">Contact</a>
+        <a href="/cart" class="hover:underline">Cart</a>
+
+        {% if request.session.get('user_id') %}
+          <a href="/logout" class="text-slate-700 hover:underline">Logout</a>
+        {% else %}
+          <a href="/login" class="text-slate-700 hover:underline">Login</a>
+          <a href="/signup" class="px-3 py-1.5 rounded bg-sky-600 text-white">Sign up</a>
+        {% endif %}
+      </nav>
+
+      <!-- Mobile nav (collapsed to two key links) -->
+      <nav class="sm:hidden flex items-center gap-3 text-sm">
+        <a href="/catalog" class="hover:underline">Products</a>
+        <a href="/cart" class="hover:underline">Cart</a>
+        {% if request.session.get('user_id') %}
+          <a href="/logout" class="hover:underline">Logout</a>
+        {% else %}
+          <a href="/login" class="hover:underline">Login</a>
+        {% endif %}
+      </nav>
+    </div>
+  </header>
+
+  <!-- Optional flash area -->
+  {% if flash %}
+  <div class="max-w-6xl mx-auto px-4 pt-4">
+    <div class="rounded-md border border-sky-200 bg-sky-50 text-sky-900 px-4 py-3 text-sm">{{ flash }}</div>
+  </div>
+  {% endif %}
+
+  <!-- Page content -->
+  <main class="max-w-6xl mx-auto px-4 py-8">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="border-t">
+    <div class="max-w-6xl mx-auto px-4 py-6 text-sm text-slate-500">
+      © 2025 Global Rounds Medical Supply
+    </div>
+  </footer>
+</body>
+</html>
