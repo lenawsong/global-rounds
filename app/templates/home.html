@@ -2,6 +2,8 @@
 {% block content %}
 
 <!-- Minimal helpers (uniform fade only) -->
+
+
 <style>
   @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
   [data-anim]{opacity:0;animation:fadeUp .6s ease .05s forwards}
@@ -9,7 +11,8 @@
   @keyframes marq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 </style>
 
-<div class="relative space-y-6 md:space-y-8">
+<!-- Page gradient background (subtle blue/cyan/purple) -->
+<div class="relative space-y-6 md:space-y-8 gradient-wrap">
 
   <!-- ===== HERO: full-viewport, perfectly centered ===== -->
   <section class="min-h-[90vh] md:min-h-[92vh] flex items-center -mt-6">
@@ -49,6 +52,19 @@
     </div>
   </section>
   
+<!-- Gradient Background-->
+<div aria-hidden="true"
+     class="pointer-events-none fixed inset-0 -z-10">
+  <div class="absolute inset-0"
+       style="
+         background:
+           radial-gradient(60% 60% at 15% 15%, rgba(59,130,246,.08), rgba(59,130,246,0) 60%),
+           radial-gradient(55% 55% at 85% 10%, rgba(34,211,238,.10), rgba(34,211,238,0) 60%),
+           radial-gradient(65% 65% at 50% 100%, rgba(168,85,247,.08), rgba(168,85,247,0) 60%),
+           linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+         ">
+  </div>
+</div>
 
 <!-- ===== MISSION (Apple-clean: bigger type, glass card, soft motion) ===== -->
 <section class="py-10 md:py-14" aria-labelledby="mission-heading" data-anim>
@@ -68,7 +84,7 @@
              ring-1 ring-slate-200 shadow-[0_10px_30px_rgba(15,23,42,.08)]
              transition hover:shadow-[0_18px_42px_rgba(15,23,42,.12)] hover:-translate-y-0.5">
 
-      <div class="p-6 md:p-10">
+      <div class="p-6 md:p-20">
         <!-- Mission statement -->
         <p class="text-xl md:text-xl text-slate-800 leading-relaxed text-center">
           Our mission is to enhance patient quality of life by delivering dependable, affordable,
@@ -78,55 +94,27 @@
         <!-- Divider -->
         <div class="my-8 h-px w-full bg-gradient-to-r from-transparent via-slate-200 to-transparent"></div>
 
-        <!-- Two-column content -->
-        <div class="grid gap-6 md:grid-cols-2">
-          <!-- Left feature list -->
-          <div
-            class="rounded-2xl p-5 md:p-6 ring-1 ring-slate-200/70 bg-white/70
-                   shadow-[0_6px_18px_rgba(15,23,42,.06)]">
-            <h3 class="text-lg md:text-xl font-semibold text-slate-900 mb-3">
-              We aim to empower independence and comfort by:
-            </h3>
-            <ul class="space-y-3 text-base md:text-lg text-slate-700">
-              <li class="flex items-start gap-3">
-                <span class="mt-1 inline-block h-2 w-2 rounded-full bg-sky-600"></span>
-                <span>Providing access to reliable medical devices from <strong>McKesson</strong> and <strong>Medline</strong></span>
-              </li>
-              <li class="flex items-start gap-3">
-                <span class="mt-1 inline-block h-2 w-2 rounded-full bg-sky-600"></span>
-                <span>Educating patients and caregivers on safe use and maintenance</span>
-              </li>
-              <li class="flex items-start gap-3">
-                <span class="mt-1 inline-block h-2 w-2 rounded-full bg-sky-600"></span>
-                <span>Ensuring equitable access through insurance partnerships</span>
-              </li>
-              <li class="flex items-start gap-3">
-                <span class="mt-1 inline-block h-2 w-2 rounded-full bg-sky-600"></span>
-                <span>Maintaining a patient-first approach rooted in respect and dignity</span>
-              </li>
-            </ul>
-          </div>
+        <!-- Single inner gradient box -->
+        <div
+          class="relative overflow-hidden rounded-2xl p-6 md:p-7 ring-1 ring-slate-200/70
+                 bg-gradient-to-br from-sky-50/85 via-sky-100/80 to-white
+                 shadow-[0_6px_18px_rgba(15,23,42,.06)]">
 
-          <!-- Right: why it matters (with AI emphasis) -->
-          <div
-            class="relative overflow-hidden rounded-2xl p-5 md:p-6 ring-1 ring-slate-200/70 bg-gradient-to-br from-sky-50/80 to-white/80
-                   shadow-[0_6px_18px_rgba(15,23,42,.06)]">
-            <h3 class="text-lg md:text-xl font-semibold text-slate-900 mb-3">
-              Why it matters
-            </h3>
-            <p class="text-base md:text-lg text-slate-700 leading-relaxed">
-              Speed and clarity change outcomes. By aligning vetted suppliers with transparent requirements,
-              we reduce delays and help patients regain independence sooner.
-              Our <strong>AI automation</strong> acts as a bridge between patient, provider, and supplier—surfacing
-              missing documents, verifying eligibility, and streamlining prior authorization—so insurance moves faster
-              and patients receive the equipment they need without unnecessary wait.
-            </p>
+          <h3 class="text-lg md:text-xl font-semibold text-slate-900 mb-2">
+            Why It Matters
+          </h3>
+          <p class="text-base md:text-lg text-slate-700/90 leading-relaxed">
+            Speed and clarity change outcomes. By aligning vetted suppliers with transparent requirements,
+            we reduce delays and help patients regain independence sooner. Our <strong>AI automation</strong>
+            bridges patients, providers, insurers, and suppliers—verifying documents, surfacing requirements,
+            and streamlining eligibility and prior authorization—so equipment arrives faster and the process
+            feels simple and predictable.
+          </p>
 
-            <!-- Soft animated accents -->
-            <div class="pointer-events-none absolute inset-0">
-              <span class="absolute -right-6 -top-4 h-28 w-28 rounded-full bg-sky-300/20 blur-3xl animate-pulse"></span>
-              <span class="absolute right-8 bottom-8 h-24 w-24 rounded-full bg-cyan-300/20 blur-3xl animate-[pulse_3s_ease-in-out_infinite]"></span>
-            </div>
+          <!-- Soft animated accents (optional) -->
+          <div class="pointer-events-none absolute inset-0">
+            <span class="absolute -right-6 -top-4 h-28 w-28 rounded-full bg-sky-300/20 blur-3xl animate-pulse"></span>
+            <span class="absolute right-8 bottom-8 h-24 w-24 rounded-full bg-cyan-300/20 blur-3xl animate-[pulse_3s_ease-in-out_infinite]"></span>
           </div>
         </div>
 
@@ -142,6 +130,7 @@
     </div>
   </div>
 </section>
+
 
 <br><br><br>
 
@@ -425,3 +414,4 @@
 
 </div>
 {% endblock %}
+

@@ -1,0 +1,318 @@
+{% extends "base.html" %}
+{% block content %}
+
+<!-- ===== ABOUT HERO: full-viewport, centered ===== -->
+<section class="min-h-[90vh] md:min-h-[92vh] flex items-center -mt-6">
+  <div class="max-w-4xl mx-auto px-4 md:px-6 text-center" data-anim>
+
+    <!-- Headline (with gradient word) -->
+    <h1 class="text-5xl md:text-6xl lg:text-7xl font-semibold tracking-tight text-slate-900 leading-tight">
+      About
+      <br>
+      <span class="bg-[linear-gradient(90deg,#0f3b67_0%,#2a6fb1_50%,#0f3b67_100%)] bg-clip-text text-transparent">
+        Nexus Health
+      </span>
+    </h1>
+
+    <!-- Support line -->
+    <p class="mt-5 text-slate-500 text-lg md:text-xl leading-relaxed">
+      We’re building the cleanest, fastest way for patients and caregivers to get the durable
+      medical equipment they need with AI automation, trusted suppliers, and a patient-first ethos.
+    </p>
+  </div>
+</section>
+
+
+<!-- ===== Mission (text left) + Image (right) with animations ===== -->
+<section class="mt-12 md:mt-16 grid gap-6 md:grid-cols-2 items-center" data-anim-group>
+  <!-- Left: copy -->
+  <div class="mission-card group rounded-3xl bg-white/90 ring-1 ring-slate-200 shadow-sm p-6 md:p-8"
+       data-anim-item>
+    <h2 class="text-3xl md:text-4xl font-semibold text-slate-900">
+      Restore your lifestyle
+    </h2>
+    <p class="mt-3 text-slate-800 font-semibold">
+      We exist with one mission; we will do any and everything we can to work for you.
+      Our mission is to do our best to restore your lifestyle.
+    </p>
+
+    <div class="mt-5 space-y-4 text-slate-700 leading-relaxed">
+      <p>Since 1962, we have been restoring our patients’ lifestyles for 60 years. We
+        believe the process of getting Durable Medical Equipment and Medical supplies
+        should be a safe, comfortable, and, in some cases, a fun experience.</p>
+      <p>We are a family-owned business, and we believe families must be there for each
+        other. You deserve to be treated as our family.</p>
+      <p>We did not survive on our own for 60 years; we believe that our survival is
+        because of the love and support from the community.</p>
+    </div>
+  </div>
+
+  <!-- Right: image -->
+  <figure class="relative rounded-3xl overflow-hidden ring-1 ring-slate-200 shadow-sm"
+          data-anim-item data-anim-delay="120">
+    <img
+      src="{{ url_for('static', path='images/about-walker.jpg') }}"
+      alt="Caregiver assisting with a walker"
+      class="w-full h-full object-cover transition-transform duration-500 will-change-transform img-zoom"
+    >
+  </figure>
+</section>
+
+
+<!-- Values -->
+<section class="mt-12 md:mt-16" data-anim>
+  <h2 class="text-3xl md:text-4xl font-semibold text-slate-900 text-center">Our Values</h2>
+  <div class="mx-auto mt-4 h-1.5 w-20 rounded-full bg-sky-600/80"></div>
+
+  <div class="mt-8 grid gap-6 md:grid-cols-3">
+    <div class="rounded-2xl bg-white ring-1 ring-slate-200 p-6 shadow-sm hover:shadow-md transition">
+      <h3 class="text-xl font-semibold text-slate-900">Patient-first</h3>
+      <p class="mt-2 text-slate-700">Every decision starts with empathy, clarity, and respect.</p>
+    </div>
+    <div class="rounded-2xl bg-white ring-1 ring-slate-200 p-6 shadow-sm hover:shadow-md transition">
+      <h3 class="text-xl font-semibold text-slate-900">Trusted & compliant</h3>
+      <p class="mt-2 text-slate-700">We design for safety, auditability, and payer requirements.</p>
+    </div>
+    <div class="rounded-2xl bg-white ring-1 ring-slate-200 p-6 shadow-sm hover:shadow-md transition">
+      <h3 class="text-xl font-semibold text-slate-900">Speed with quality</h3>
+      <p class="mt-2 text-slate-700">Faster outcomes without cutting corners.</p>
+    </div>
+  </div>
+</section>
+
+<!-- What we provide -->
+<section class="mt-12 md:mt-16" data-anim>
+  <h2 class="text-3xl md:text-4xl font-semibold text-slate-900 text-center">What we provide</h2>
+  <div class="mx-auto mt-4 h-1.5 w-20 rounded-full bg-sky-600/80"></div>
+
+  <div class="mt-8 grid gap-6 md:grid-cols-3">
+    <div class="rounded-2xl bg-white ring-1 ring-slate-200 p-6">
+      <h4 class="font-semibold text-slate-900">Mobility & Safety</h4>
+      <p class="mt-2 text-slate-700">Wheelchairs, walkers, hospital beds, bathroom safety.</p>
+    </div>
+    <div class="rounded-2xl bg-white ring-1 ring-slate-200 p-6">
+      <h4 class="font-semibold text-slate-900">Resupply</h4>
+      <p class="mt-2 text-slate-700">Incontinence, respiratory, diabetes, wound care.</p>
+    </div>
+    <div class="rounded-2xl bg-white ring-1 ring-slate-200 p-6">
+      <h4 class="font-semibold text-slate-900">Support & Education</h4>
+      <p class="mt-2 text-slate-700">Clear instructions, safe use, and proactive follow-ups.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== OUR TEAM (rectangular photos + compact LinkedIn + modal bios) ===== -->
+<section class="mt-12 md:mt-16" data-anim>
+  <h2 class="text-3xl md:text-4xl font-semibold text-slate-900 text-center">Our Team</h2>
+  <div class="mx-auto mt-4 h-1.5 w-20 rounded-full bg-sky-600/80"></div>
+
+  <div class="mt-8 grid gap-6 md:grid-cols-4">
+    <!-- Card: Dawit -->
+    <div class="rounded-2xl bg-white ring-1 ring-slate-200 p-6 shadow-sm hover:shadow-md transition flex flex-col">
+      <div class="w-full h-40 md:h-60 rounded-xl overflow-hidden ring-1 ring-slate-200/60 bg-slate-50 grid place-items-center">
+        <img src="{{ url_for('static', path='team/dawit.png') }}" alt="Dawit Girma"
+             class="h-full w-full object-cover" onerror="this.style.display='none'">
+      </div>
+      <h4 class="mt-4 text-lg md:text-xl font-semibold text-slate-900">Dawit Girma</h4>
+      <p class="text-slate-500 text-sm">Co-Founder & CEO</p>
+
+      <div class="mt-4 flex items-center gap-2">
+        <!-- LinkedIn (compact) -->
+        <a href="https://www.linkedin.com/in/dawit-girma-a6524b276/" target="_blank" rel="noopener"
+           class="inline-flex items-center gap-1.5 rounded-full bg-slate-900 px-3 py-1.5 text-white text-xs hover:bg-black transition">
+          <!-- li icon -->
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.86 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 4.98 2.12 4.98 3.5zM.5 8.5h4V23h-4V8.5zM8.5 8.5h3.8v2h.05c.53-1 1.84-2.05 3.79-2.05 4.05 0 4.8 2.66 4.8 6.12V23h-4v-6.5c0-1.55-.03-3.55-2.17-3.55-2.18 0-2.51 1.7-2.51 3.44V23h-4V8.5z"/></svg>
+          LinkedIn
+        </a>
+        <!-- Modal trigger -->
+        <button
+          class="inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs text-slate-900 hover:bg-slate-50 transition open-bio"
+          data-name="Dawit Girma"
+          data-role="Co-Founder & CEO"
+          data-img="{{ url_for('static', path='team/dawit.png') }}"
+          data-bio="Dawit is a junior at Brown University concentrating in Public Health. He is a published researcher with work affiliated with Brown Medicine, Johns Hopkins Medicine, Harvard Medical School, and the National Institutes of Health. He is currently enrolled in Brown’s combined BS/MD Program (PLME), where he focuses on kidney medicine, global health, and healthcare systems innovation. Alongside his studies, he has worked full time as a Supply Chain Analyst at Capitol Medical Supply, managing Medicaid and Medicare workflows, strengthening vendor partnerships, and guiding operational strategy. He has been recognized as a Coca-Cola Scholar Semifinalist and a Ron Brown Scholar. Driven to bridge research, policy, and practice, Dawit aims to improve patient outcomes and expand equitable access to care."
+        >
+          <!-- info icon -->
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2Zm.75 15h-1.5v-6h1.5v6Zm0-8h-1.5V7h1.5v2Z"/></svg>
+          About
+        </button>
+      </div>
+    </div>
+
+    <!-- Card: Lena -->
+    <div class="rounded-2xl bg-white ring-1 ring-slate-200 p-6 shadow-sm hover:shadow-md transition flex flex-col">
+      <div class="w-full h-40 md:h-60 rounded-xl overflow-hidden ring-1 ring-slate-200/60 bg-slate-50 grid place-items-center">
+        <img src="{{ url_for('static', path='team/lena.png') }}" alt="Lena Song"
+             class="h-full w-full object-cover" onerror="this.style.display='none'">
+      </div>
+      <h4 class="mt-4 text-lg md:text-xl font-semibold text-slate-900">Lena Song</h4>
+      <p class="text-slate-500 text-sm">Co-Founder & Engineer</p>
+
+      <div class="mt-4 flex items-center gap-2">
+        <a href="https://www.linkedin.com/in/lena-w-song/" target="_blank" rel="noopener"
+           class="inline-flex items-center gap-1.5 rounded-full bg-slate-900 px-3 py-1.5 text-white text-xs hover:bg-black transition">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.86 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 4.98 2.12 4.98 3.5zM.5 8.5h4V23h-4V8.5zM8.5 8.5h3.8v2h.05c.53-1 1.84-2.05 3.79-2.05 4.05 0 4.8 2.66 4.8 6.12V23h-4v-6.5c0-1.55-.03-3.55-2.17-3.55-2.18 0-2.51 1.7-2.51 3.44V23h-4V8.5z"/></svg>
+          LinkedIn
+        </a>
+        <button
+          class="inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs text-slate-900 hover:bg-slate-50 transition open-bio"
+          data-name="Lena Song"
+          data-role="Co-Founder & Engineer"
+          data-img="{{ url_for('static', path='team/lena.png') }}"
+          data-bio="Lena is a junior at Brown University concentrating in Computer Science–Economics and Visual Art. She combines full-stack engineering with creative direction, bringing a a visual arts background to technically challenging projects. Lena has led development of clinical AI tools at Loudoun Psychological Services, AccessEva AI, and, most recently, Nexus Health. She currently serves as an undergraduate teaching assistant in Brown’s Department of Economics, supporting coursework at the intersection of data, computation, and policy. Next, she will join Wells Fargo as an incoming software engineer. Across her work, Lena blends design and engineering to apply AI responsibly in healthcare, translating complex technology into tools that improve access, efficiency, and care outcomes."
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2Zm.75 15h-1.5v-6h1.5v6Zm0-8h-1.5V7h1.5v2Z"/></svg>
+          About
+        </button>
+      </div>
+    </div>
+<!-- Card: Teo -->
+    <div class="rounded-2xl bg-white ring-1 ring-slate-200 p-6 shadow-sm hover:shadow-md transition flex flex-col">
+      <div class="w-full h-40 md:h-60 rounded-xl overflow-hidden ring-1 ring-slate-200/60 bg-slate-50 grid place-items-center">
+        <img src="{{ url_for('static', path='team/teo.png') }}" alt="Teo Burgess"
+             class="h-full w-full object-cover" onerror="this.style.display='none'">
+      </div>
+      <h4 class="mt-4 text-lg md:text-xl font-semibold text-slate-900">Teo Burgess</h4>
+      <p class="text-slate-500 text-sm">Co-Founder</p>
+
+      <div class="mt-4 flex items-center gap-2">
+        <a href="https://www.linkedin.com/in/teo-burgess-a99505321/" target="_blank" rel="noopener"
+           class="inline-flex items-center gap-1.5 rounded-full bg-slate-900 px-3 py-1.5 text-white text-xs hover:bg-black transition">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.86 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 4.98 2.12 4.98 3.5zM.5 8.5h4V23h-4V8.5zM8.5 8.5h3.8v2h.05c.53-1 1.84-2.05 3.79-2.05 4.05 0 4.8 2.66 4.8 6.12V23h-4v-6.5c0-1.27-.03-2.9-1.77-2.9-1.77 0-2.04 1.7-2.04 3.44V23h-4V8.5z"/></svg>
+          LinkedIn
+        </a>
+        <button
+          class="inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs text-slate-900 hover:bg-slate-50 transition open-bio"
+          data-name="Teo Burgess"
+          data-role="Co-Founder"
+          data-img="{{ url_for('static', path='team/teo.png') }}"
+          data-bio="Teo works on logistics and vendor operations, focusing on SLAs and quality across multi-supplier routing."
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2Zm.75 15h-1.5v-6h1.5v6Zm0-8h-1.5V7h1.5v2Z"/></svg>
+          About
+        </button>
+      </div>
+    </div>
+
+    <!-- Card: Michael -->
+    <div class="rounded-2xl bg-white ring-1 ring-slate-200 p-6 shadow-sm hover:shadow-md transition flex flex-col">
+      <div class="w-full h-40 md:h-60 rounded-xl overflow-hidden ring-1 ring-slate-200/60 bg-slate-50 grid place-items-center">
+        <img src="{{ url_for('static', path='team/michael.png') }}" alt="Michael Suadwa"
+             class="h-full w-full object-cover" onerror="this.style.display='none'">
+      </div>
+      <h4 class="mt-4 text-lg md:text-xl font-semibold text-slate-900">Michael Suadwa</h4>
+      <p class="text-slate-500 text-sm">Co-Founder & Engineer</p>
+
+      <div class="mt-4 flex items-center gap-2">
+        <a href="https://www.linkedin.com/" target="_blank" rel="noopener"
+           class="inline-flex items-center gap-1.5 rounded-full bg-slate-900 px-3 py-1.5 text-white text-xs hover:bg-black transition">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.86 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 4.98 2.12 4.98 3.5zM.5 8.5h4V23h-4V8.5zM8.5 8.5h3.8v2h.05c.53-1 1.84-2.05 3.79-2.05 4.05 0 4.8 2.66 4.8 6.12V23h-4v-6.5c0-1.27-.03-2.9-1.77-2.9-1.77 0-2.04 1.7-2.04 3.44V23h-4V8.5z"/></svg>
+          LinkedIn
+        </a>
+        <button
+          class="inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs text-slate-900 hover:bg-slate-50 transition open-bio"
+          data-name="Michael Suadwa"
+          data-role="Co-Founder & Engineer"
+          data-img="{{ url_for('static', path='team/michael.png') }}"
+          data-bio="Michael focuses on integrations and claims rails—connecting EDI/FHIR services and building reliable queues and webhooks for insurance flows."
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2Zm.75 15h-1.5v-6h1.5v6Zm0-8h-1.5V7h1.5v2Z"/></svg>
+          About
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TEAM MODAL (shared) ===== -->
+<div id="teamModal" class="fixed inset-0 z-50 hidden">
+  <!-- backdrop -->
+  <div class="absolute inset-0 bg-slate-900/55 backdrop-blur-sm"></div>
+
+  <!-- dialog -->
+  <div class="relative mx-auto mt-16 md:mt-24 max-w-4xl w-[92%] rounded-3xl bg-white shadow-2xl ring-1 ring-slate-200 overflow-hidden">
+    <!-- close button -->
+    <button id="closeTeamModal"
+            class="absolute right-3 top-3 inline-flex h-9 w-9 items-center justify-center rounded-full bg-slate-100 text-slate-600 hover:bg-slate-200"
+            aria-label="Close">
+      ✕
+    </button>
+
+    <div class="grid md:grid-cols-2 gap-0">
+      <!-- left: image -->
+      <div class="bg-slate-50 ring-l-1 ring-slate-200 p-4 md:p-6 grid place-items-center">
+        <img id="modalImg" src="" alt="" class="max-h-80 md:max-h-[26rem] w-auto object-contain rounded-xl ring-1 ring-slate-200/60 bg-white">
+      </div>
+      <!-- right: textt -->
+      <div class="p-6 md:p-8">
+        <h3 id="modalName" class="text-2xl md:text-3xl font-semibold text-slate-900"></h3>
+        <p id="modalRole" class="mt-1 text-slate-500"></p>
+        <div class="mt-4 text-slate-700 leading-relaxed" id="modalBio"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Modal script ===== -->
+<script>
+(function(){
+  const modal = document.getElementById('teamModal');
+  const closeBtn = document.getElementById('closeTeamModal');
+  const nameEl = document.getElementById('modalName');
+  const roleEl = document.getElementById('modalRole');
+  const bioEl  = document.getElementById('modalBio');
+  const imgEl  = document.getElementById('modalImg');
+
+  function openModal({name, role, bio, img}) {
+    nameEl.textContent = name || '';
+    roleEl.textContent = role || '';
+    bioEl.textContent  = bio || '';
+    imgEl.src = img || '';
+    imgEl.alt = name || 'Team member';
+    modal.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal() {
+    modal.classList.add('hidden');
+    document.body.style.overflow = '';
+  }
+
+  // open triggers
+  document.querySelectorAll('.open-bio').forEach(btn => {
+    btn.addEventListener('click', () => {
+      openModal({
+        name: btn.dataset.name,
+        role: btn.dataset.role,
+        bio:  btn.dataset.bio,
+        img:  btn.dataset.img
+      });
+    });
+  });
+
+  // close actions
+  closeBtn.addEventListener('click', closeModal);
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal || e.target.classList.contains('bg-slate-900/55')) closeModal();
+  });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !modal.classList.contains('hidden')) closeModal(); });
+})();
+</script>
+
+
+<!-- Callout -->
+<section class="mt-12 md:mt-16" data-anim>
+  <div class="rounded-3xl ring-1 ring-slate-200 bg-gradient-to-br from-sky-50 to-white p-6 md:p-8 text-center">
+    <h3 class="text-2xl md:text-3xl font-semibold text-slate-900">Want to partner with us?</h3>
+    <p class="mt-3 text-slate-700 max-w-3xl mx-auto">
+      We collaborate with providers, payers, and community organizations to get patients the equipment
+      they need — faster. Let’s work together.
+    </p>
+    <div class="mt-6">
+      <a href="/contact" class="inline-flex rounded-full bg-slate-900 px-6 md:px-7 py-3 md:py-3.5 text-white hover:bg-black transition hover:-translate-y-0.5 hover:shadow-lg">
+        Contact us
+      </a>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

@@ -24,6 +24,14 @@ app.mount("/static", StaticFiles(directory="app/static"), name="static")
 def home(request: Request):
     return templates.TemplateResponse("home.html", {"request": request})
 
+@app.get("/home")
+def home(request: Request):
+    return templates.TemplateResponse("home.html", {"request": request})
+
+@app.get("/about")
+def about(request: Request):
+    return templates.TemplateResponse("info_about.html", {"request": request})
+
 # init database tables
 from app.db import init_db
 init_db()
@@ -39,3 +47,5 @@ app.include_router(cart.router)
 
 from app import checkout
 app.include_router(checkout.router)
+
+

@@ -9,13 +9,24 @@ class User(SQLModel, table=True):
     is_admin: bool = False
     created_at: datetime = Field(default_factory=datetime.utcnow)
 
+# class Product(SQLModel, table=True):
+#     id: Optional[int] = Field(default=None, primary_key=True)
+#     sku: str = Field(index=True, unique=True)
+#     name: str
+#     description: str = ""
+#     price_cents: int
+#     image_url: Optional[str] = None
+#     active: bool = True
+#     created_at: datetime = Field(default_factory=datetime.utcnow)
+
 class Product(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
-    sku: str = Field(index=True, unique=True)
+    sku: str = Field(index=True, unique=True)           # keep existing
     name: str
     description: str = ""
     price_cents: int
     image_url: Optional[str] = None
+    hcpcs_code: Optional[str] = Field(default=None, index=True)  # NEW
     active: bool = True
     created_at: datetime = Field(default_factory=datetime.utcnow)
 
@@ -44,3 +55,5 @@ class OrderItem(SQLModel, table=True):
     product_id: int = Field(foreign_key="product.id")
     quantity: int
     unit_price_cents: int
+
+
