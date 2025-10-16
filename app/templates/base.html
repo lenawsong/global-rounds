@@ -7,48 +7,187 @@
 
   <!-- Tailwind CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              25: '#f3f8fb',
+              50: '#ebf3fb',
+              100: '#d6e7f7',
+              200: '#b9d5f1',
+              300: '#8abbe9',
+              400: '#559cdd',
+              500: '#2c7fd0',
+              600: '#1d64b4',
+              700: '#184f8f',
+              800: '#193f70',
+              900: '#142f52'
+            },
+            teal: {
+              100: '#d8f4f0',
+              200: '#ace6dd',
+              300: '#7fd8ca',
+              400: '#4fcab7',
+              500: '#2ab49f',
+              600: '#1b8d7b',
+              700: '#166f61'
+            },
+            dusk: {
+              50: '#f5f7fb',
+              100: '#e7eaf6',
+              200: '#d1d6eb',
+              300: '#aeb7d8',
+              400: '#7c8cbf',
+              500: '#5865a7',
+              600: '#43508f',
+              700: '#364173',
+              800: '#2b345a',
+              900: '#222945'
+            }
+          },
+          fontFamily: {
+            heading: ['"DM Sans"', 'ui-sans-serif', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', 'Helvetica', 'Arial', 'sans-serif'],
+            body: ['"Inter"', 'ui-sans-serif', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', 'Helvetica', 'Arial', 'sans-serif']
+          },
+          boxShadow: {
+            'card': '0 18px 40px -15px rgba(24, 79, 143, 0.25)'
+          }
+        }
+      }
+    };
+  </script>
 
-  <!-- Optional: system font for crisp type -->
   <style>
-    html{font-family:ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial}
+    :root {
+      color-scheme: light;
+      --page-bg: radial-gradient(120% 120% at 15% 15%, rgba(43, 127, 208, 0.08), transparent 55%), radial-gradient(120% 120% at 85% 10%, rgba(42, 180, 159, 0.08), transparent 60%), linear-gradient(180deg, #ffffff 0%, #f4f8fb 100%);
+    }
+
+    html {
+      font-family: "Inter", ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: #f5f7fb;
+    }
+
+    body {
+      min-height: 100vh;
+      background: var(--page-bg);
+    }
+
+    .no-scrollbar {
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    [data-anim] {
+      opacity: 0;
+      animation: fadeUp .7s ease 0.05s forwards;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      [data-anim] {
+        animation: none;
+        opacity: 1;
+      }
+    }
   </style>
 </head>
 
-<body class="bg-white text-slate-900">
+<body class="font-body text-slate-900">
   <!-- Header -->
-  <header class="border-b bg-white/80 backdrop-blur">
-    <div class="max-w-7xl mx-auto px-4 md:px-6 py-4 flex items-center justify-between">
-      <a href="/" class="flex items-center gap-3 font-semibold text-slate-900">
-        <img src="{{ url_for('static', path='logo.png') }}?v=1" alt="Global Rounds logo" class="h-8 w-auto sm:h-10 md:h-11">
-        <span class="text-lg sm:text-xl md:text-2xl tracking-tight">Nexus Health</span>
+  <header class="sticky top-0 z-40 border-b border-white/40 bg-white/85 backdrop-blur-lg">
+    <div class="max-w-7xl mx-auto flex items-center justify-between px-4 py-4 md:px-6">
+      <a href="/" class="flex items-center gap-3 rounded-full bg-white/60 px-3 py-1.5 shadow-sm ring-1 ring-white/70 transition hover:shadow-md">
+        <img src="{{ url_for('static', path='logo.png') }}?v=1" alt="Global Rounds logo" class="h-9 w-auto md:h-11">
+        <span class="font-heading text-lg tracking-tight text-brand-800 md:text-2xl">Nexus Health</span>
       </a>
 
       <!-- Desktop nav -->
-      <nav class="hidden sm:flex items-center gap-6 text-sm">
-        <a href="/home" class="hover:underline">Home</a>
-        <a href="/about" class="hover:underline">About</a>
-        <a href="/catalog" class="hover:underline">Products</a>
-        <a href="/locations" class="hover:underline">Locations</a>
-        <a href="/contact" class="hover:underline">Contact</a>
-        <a href="/cart" class="hover:underline">Cart</a>
+      <nav class="hidden items-center gap-7 text-sm font-medium text-brand-800 lg:flex">
+        <a href="/home" class="transition hover:text-brand-500 hover:underline decoration-2 underline-offset-4">Home</a>
+        <a href="/about" class="transition hover:text-brand-500 hover:underline decoration-2 underline-offset-4">About</a>
+        <a href="/catalog" class="transition hover:text-brand-500 hover:underline decoration-2 underline-offset-4">Products</a>
+        <a href="/locations" class="transition hover:text-brand-500 hover:underline decoration-2 underline-offset-4">Locations</a>
+        <a href="/contact" class="transition hover:text-brand-500 hover:underline decoration-2 underline-offset-4">Contact</a>
+        <a href="/cart" class="transition hover:text-brand-500 hover:underline decoration-2 underline-offset-4">Cart</a>
         {% if request.session.get('user_id') %}
-          <a href="/logout" class="text-slate-700 hover:underline">Logout</a>
+          <a href="/logout" class="rounded-full bg-brand-50 px-4 py-2 text-sm font-semibold text-brand-700 ring-1 ring-brand-100 transition hover:bg-brand-100">Logout</a>
         {% else %}
-          <a href="/login" class="text-slate-700 hover:underline">Login</a>
-          <a href="/signup" class="px-3 py-1.5 rounded-full bg-sky-600 text-white">Sign up</a>
+          <a href="/login" class="text-brand-700 transition hover:text-brand-500">Login</a>
+          <a href="/signup" class="inline-flex items-center gap-1 rounded-full bg-brand-600 px-5 py-2 text-sm font-semibold text-white shadow-card transition hover:-translate-y-0.5 hover:bg-brand-500">
+            Sign up
+          </a>
         {% endif %}
       </nav>
 
-      <!-- Mobile nav (simple) -->
-      <nav class="sm:hidden flex items-center gap-3 text-sm">
-        <a href="/catalog" class="hover:underline">Products</a>
-        <a href="/cart" class="hover:underline">Cart</a>
-        {% if request.session.get('user_id') %}
-          <a href="/logout" class="hover:underline">Logout</a>
-        {% else %}
-          <a href="/login" class="hover:underline">Login</a>
-        {% endif %}
-      </nav>
+      <!-- Mobile menu button -->
+      <button id="nav-toggle" class="flex h-11 w-11 items-center justify-center rounded-full bg-brand-600 text-white shadow-card transition hover:bg-brand-500 lg:hidden" aria-label="Toggle navigation" aria-expanded="false">
+        <svg id="icon-menu" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+        <svg id="icon-close" class="hidden h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 6l12 12M18 6l-12 12"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Mobile flyout -->
+    <div id="mobile-nav" class="pointer-events-none fixed inset-0 z-30 flex opacity-0 transition-opacity duration-300 lg:hidden">
+      <div class="flex-1 bg-slate-900/40 backdrop-blur-sm" aria-hidden="true"></div>
+      <div class="relative w-80 max-w-[82vw] bg-white shadow-2xl transition-transform duration-300 ease-out translate-x-full" role="dialog" aria-modal="true">
+        <div class="flex h-full flex-col gap-6 px-6 py-8">
+          <div>
+            <span class="text-xs uppercase tracking-[0.3em] text-brand-400">Navigation</span>
+          </div>
+          <nav class="flex flex-col gap-5 text-base font-medium text-brand-900">
+            <a href="/home" class="inline-flex items-center justify-between border-b border-brand-50 pb-3 transition hover:text-brand-500">
+              Home
+              <span class="text-sm text-brand-200">Start</span>
+            </a>
+            <a href="/about" class="inline-flex items-center justify-between border-b border-brand-50 pb-3 transition hover:text-brand-500">
+              About
+              <span class="text-sm text-brand-200">Our Story</span>
+            </a>
+            <a href="/catalog" class="inline-flex items-center justify-between border-b border-brand-50 pb-3 transition hover:text-brand-500">
+              Products
+              <span class="text-sm text-brand-200">Browse</span>
+            </a>
+            <a href="/locations" class="inline-flex items-center justify-between border-b border-brand-50 pb-3 transition hover:text-brand-500">
+              Locations
+              <span class="text-sm text-brand-200">Find Us</span>
+            </a>
+            <a href="/contact" class="inline-flex items-center justify-between border-b border-brand-50 pb-3 transition hover:text-brand-500">
+              Contact
+              <span class="text-sm text-brand-200">Connect</span>
+            </a>
+            <a href="/cart" class="inline-flex items-center justify-between pb-3 transition hover:text-brand-500">
+              Cart
+              <span class="inline-flex h-6 w-6 items-center justify-center rounded-full bg-brand-600 text-xs font-semibold text-white">●</span>
+            </a>
+          </nav>
+          <div class="mt-auto space-y-4">
+            {% if request.session.get('user_id') %}
+              <a href="/logout" class="block rounded-full bg-brand-100 px-4 py-3 text-center font-semibold text-brand-700 transition hover:bg-brand-200">Logout</a>
+            {% else %}
+              <a href="/login" class="block rounded-full border border-brand-200 px-4 py-3 text-center font-semibold text-brand-700 transition hover:bg-brand-50">Login</a>
+              <a href="/signup" class="block rounded-full bg-brand-600 px-4 py-3 text-center font-semibold text-white shadow-card transition hover:-translate-y-0.5 hover:bg-brand-500">Create account</a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
     </div>
   </header>
 
@@ -60,102 +199,180 @@
   {% endif %}
 
   <!-- Page content -->
-  <main class="max-w-7xl mx-auto px-4 md:px-6 py-8 md:py-10">
+  <main class="max-w-7xl mx-auto px-4 md:px-6 py-10 md:py-14">
     {% block content %}{% endblock %}
   </main>
 
   <!-- Footer -->
-  <footer class="mt-14">
-    <!-- Top: 4-column info bar -->
-    <div class="bg-gradient-to-r from-teal-600 to-sky-700 text-white">
-      <div class="max-w-7xl mx-auto px-4 md:px-6 py-10">
-        <div class="grid gap-8 md:grid-cols-4">
-          <!-- Useful Links -->
+  <footer class="mt-20 border-t border-white/40 bg-white/70 backdrop-blur">
+    <div class="max-w-7xl mx-auto grid gap-12 px-4 py-12 md:grid-cols-5 md:px-6">
+      <div class="md:col-span-2 space-y-4">
+        <div class="flex items-center gap-3">
+          <span class="inline-flex h-11 w-11 items-center justify-center rounded-full bg-brand-600 text-white shadow-card">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6l3 3M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+          </span>
           <div>
-            <h4 class="text-xl font-semibold mb-4">Useful Links</h4>
-            <ul class="space-y-3">
-              <li><a href="/about" class="hover:underline">About Us</a></li>
-              <li><a href="/catalog" class="hover:underline">Shop by Category</a></li>
-              <li><a href="/locations" class="hover:underline">Locations</a></li>
-              <li><a href="/contact" class="hover:underline">Contact Center</a></li>
-            </ul>
+            <p class="font-heading text-lg text-brand-800">Nexus Health</p>
+            <p class="text-sm text-brand-400">Durable medical equipment, delivered with care.</p>
           </div>
+        </div>
+        <p class="max-w-md text-sm leading-relaxed text-brand-500">
+          A modern front door for patients, caregivers, and providers to access trusted DME suppliers with clarity and speed.
+        </p>
+      </div>
 
-          <!-- Social Media -->
-          <div>
-            <h4 class="text-xl font-semibold mb-4">Social Media</h4>
-            <ul class="space-y-3">
-              <li class="flex items-center gap-3">
-                <span class="h-5 w-5 grid place-items-center rounded bg-white/10">f</span>
-                <a class="hover:underline" href="#" aria-label="Facebook">Facebook</a>
-              </li>
-              <li class="flex items-center gap-3">
-                <span class="h-5 w-5 grid place-items-center rounded bg-white/10">t</span>
-                <a class="hover:underline" href="#" aria-label="Twitter">Twitter</a>
-              </li>
-              <li class="flex items-center gap-3">
-                <span class="h-5 w-5 grid place-items-center rounded bg-white/10">ig</span>
-                <a class="hover:underline" href="#" aria-label="Instagram">Instagram</a>
-              </li>
-              <li class="flex items-center gap-3">
-                <span class="h-5 w-5 grid place-items-center rounded bg-white/10">in</span>
-                <a class="hover:underline" href="#" aria-label="LinkedIn">LinkedIn</a>
-              </li>
-            </ul>
+      <div>
+        <h4 class="font-heading text-sm uppercase tracking-[0.25em] text-brand-400">Explore</h4>
+        <ul class="mt-4 space-y-3 text-sm text-brand-800">
+          <li><a href="/about" class="transition hover:text-brand-500">About Us</a></li>
+          <li><a href="/catalog" class="transition hover:text-brand-500">Shop by Category</a></li>
+          <li><a href="/locations" class="transition hover:text-brand-500">Locations</a></li>
+          <li><a href="/contact" class="transition hover:text-brand-500">Contact Center</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="font-heading text-sm uppercase tracking-[0.25em] text-brand-400">Connect</h4>
+        <ul class="mt-4 space-y-3 text-sm text-brand-800">
+          <li>
+            <a href="#" class="flex items-center gap-3 transition hover:text-brand-500">
+              <span class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-brand-100 text-brand-600">
+                <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M22 12a10 10 0 10-11.5 9.9v-7H7.1V12h3.4v-2.3c0-3.3 2-5.1 5-5.1 1.4 0 2.8.25 2.8.25v3.1h-1.6c-1.6 0-2.1 1-2.1 2V12h3.6l-.57 2.9H14.6v7A10 10 0 0022 12"/>
+                </svg>
+              </span>
+              Facebook
+            </a>
+          </li>
+          <li>
+            <a href="#" class="flex items-center gap-3 transition hover:text-brand-500">
+              <span class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-brand-100 text-brand-600">
+                <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M23 4.6a9.7 9.7 0 01-2.8.8 4.8 4.8 0 002.1-2.7 9.5 9.5 0 01-3 1.2 4.8 4.8 0 00-8.2 4.4 13.6 13.6 0 01-9.9-5 4.8 4.8 0 001.5 6.4 4.8 4.8 0 01-2.2-.6v.1a4.8 4.8 0 003.8 4.7 4.8 4.8 0 01-2.2.1 4.8 4.8 0 004.5 3.3A9.6 9.6 0 012 19.5a13.6 13.6 0 007.4 2.2c8.9 0 13.8-7.4 13.8-13.8l-.01-.6A9.9 9.9 0 0023 4.6z"/>
+                </svg>
+              </span>
+              Twitter
+            </a>
+          </li>
+          <li>
+            <a href="#" class="flex items-center gap-3 transition hover:text-brand-500">
+              <span class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-brand-100 text-brand-600">
+                <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M12 2.2c3.2 0 3.6 0 4.8.1 1.2.1 1.8.2 2.3.5.6.3 1 .7 1.3 1.3.3.5.4 1.1.5 2.3.1 1.2.1 1.6.1 4.8s0 3.6-.1 4.8c-.1 1.2-.2 1.8-.5 2.3a2.7 2.7 0 01-1.3 1.3c-.5.3-1.1.4-2.3.5-1.2.1-1.6.1-4.8.1s-3.6 0-4.8-.1c-1.2-.1-1.8-.2-2.3-.5a2.7 2.7 0 01-1.3-1.3c-.3-.5-.4-1.1-.5-2.3-.1-1.2-.1-1.6-.1-4.8s0-3.6.1-4.8c.1-1.2.2-1.8.5-2.3a2.7 2.7 0 011.3-1.3c.5-.3 1.1-.4 2.3-.5 1.2-.1 1.6-.1 4.8-.1zm0-2.2C8.7 0 8.3 0 7 0 5.8.1 4.9.2 4.1.6 3.3 1 2.6 1.6 2.1 2.4 1.7 3.2 1.4 4.1 1.3 5.3 1.2 6.6 1.1 6.9 1.1 12s0 5.4.2 6.7c.1 1.2.4 2.1.8 2.9.5.8 1.2 1.4 2 1.8.8.4 1.7.7 2.9.8 1.3.1 1.6.2 6.7.2s5.4 0 6.7-.2c1.2-.1 2.1-.4 2.9-.8.8-.5 1.5-1.1 2-1.9.4-.8.7-1.7.8-2.9.1-1.3.2-1.6.2-6.7s0-5.4-.2-6.7c-.1-1.2-.4-2.1-.8-2.9-.5-.8-1.2-1.4-2-1.9-.8-.4-1.7-.7-2.9-.8C15.7 0 15.3 0 12 0z"/>
+                  <path d="M12 5.8a6.2 6.2 0 100 12.4A6.2 6.2 0 0012 5.8zm0 10.2a4 4 0 110-8 4 4 0 010 8zm6.4-11.7a1.4 1.4 0 11-2.8 0 1.4 1.4 0 012.8 0z"/>
+                </svg>
+              </span>
+              Instagram
+            </a>
+          </li>
+          <li>
+            <a href="#" class="flex items-center gap-3 transition hover:text-brand-500">
+              <span class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-brand-100 text-brand-600">
+                <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M6.9 21.5H2.5V8.1h4.4v13.4zM4.7 6.2a2.3 2.3 0 110-4.7 2.3 2.3 0 010 4.7zM22 21.5h-4.4v-6.7c0-1.6-.6-2.6-2-2.6-1.1 0-1.8.7-2.1 1.4-.1.2-.1.6-.1.9v7h-4.4s.1-11.4 0-12.5H13l.2 1.8h.1c.6-.9 1.5-2 3.5-2 2.5 0 4.4 1.7 4.4 5.2v7.5z"/>
+                </svg>
+              </span>
+              LinkedIn
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="font-heading text-sm uppercase tracking-[0.25em] text-brand-400">Visit</h4>
+        <div class="mt-4 space-y-3 text-sm text-brand-800">
+          <div class="flex items-center gap-3">
+            <span class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-brand-100 text-brand-600">
+              <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 21c-4.8-5.2-8-8.7-8-12a8 8 0 1116 0c0 3.3-3.2 6.8-8 12z"/>
+                <circle cx="12" cy="9" r="2.5"/>
+              </svg>
+            </span>
+            Washington, DC
           </div>
-
-          <!-- Contact Details -->
-          <div>
-            <h4 class="text-xl font-semibold mb-4">Contact Details</h4>
-            <ul class="space-y-3">
-              <li class="flex items-center gap-3">
-                <span>202-726-3100</span>
-              </li>
-              <li class="flex items-center gap-3">
-                <span>Toll Free: 888-210-8110</span>
-              </li>
-              <li class="flex items-center gap-3">
-                <a class="hover:underline" href="mailto:contact@nhmedsupply.com">contact@nhmedsupply.com</a>
-              </li>
-            </ul>
-            <p class="text-white/80 text-sm mt-4">
-              Phone call timings: Mon–Fri, 8:00am–5:00pm (ET)
-            </p>
+          <div class="flex items-center gap-3">
+            <span class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-brand-100 text-brand-600">
+              <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 7h18M8 3h8M6 7v12a2 2 0 002 2h8a2 2 0 002-2V7"/>
+              </svg>
+            </span>
+            Mon–Fri: 8AM–5PM
           </div>
-
-          <!-- Visit Us -->
-          <div>
-            <h4 class="text-xl font-semibold mb-4">Visit Us</h4>
-            <ul class="space-y-3">
-              <li class="flex items-center gap-3">
-                <span>Washington, DC</span>
-              </li>
-              <li class="flex items-center gap-3">
-                <span>Mon–Fri: 8AM–5PM</span>
-              </li>
-              <li class="flex items-center gap-3">
-                <span>Sat–Sun: Closed</span>
-              </li>
-            </ul>
-            <p class="text-white/80 text-sm mt-4">
-              Retail is closed for meal break from 1:00–1:30pm.
-            </p>
+          <div class="flex items-center gap-3">
+            <span class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-brand-100 text-brand-600">
+              <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4 8h16M4 11h16M4 14h16M4 17h16"/>
+              </svg>
+            </span>
+            Retail closed 1:00–1:30pm
           </div>
         </div>
       </div>
     </div>
 
     <!-- Bottom bar -->
-    <div class="bg-slate-900 text-slate-100">
-      <div class="max-w-7xl mx-auto px-4 md:px-6 py-4 flex flex-col sm:flex-row items-center justify-between gap-3">
-        <p class="text-xs sm:text-sm">© {{ 2025 }} Nexus Health</p>
-        <div class="text-xs sm:text-sm space-x-4">
-          <a href="/privacy" class="hover:underline">Privacy</a>
-          <a href="/terms" class="hover:underline">Terms</a>
-          <a href="/contact" class="hover:underline">Support</a>
+    <div class="border-t border-white/60 bg-white/60">
+      <div class="max-w-7xl mx-auto flex flex-col gap-4 px-4 py-5 text-sm text-brand-500 md:flex-row md:items-center md:justify-between md:px-6">
+        <p>© {{ 2025 }} Nexus Health</p>
+        <div class="flex items-center gap-5">
+          <a href="/privacy" class="transition hover:text-brand-700">Privacy</a>
+          <a href="/terms" class="transition hover:text-brand-700">Terms</a>
+          <a href="/contact" class="transition hover:text-brand-700">Support</a>
         </div>
       </div>
     </div>
   </footer>
+
+  <script>
+    const navToggle = document.getElementById('nav-toggle');
+    const mobileNav = document.getElementById('mobile-nav');
+    const iconMenu = document.getElementById('icon-menu');
+    const iconClose = document.getElementById('icon-close');
+
+    if (navToggle && mobileNav) {
+      const drawer = mobileNav.querySelector('div[role="dialog"]');
+
+      function openNav() {
+        mobileNav.classList.remove('pointer-events-none', 'opacity-0');
+        drawer.classList.remove('translate-x-full');
+        navToggle.setAttribute('aria-expanded', 'true');
+        iconMenu.classList.add('hidden');
+        iconClose.classList.remove('hidden');
+        document.body.classList.add('overflow-hidden');
+      }
+
+      function closeNav() {
+        mobileNav.classList.add('pointer-events-none', 'opacity-0');
+        drawer.classList.add('translate-x-full');
+        navToggle.setAttribute('aria-expanded', 'false');
+        iconMenu.classList.remove('hidden');
+        iconClose.classList.add('hidden');
+        document.body.classList.remove('overflow-hidden');
+      }
+
+      navToggle.addEventListener('click', () => {
+        const isOpen = navToggle.getAttribute('aria-expanded') === 'true';
+        if (isOpen) {
+          closeNav();
+        } else {
+          openNav();
+        }
+      });
+
+      mobileNav.addEventListener('click', (event) => {
+        if (event.target === mobileNav || event.target === mobileNav.firstElementChild) {
+          closeNav();
+        }
+      });
+
+      window.addEventListener('resize', () => {
+        if (window.innerWidth >= 1024) {
+          closeNav();
+        }
+      });
+    }
+  </script>
 </body>
 </html>

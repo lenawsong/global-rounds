@@ -1,26 +1,74 @@
 {% extends "base.html" %}
 {% block content %}
-<h1 class="text-xl font-semibold mb-4">Your Cart</h1>
-{% if not items %}
-  <p>Your cart is empty.</p>
-{% else %}
-  <div class="grid gap-4">
-    {% for ci, p in items %}
-      <div class="flex items-center justify-between border rounded p-3">
-        <div>
-          <div class="font-medium">{{ p.name }}</div>
-          <div class="text-sm text-slate-600">x{{ ci.quantity }} • ${{ '%.2f' | format(p.price_cents/100) }}</div>
-        </div>
-        <form method="post" action="/cart/remove">
-          <input type="hidden" name="item_id" value="{{ ci.id }}">
-          <button class="text-red-600">Remove</button>
-        </form>
-      </div>
-    {% endfor %}
-    <div class="text-right text-lg font-semibold">Total: ${{ '%.2f' | format(total_cents/100) }}</div>
-    <div class="text-right">
-      <a href="/checkout" class="bg-sky-600 text-white rounded px-4 py-2 inline-block">Checkout</a>
+<section class="space-y-6" data-anim>
+  <div class="flex flex-col gap-3 rounded-[32px] border border-white/70 bg-white/80 p-6 shadow-card/20 backdrop-blur md:flex-row md:items-center md:justify-between">
+    <div>
+      <h1 class="font-heading text-3xl text-brand-900">Your cart</h1>
+      <p class="mt-2 text-sm text-brand-500">
+        Review selections, adjust quantities, or proceed to checkout. Coverage support is available if you need it.
+      </p>
+    </div>
+    <div class="rounded-3xl border border-brand-100 bg-white/90 px-4 py-3 text-sm text-brand-600 shadow-sm">
+      Items in cart: <span class="font-semibold text-brand-700">{{ items|length }}</span>
     </div>
   </div>
-{% endif %}
+
+  {% if not items %}
+    <div class="rounded-[32px] border border-white/70 bg-white/85 p-10 text-center shadow-card/20 backdrop-blur">
+      <p class="text-brand-500">Your cart is empty. Browse the <a href="/catalog" class="text-brand-600 underline hover:text-brand-800">catalog</a> to add equipment.</p>
+    </div>
+  {% else %}
+    <div class="space-y-4">
+      {% for ci, p in items %}
+      <div class="flex flex-col gap-5 rounded-[28px] border border-white/70 bg-white/90 p-6 shadow-card/20 backdrop-blur md:flex-row md:items-center md:justify-between">
+        <div class="flex flex-col gap-2">
+          <div class="flex items-center gap-3">
+            <span class="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-brand-50 font-heading text-brand-600">{{ loop.index }}</span>
+            <div>
+              <p class="font-heading text-lg text-brand-900">{{ p.name }}</p>
+              <p class="text-xs uppercase tracking-[0.25em] text-brand-300">SKU {{ p.sku }}</p>
+            </div>
+          </div>
+          <p class="text-sm text-brand-500">{{ p.description or "Covered DME with Nexus Health fulfillment support." }}</p>
+          <div class="flex flex-wrap gap-2 text-xs font-medium text-brand-600">
+            <span class="inline-flex items-center gap-1 rounded-full bg-brand-50 px-3 py-1">
+              Qty {{ ci.quantity }}
+            </span>
+            <span class="inline-flex items-center gap-1 rounded-full bg-brand-50 px-3 py-1">
+              Unit ${{ '%.2f' | format(p.price_cents/100) }}
+            </span>
+          </div>
+        </div>
+        <div class="flex flex-col items-stretch gap-3 md:items-end">
+          <p class="text-lg font-semibold text-brand-700">
+            ${{ '%.2f' | format(p.price_cents * ci.quantity / 100) }}
+          </p>
+          <form method="post" action="/cart/remove" class="inline-flex">
+            <input type="hidden" name="item_id" value="{{ ci.id }}">
+            <button class="rounded-full border border-red-200 px-4 py-2 text-sm font-semibold text-red-500 transition hover:bg-red-50">
+              Remove
+            </button>
+          </form>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    <div class="mt-8 flex flex-col items-stretch gap-4 rounded-[28px] border border-white/70 bg-white/90 p-6 text-brand-600 shadow-card/20 backdrop-blur md:flex-row md:items-center md:justify-between">
+      <div>
+        <p class="text-xs uppercase tracking-[0.25em] text-brand-400">Order subtotal</p>
+        <p class="mt-1 text-2xl font-semibold text-brand-800">${{ '%.2f' | format(total_cents/100) }}</p>
+        <p class="mt-1 text-xs text-brand-400">Shipping and taxes calculated at checkout. Coverage adjustments may apply.</p>
+      </div>
+      <div class="flex flex-col gap-3 md:flex-row">
+        <a href="/catalog" class="rounded-full border border-brand-200 px-5 py-3 text-center text-sm font-semibold text-brand-700 transition hover:bg-brand-50">
+          Continue browsing
+        </a>
+        <a href="/checkout" class="rounded-full bg-brand-600 px-6 py-3 text-center text-sm font-semibold text-white shadow-card transition hover:-translate-y-0.5 hover:bg-brand-500">
+          Checkout
+        </a>
+      </div>
+    </div>
+  {% endif %}
+</section>
 {% endblock %}

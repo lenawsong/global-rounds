@@ -51,9 +51,11 @@
   <figure class="relative rounded-3xl overflow-hidden ring-1 ring-slate-200 shadow-sm"
           data-anim-item data-anim-delay="120">
     <img
-      src="{{ url_for('static', path='images/about-walker.jpg') }}"
-      alt="Caregiver assisting with a walker"
+      src="{{ url_for('static', path='images/caregiver-walker.jpeg') }}"
+      alt="Caregiver assisting a patient using a walker"
       class="w-full h-full object-cover transition-transform duration-500 will-change-transform img-zoom"
+      loading="lazy"
+      decoding="async"
     >
   </figure>
 </section>
