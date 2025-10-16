@@ -44,8 +44,8 @@ The site will be available at http://127.0.0.1:8000/.
 
 Build Command
 ```bash
-pip install -r requirements.txt && \
-pip install -r automation_prototype/backend/requirements.txt
+python -m pip install -r requirements.txt && \
+python -m pip install -r automation_prototype/backend/requirements.txt
 ```
 
 Start Command
