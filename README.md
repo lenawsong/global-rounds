@@ -37,3 +37,22 @@ The site will be available at http://127.0.0.1:8000/.
 > **Note for zsh users:** wrap extras in quotes (e.g. `"uvicorn[standard]"`, `"passlib[bcrypt]"`) so the shell does not treat the brackets as glob patterns.
 
 > **Missing dependency errors:** install any reported package in the active venv. Example: `python -m pip install itsdangerous` for session support, `python -m pip install jinja2` for template rendering.
+
+## Render Deployment
+- Repo: `lenawsong/global-rounds` (this project)
+- Service: Web Service (Python)
+
+Build Command
+```bash
+pip install -r requirements.txt && \
+pip install -r automation_prototype/backend/requirements.txt
+```
+
+Start Command
+```bash
+uvicorn app.main:app --host 0.0.0.0 --port $PORT
+```
+
+Notes
+- The Command Center is mounted at `/command-center/` and appears in the header nav.
+- Set env vars as needed: `SESSION_SECRET` (generate), `DATABASE_URL` (defaults to SQLite), `ANTHROPIC_API_KEY` (for Command Center features), and optional Stripe keys.
