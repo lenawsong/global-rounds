@@ -12,9 +12,12 @@ source .venv/bin/activate           # Windows: .venv\Scripts\activate
 
 # pin installs to the venv’s interpreter
 python -m pip install --upgrade pip
-python -m pip install "fastapi" "uvicorn[standard]" "sqlmodel" \
-    "jinja2" "passlib[bcrypt]" "itsdangerous" "python-dotenv" \
-    "python-multipart" "stripe"
+
+# storefront deps
+python -m pip install -r requirements.txt
+
+# (optional) command center deps for /command-center
+python -m pip install -r automation_prototype/backend/requirements.txt
 ```
 
 ## Seed the Database (optional, but useful for sample data)
