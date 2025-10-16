@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: nexus-health
+    env: python
+    rootDir: .
+    pythonVersion: 3.11.9
+    buildCommand: |
+      pip install -r requirements.txt \
+        && pip install -r automation_prototype/backend/requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: DATABASE_URL
+        value: sqlite:///./app.db
+      - key: BASE_URL
+        fromServiceUrl: nexus-health
+      - key: ANTHROPIC_API_KEY
+        sync: false

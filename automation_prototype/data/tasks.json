@@ -1,0 +1,574 @@
+{
+  "tasks": [
+    {
+      "id": "TASK-DEMO-1",
+      "title": "Demo compliance follow-up 1",
+      "task_type": "compliance_review",
+      "priority": "high",
+      "status": "open",
+      "owner": null,
+      "due_at": "2025-09-18T20:46:34.755947+00:00",
+      "created_at": "2025-09-18T20:46:34.755947+00:00",
+      "updated_at": "2025-09-18T20:46:34.755947+00:00",
+      "metadata": {
+        "patient_id": "P-DEMO-1",
+        "supply_sku": "SKU-DEMO",
+        "notes": "Synthetic task for testing visual cues"
+      }
+    },
+    {
+      "id": "TASK-DEMO-2",
+      "title": "Demo compliance follow-up 2",
+      "task_type": "compliance_review",
+      "priority": "normal",
+      "status": "in_progress",
+      "owner": null,
+      "due_at": "2025-09-18T20:46:34.755947+00:00",
+      "created_at": "2025-09-18T20:46:34.755947+00:00",
+      "updated_at": "2025-09-19T04:07:08.655826+00:00",
+      "metadata": {
+        "patient_id": "P-DEMO-2",
+        "supply_sku": "SKU-DEMO",
+        "notes": "Synthetic task for testing visual cues"
+      }
+    },
+    {
+      "id": "TASK-DEMO-3",
+      "title": "Demo compliance follow-up 3",
+      "task_type": "compliance_review",
+      "priority": "normal",
+      "status": "in_progress",
+      "owner": null,
+      "due_at": "2025-09-18T20:46:34.755947+00:00",
+      "created_at": "2025-09-18T20:46:34.755947+00:00",
+      "updated_at": "2025-09-19T04:07:05.801696+00:00",
+      "metadata": {
+        "patient_id": "P-DEMO-3",
+        "supply_sku": "SKU-DEMO",
+        "notes": "Synthetic task for testing visual cues"
+      }
+    },
+    {
+      "id": "TASK-E8AAEB16",
+      "title": "Review compliance hold for P056 / KSM-DKDK-OP",
+      "task_type": "compliance_review",
+      "priority": "normal",
+      "status": "closed",
+      "owner": null,
+      "due_at": "2025-09-20T08:47:02.188336+00:00",
+      "created_at": "2025-09-18T20:47:02.188336+00:00",
+      "updated_at": "2025-09-22T02:15:06.548749+00:00",
+      "metadata": {
+        "order_id": "ORD-20250918-B731E9",
+        "patient_id": "P056",
+        "supply_sku": "KSM-DKDK-OP",
+        "ai_notes": [
+          "No compliance record on file.",
+          "SKU missing from inventory table"
+        ]
+      }
+    },
+    {
+      "id": "TASK-13C1D33E",
+      "title": "Review compliance hold for P034 / OXY-CONS-5L",
+      "task_type": "compliance_review",
+      "priority": "high",
+      "status": "closed",
+      "owner": null,
+      "due_at": "2025-09-19T12:47:02.188822+00:00",
+      "created_at": "2025-09-18T20:47:02.188822+00:00",
+      "updated_at": "2025-09-26T14:08:20.345486+00:00",
+      "metadata": {
+        "order_id": "ORD-20250918-5ED92F",
+        "patient_id": "P034",
+        "supply_sku": "OXY-CONS-5L",
+        "ai_notes": [
+          "No compliance record on file.",
+          "Warehouse inventory low (25 on hand)"
+        ]
+      },
+      "cycle_time_secs": 667278,
+      "first_pass_flag": true
+    },
+    {
+      "id": "TASK-20488BD8",
+      "title": "Review compliance hold for P015 / INC-XL-24",
+      "task_type": "compliance_review",
+      "priority": "normal",
+      "status": "closed",
+      "owner": null,
+      "due_at": "2025-09-20T08:47:02.189027+00:00",
+      "created_at": "2025-09-18T20:47:02.189027+00:00",
+      "updated_at": "2025-09-22T02:15:09.504979+00:00",
+      "metadata": {
+        "order_id": "ORD-20240822-GAMMA3",
+        "patient_id": "P015",
+        "supply_sku": "INC-XL-24",
+        "ai_notes": [
+          "No compliance record on file.",
+          "Warehouse inventory low (80 on hand)"
+        ]
+      }
+    },
+    {
+      "id": "TASK-2925C493",
+      "title": "Review compliance hold for P012 / CATH-LEG-1L",
+      "task_type": "compliance_review",
+      "priority": "high",
+      "status": "closed",
+      "owner": null,
+      "due_at": "2025-09-19T12:47:02.189203+00:00",
+      "created_at": "2025-09-18T20:47:02.189203+00:00",
+      "updated_at": "2025-09-22T02:15:08.848416+00:00",
+      "metadata": {
+        "order_id": "ORD-20240822-BETA2",
+        "patient_id": "P012",
+        "supply_sku": "CATH-LEG-1L",
+        "ai_notes": [
+          "WOPD missing",
+          "Prior auth pending",
+          "Warehouse inventory low (20 on hand)"
+        ]
+      }
+    },
+    {
+      "id": "TASK-45DF6AB5",
+      "title": "Resolve compliance_gap for P001 / INC-XL-24",
+      "task_type": "compliance_radar",
+      "priority": "high",
+      "status": "open",
+      "owner": null,
+      "due_at": "2025-09-19T08:47:02.199298+00:00",
+      "created_at": "2025-09-18T20:47:02.199298+00:00",
+      "updated_at": "2025-09-18T20:47:02.199298+00:00",
+      "metadata": {
+        "patient_id": "P001",
+        "supply_sku": "INC-XL-24",
+        "gap_type": "compliance_gap",
+        "compliance_key": "compliance::P001::INC-XL-24::compliance_gap",
+        "notes": "Compliance due soon",
+        "target_date": "2024-10-01T00:00:00+00:00"
+      }
+    },
+    {
+      "id": "TASK-C7C9D7E5",
+      "title": "Resolve compliance_gap for P002 / GLU-STRIPS-50",
+      "task_type": "compliance_radar",
+      "priority": "high",
+      "status": "open",
+      "owner": null,
+      "due_at": "2025-09-19T08:47:02.201225+00:00",
+      "created_at": "2025-09-18T20:47:02.201225+00:00",
+      "updated_at": "2025-09-18T20:47:02.201225+00:00",
+      "metadata": {
+        "patient_id": "P002",
+        "supply_sku": "GLU-STRIPS-50",
+        "gap_type": "compliance_gap",
+        "compliance_key": "compliance::P002::GLU-STRIPS-50::compliance_gap",
+        "notes": "WOPD missing; Prior auth pending; Compliance due soon",
+        "target_date": "2024-09-05T00:00:00+00:00"
+      }
+    },
+    {
+      "id": "TASK-FD35FA79",
+      "title": "Resolve compliance_gap for P003 / CATH-LEG-1L",
+      "task_type": "compliance_radar",
+      "priority": "high",
+      "status": "open",
+      "owner": null,
+      "due_at": "2025-09-19T08:47:02.202878+00:00",
+      "created_at": "2025-09-18T20:47:02.202878+00:00",
+      "updated_at": "2025-09-18T20:47:02.202878+00:00",
+      "metadata": {
+        "patient_id": "P003",
+        "supply_sku": "CATH-LEG-1L",
+        "gap_type": "compliance_gap",
+        "compliance_key": "compliance::P003::CATH-LEG-1L::compliance_gap",
+        "notes": "F2F expired; Compliance due soon",
+        "target_date": "2024-08-25T00:00:00+00:00"
+      }
+    },
+    {
+      "id": "TASK-15546067",
+      "title": "Resolve compliance_gap for P004 / WND-DRS-FOAM",
+      "task_type": "compliance_radar",
+      "priority": "high",
+      "status": "open",
+      "owner": null,
+      "due_at": "2025-09-19T08:47:02.203268+00:00",
+      "created_at": "2025-09-18T20:47:02.203268+00:00",
+      "updated_at": "2025-09-18T20:47:02.203268+00:00",
+      "metadata": {
+        "patient_id": "P004",
+        "supply_sku": "WND-DRS-FOAM",
+        "gap_type": "compliance_gap",
+        "compliance_key": "compliance::P004::WND-DRS-FOAM::compliance_gap",
+        "notes": "Compliance due soon",
+        "target_date": "2024-11-15T00:00:00+00:00"
+      }
+    },
+    {
+      "id": "TASK-08BE607A",
+      "title": "Resolve compliance_gap for P005 / INC-L-30",
+      "task_type": "compliance_radar",
+      "priority": "high",
+      "status": "open",
+      "owner": null,
+      "due_at": "2025-09-19T08:47:02.203579+00:00",
+      "created_at": "2025-09-18T20:47:02.203579+00:00",
+      "updated_at": "2025-09-18T20:47:02.203579+00:00",
+      "metadata": {
+        "patient_id": "P005",
+        "supply_sku": "INC-L-30",
+        "gap_type": "compliance_gap",
+        "compliance_key": "compliance::P005::INC-L-30::compliance_gap",
+        "notes": "Compliance due soon",
+        "target_date": "2024-09-15T00:00:00+00:00"
+      }
+    },
+    {
+      "id": "TASK-98D1EC94",
+      "title": "Resolve compliance_gap for P006 / OXY-CONS-5L",
+      "task_type": "compliance_radar",
+      "priority": "high",
+      "status": "in_progress",
+      "owner": null,
+      "due_at": "2025-09-19T08:47:02.203895+00:00",
+      "created_at": "2025-09-18T20:47:02.203895+00:00",
+      "updated_at": "2025-09-19T07:27:30.164659+00:00",
+      "metadata": {
+        "patient_id": "P006",
+        "supply_sku": "OXY-CONS-5L",
+        "gap_type": "compliance_gap",
+        "compliance_key": "compliance::P006::OXY-CONS-5L::compliance_gap",
+        "notes": "Compliance due soon",
+        "target_date": "2024-09-20T00:00:00+00:00"
+      }
+    },
+    {
+      "id": "TASK-556D7DBC",
+      "title": "Resolve compliance_gap for P007 / NEB-KIT-CHILD",
+      "task_type": "compliance_radar",
+      "priority": "high",
+      "status": "open",
+      "owner": null,
+      "due_at": "2025-09-19T08:47:02.204285+00:00",
+      "created_at": "2025-09-18T20:47:02.204285+00:00",
+      "updated_at": "2025-09-18T20:47:02.204285+00:00",
+      "metadata": {
+        "patient_id": "P007",
+        "supply_sku": "NEB-KIT-CHILD",
+        "gap_type": "compliance_gap",
+        "compliance_key": "compliance::P007::NEB-KIT-CHILD::compliance_gap",
+        "notes": "Compliance due soon",
+        "target_date": "2024-09-25T00:00:00+00:00"
+      }
+    },
+    {
+      "id": "TASK-77A2A862",
+      "title": "Resolve compliance_gap for P008 / NUTR-FEED-1200",
+      "task_type": "compliance_radar",
+      "priority": "high",
+      "status": "open",
+      "owner": null,
+      "due_at": "2025-09-19T08:47:02.204618+00:00",
+      "created_at": "2025-09-18T20:47:02.204618+00:00",
+      "updated_at": "2025-09-18T20:47:02.204618+00:00",
+      "metadata": {
+        "patient_id": "P008",
+        "supply_sku": "NUTR-FEED-1200",
+        "gap_type": "compliance_gap",
+        "compliance_key": "compliance::P008::NUTR-FEED-1200::compliance_gap",
+        "notes": "Compliance due soon",
+        "target_date": "2024-10-05T00:00:00+00:00"
+      }
+    },
+    {
+      "id": "TASK-931040C6",
+      "title": "Resolve compliance_gap for P009 / BED-PADS-50",
+      "task_type": "compliance_radar",
+      "priority": "high",
+      "status": "open",
+      "owner": null,
+      "due_at": "2025-09-19T08:47:02.204940+00:00",
+      "created_at": "2025-09-18T20:47:02.204940+00:00",
+      "updated_at": "2025-09-18T20:47:02.204940+00:00",
+      "metadata": {
+        "patient_id": "P009",
+        "supply_sku": "BED-PADS-50",
+        "gap_type": "compliance_gap",
+        "compliance_key": "compliance::P009::BED-PADS-50::compliance_gap",
+        "notes": "Compliance due soon",
+        "target_date": "2024-09-12T00:00:00+00:00"
+      }
+    },
+    {
+      "id": "TASK-AEC330F8",
+      "title": "Resolve compliance_gap for P010 / BRACE-KNEE-L",
+      "task_type": "compliance_radar",
+      "priority": "high",
+      "status": "in_progress",
+      "owner": null,
+      "due_at": "2025-09-19T08:47:02.205520+00:00",
+      "created_at": "2025-09-18T20:47:02.205520+00:00",
+      "updated_at": "2025-09-22T02:28:32.477824+00:00",
+      "metadata": {
+        "patient_id": "P010",
+        "supply_sku": "BRACE-KNEE-L",
+        "gap_type": "compliance_gap",
+        "compliance_key": "compliance::P010::BRACE-KNEE-L::compliance_gap",
+        "notes": "F2F expired; WOPD missing; Prior auth pending; Compliance due soon",
+        "target_date": "2024-08-28T00:00:00+00:00"
+      }
+    },
+    {
+      "id": "TASK-2842523C",
+      "title": "Resolve compliance_gap for P011 / GLU-LANCETS-100",
+      "task_type": "compliance_radar",
+      "priority": "high",
+      "status": "open",
+      "owner": null,
+      "due_at": "2025-09-19T08:47:02.205863+00:00",
+      "created_at": "2025-09-18T20:47:02.205863+00:00",
+      "updated_at": "2025-09-18T20:47:02.205863+00:00",
+      "metadata": {
+        "patient_id": "P011",
+        "supply_sku": "GLU-LANCETS-100",
+        "gap_type": "compliance_gap",
+        "compliance_key": "compliance::P011::GLU-LANCETS-100::compliance_gap",
+        "notes": "Compliance due soon",
+        "target_date": "2024-09-22T00:00:00+00:00"
+      }
+    },
+    {
+      "id": "TASK-7A4B4E83",
+      "title": "Resolve compliance_gap for P012 / OSTO-BAG-60",
+      "task_type": "compliance_radar",
+      "priority": "high",
+      "status": "open",
+      "owner": null,
+      "due_at": "2025-09-19T08:47:02.206217+00:00",
+      "created_at": "2025-09-18T20:47:02.206217+00:00",
+      "updated_at": "2025-09-18T20:47:02.206217+00:00",
+      "metadata": {
+        "patient_id": "P012",
+        "supply_sku": "OSTO-BAG-60",
+        "gap_type": "compliance_gap",
+        "compliance_key": "compliance::P012::OSTO-BAG-60::compliance_gap",
+        "notes": "Compliance due soon",
+        "target_date": "2024-09-03T00:00:00+00:00"
+      }
+    },
+    {
+      "id": "TASK-C3B1EC40",
+      "title": "Review compliance hold for wer / uytgy",
+      "task_type": "compliance_review",
+      "priority": "high",
+      "status": "closed",
+      "owner": null,
+      "due_at": "2025-09-22T18:28:44.677911+00:00",
+      "created_at": "2025-09-22T02:28:44.677911+00:00",
+      "updated_at": "2025-09-26T14:08:17.665164+00:00",
+      "metadata": {
+        "order_id": "ORD-20250922-9B48C7",
+        "patient_id": "wer",
+        "supply_sku": "uytgy",
+        "ai_notes": [
+          "No compliance record on file.",
+          "SKU missing from inventory table"
+        ]
+      },
+      "cycle_time_secs": 387572,
+      "first_pass_flag": true
+    },
+    {
+      "id": "TASK-8943A8F1",
+      "title": "Investigate SLA breach: 72h Delivery",
+      "task_type": "sla_breach",
+      "priority": "high",
+      "status": "open",
+      "owner": null,
+      "due_at": "2025-09-27T02:08:17.671196+00:00",
+      "created_at": "2025-09-26T14:08:17.671196+00:00",
+      "updated_at": "2025-09-26T14:08:17.671196+00:00",
+      "sla_ref": "sla::ORD-20250922-9B48C7::72h Delivery",
+      "breach_reason": "Missing delivery confirmation event.",
+      "cycle_time_secs": null,
+      "first_pass_flag": null,
+      "metadata": {
+        "order_id": "ORD-20250922-9B48C7",
+        "sla_order_id": "ORD-20250922-9B48C7",
+        "sla_key": "sla::ORD-20250922-9B48C7::72h Delivery",
+        "sla_spec": "72h Delivery",
+        "metric": "delivery_time_hours",
+        "observed": null,
+        "threshold": 72.0,
+        "credits": 150.0,
+        "details": "Missing delivery confirmation event.",
+        "breach_reason": "Missing delivery confirmation event."
+      }
+    },
+    {
+      "id": "TASK-D3562A31",
+      "title": "Investigate SLA breach: First-Pass Approvals",
+      "task_type": "sla_breach",
+      "priority": "high",
+      "status": "open",
+      "owner": null,
+      "due_at": "2025-09-27T02:08:17.671867+00:00",
+      "created_at": "2025-09-26T14:08:17.671867+00:00",
+      "updated_at": "2025-09-26T14:08:17.671867+00:00",
+      "sla_ref": "sla::ORD-20250922-9B48C7::First-Pass Approvals",
+      "breach_reason": "first_pass_ratio breached threshold 0.98",
+      "cycle_time_secs": null,
+      "first_pass_flag": false,
+      "metadata": {
+        "order_id": "ORD-20250922-9B48C7",
+        "sla_order_id": "ORD-20250922-9B48C7",
+        "sla_key": "sla::ORD-20250922-9B48C7::First-Pass Approvals",
+        "sla_spec": "First-Pass Approvals",
+        "metric": "first_pass_ratio",
+        "observed": 0.0,
+        "threshold": 0.98,
+        "credits": 75.0,
+        "details": "",
+        "breach_reason": "first_pass_ratio breached threshold 0.98"
+      }
+    },
+    {
+      "id": "TASK-893DAE52",
+      "title": "Investigate SLA breach: DSO \u226428d",
+      "task_type": "sla_breach",
+      "priority": "high",
+      "status": "open",
+      "owner": null,
+      "due_at": "2025-09-27T02:08:17.672278+00:00",
+      "created_at": "2025-09-26T14:08:17.672278+00:00",
+      "updated_at": "2025-09-26T14:08:17.672278+00:00",
+      "sla_ref": "sla::ORD-20250922-9B48C7::DSO \u226428d",
+      "breach_reason": "Missing payment event to calculate DSO.",
+      "cycle_time_secs": null,
+      "first_pass_flag": null,
+      "metadata": {
+        "order_id": "ORD-20250922-9B48C7",
+        "sla_order_id": "ORD-20250922-9B48C7",
+        "sla_key": "sla::ORD-20250922-9B48C7::DSO \u226428d",
+        "sla_spec": "DSO \u226428d",
+        "metric": "dso_days",
+        "observed": null,
+        "threshold": 28.0,
+        "credits": 200.0,
+        "details": "Missing payment event to calculate DSO.",
+        "breach_reason": "Missing payment event to calculate DSO."
+      }
+    },
+    {
+      "id": "TASK-ADB7BAB9",
+      "title": "Investigate SLA breach: Audit Ready",
+      "task_type": "sla_breach",
+      "priority": "high",
+      "status": "open",
+      "owner": null,
+      "due_at": "2025-09-27T02:08:17.672651+00:00",
+      "created_at": "2025-09-26T14:08:17.672651+00:00",
+      "updated_at": "2025-09-26T14:08:17.672651+00:00",
+      "sla_ref": "sla::ORD-20250922-9B48C7::Audit Ready",
+      "breach_reason": "audit_readiness breached threshold 1.0",
+      "cycle_time_secs": null,
+      "first_pass_flag": null,
+      "metadata": {
+        "order_id": "ORD-20250922-9B48C7",
+        "sla_order_id": "ORD-20250922-9B48C7",
+        "sla_key": "sla::ORD-20250922-9B48C7::Audit Ready",
+        "sla_spec": "Audit Ready",
+        "metric": "audit_readiness",
+        "observed": 0.0,
+        "threshold": 1.0,
+        "credits": 120.0,
+        "details": "",
+        "breach_reason": "audit_readiness breached threshold 1.0"
+      }
+    },
+    {
+      "id": "TASK-4E1684E6",
+      "title": "Investigate SLA breach: 72h Delivery",
+      "task_type": "sla_breach",
+      "priority": "high",
+      "status": "open",
+      "owner": null,
+      "due_at": "2025-09-27T02:08:20.352463+00:00",
+      "created_at": "2025-09-26T14:08:20.352463+00:00",
+      "updated_at": "2025-09-26T14:08:20.352463+00:00",
+      "sla_ref": "sla::ORD-20250918-5ED92F::72h Delivery",
+      "breach_reason": "Missing delivery confirmation event.",
+      "cycle_time_secs": null,
+      "first_pass_flag": null,
+      "metadata": {
+        "order_id": "ORD-20250918-5ED92F",
+        "sla_order_id": "ORD-20250918-5ED92F",
+        "sla_key": "sla::ORD-20250918-5ED92F::72h Delivery",
+        "sla_spec": "72h Delivery",
+        "metric": "delivery_time_hours",
+        "observed": null,
+        "threshold": 72.0,
+        "credits": 150.0,
+        "details": "Missing delivery confirmation event.",
+        "breach_reason": "Missing delivery confirmation event."
+      }
+    },
+    {
+      "id": "TASK-8BA27010",
+      "title": "Investigate SLA breach: DSO \u226428d",
+      "task_type": "sla_breach",
+      "priority": "high",
+      "status": "open",
+      "owner": null,
+      "due_at": "2025-09-27T02:08:20.354164+00:00",
+      "created_at": "2025-09-26T14:08:20.354164+00:00",
+      "updated_at": "2025-09-26T14:08:20.354164+00:00",
+      "sla_ref": "sla::ORD-20250918-5ED92F::DSO \u226428d",
+      "breach_reason": "Missing payment event to calculate DSO.",
+      "cycle_time_secs": null,
+      "first_pass_flag": null,
+      "metadata": {
+        "order_id": "ORD-20250918-5ED92F",
+        "sla_order_id": "ORD-20250918-5ED92F",
+        "sla_key": "sla::ORD-20250918-5ED92F::DSO \u226428d",
+        "sla_spec": "DSO \u226428d",
+        "metric": "dso_days",
+        "observed": null,
+        "threshold": 28.0,
+        "credits": 200.0,
+        "details": "Missing payment event to calculate DSO.",
+        "breach_reason": "Missing payment event to calculate DSO."
+      }
+    },
+    {
+      "id": "TASK-341B66DB",
+      "title": "Investigate SLA breach: Audit Ready",
+      "task_type": "sla_breach",
+      "priority": "high",
+      "status": "open",
+      "owner": null,
+      "due_at": "2025-09-27T02:08:20.355858+00:00",
+      "created_at": "2025-09-26T14:08:20.355858+00:00",
+      "updated_at": "2025-09-26T14:08:20.355858+00:00",
+      "sla_ref": "sla::ORD-20250918-5ED92F::Audit Ready",
+      "breach_reason": "audit_readiness breached threshold 1.0",
+      "cycle_time_secs": null,
+      "first_pass_flag": null,
+      "metadata": {
+        "order_id": "ORD-20250918-5ED92F",
+        "sla_order_id": "ORD-20250918-5ED92F",
+        "sla_key": "sla::ORD-20250918-5ED92F::Audit Ready",
+        "sla_spec": "Audit Ready",
+        "metric": "audit_readiness",
+        "observed": 0.0,
+        "threshold": 1.0,
+        "credits": 120.0,
+        "details": "",
+        "breach_reason": "audit_readiness breached threshold 1.0"
+      }
+    }
+  ]
+}

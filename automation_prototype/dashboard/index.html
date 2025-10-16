@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Global Rounds Command Center</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body data-api-base="">
+  <header class="site-header">
+    <div class="hero-copy">
+      <h1>Global Rounds Command Center</h1>
+      <p>Orchestrate intake-to-fulfillment flows with AI agents, real-time analytics, and patient engagement in one cockpit.</p>
+    </div>
+    <div class="hero-actions">
+      <button id="run-agents-api" class="primary">Run Agents</button>
+      <button id="reload-sample" class="ghost">Sample Dataset</button>
+      <label class="file-pill">Load JSON
+        <input type="file" id="data-file" accept="application/json" />
+      </label>
+    </div>
+  </header>
+
+  <section id="ask-dashboard-panel" class="panel chat-panel">
+    <header>
+      <div class="panel-title-group">
+        <div class="panel-title">
+          <h2>Ask the Dashboard</h2>
+          <button type="button" class="panel-info" data-panel="ask-dashboard-panel" aria-label="Show context for Ask the Dashboard" aria-haspopup="dialog" aria-expanded="false" aria-controls="panel-help-ask-dashboard-panel">
+            <span aria-hidden="true">i</span>
+          </button>
+          <div id="panel-help-ask-dashboard-panel" class="panel-help-popover" role="dialog" aria-modal="false" hidden></div>
+        </div>
+        <span id="dashboard-chat-status" class="pill">Ready</span>
+      </div>
+      <div class="panel-controls">
+        <button id="dashboard-chat-reset" class="ghost" type="button">Clear chat</button>
+      </div>
+    </header>
+    <div class="chat-window" id="dashboard-chat-log" aria-live="polite" aria-atomic="false">
+      <div class="chat-placeholder">
+        Ask for summaries, outliers, or next actions. Try “Which claims need documentation?”
+      </div>
+    </div>
+    <form id="dashboard-chat-form" class="chat-form" autocomplete="off">
+      <label class="visually-hidden" for="dashboard-chat-input">Ask a question about the dashboard</label>
+      <textarea id="dashboard-chat-input" name="message" rows="1" placeholder="Ask how the week is trending or where to intervene…" required></textarea>
+      <button type="submit" id="dashboard-chat-send" class="primary">Send</button>
+    </form>
+  </section>
+
+  <section id="agent-panel" class="panel agent-panel">
+    <header>
+      <div class="panel-title-group">
+        <div class="panel-title">
+          <h2>Agent Control Center</h2>
+          <button type="button" class="panel-info" data-panel="agent-panel" aria-label="Show context for Agent Control Center" aria-haspopup="dialog" aria-expanded="false" aria-controls="panel-help-agent-panel">
+            <span aria-hidden="true">i</span>
+          </button>
+          <div id="panel-help-agent-panel" class="panel-help-popover" role="dialog" aria-modal="false" hidden></div>
+        </div>
+        <span class="panel-last-run" data-panel-run="agent-panel">Last run —</span>
+      </div>
+      <div class="panel-meta">
+        <span id="api-status" class="status-pill status-offline">API Offline</span>
+        <span id="data-status">Waiting for data…</span>
+      </div>
+    </header>
+    <div class="agent-grid">
+      <div class="agent-card">
+        <h3>Agent Runtime</h3>
+        <p>Trigger autonomous runs directly from the backend. Results stream into each module panel below.</p>
+        <div class="agent-actions">
+          <button data-agent="ordering" class="secondary">Run Ordering</button>
+          <button data-agent="payments" class="secondary">Run Payments</button>
+          <button data-agent="workforce" class="secondary">Run Workforce</button>
+          <button data-agent="engagement" class="secondary">Run Engagement</button>
+          <button data-agent="performance" class="secondary">Run Performance</button>
+        </div>
+      </div>
+      <div class="agent-card">
+        <h3>Agent Status</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Agent</th>
+              <th>Last Run</th>
+              <th>Records</th>
+            </tr>
+          </thead>
+          <tbody id="agent-status-body">
+            <tr>
+              <td colspan="3">No runs yet.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="agent-card">
+        <h3>Recent Agent Activity</h3>
+        <ul id="agent-activity" class="activity-list">
+          <li>No runs yet. Trigger an agent to see a summary.</li>
+        </ul>
+      </div>
+    </div>
+    <div id="agent-work-overlay" class="agent-work-overlay" hidden aria-live="polite" aria-atomic="true">
+      <div class="agent-work-indicator">
+        <span class="agent-work-spinner" aria-hidden="true"></span>
+      </div>
+      <div class="agent-work-copy">
+        <p id="agent-work-title">Agents are preparing insights…</p>
+        <p id="agent-work-detail">Stand by while workflows run.</p>
+        <div id="agent-progress" class="agent-progress" hidden>
+          <div class="agent-progress-head">
+            <span id="agent-progress-step">Step 0 of 0</span>
+            <span id="agent-progress-percent">0%</span>
+          </div>
+          <div id="agent-progress-track" class="agent-progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+            <div id="agent-progress-bar" class="agent-progress-fill" style="width: 0%;"></div>
+          </div>
+          <p id="agent-progress-active" class="agent-progress-active" hidden></p>
+        </div>
+        <ul id="agent-work-steps" class="agent-work-steps"></ul>
+      </div>
+    </div>
+  </section>
+
+  <main class="tab-container">
+    <nav class="tab-nav">
+      <button type="button" class="tab-button is-active" data-tab="operations">Operations</button>
+      <button type="button" class="tab-button" data-tab="finance">Finance</button>
+      <button type="button" class="tab-button" data-tab="engagement">Engagement</button>
+      <button type="button" class="tab-button" data-tab="forecasts">Forecasts</button>
+    </nav>
+
+    <section id="tab-operations" class="tab-panel is-active">
+      <section id="insights-panel" class="panel">
+        <header>
+          <div class="panel-title-group">
+            <div class="panel-title">
+              <h2>Rail Insights</h2>
+              <button type="button" class="panel-info" data-panel="insights-panel" aria-label="Show context for Rail Insights" aria-haspopup="dialog" aria-expanded="false" aria-controls="panel-help-insights-panel">
+                <span aria-hidden="true">i</span>
+              </button>
+              <div id="panel-help-insights-panel" class="panel-help-popover" role="dialog" aria-modal="false" hidden></div>
+            </div>
+            <span class="panel-last-run" data-panel-run="insights-panel">Last run —</span>
+          </div>
+          <p class="panel-subtitle">Quick visuals to spot workload, ROI, and inventory pressure without sifting through tables.</p>
+        </header>
+        <div class="grid insights-grid">
+          <div class="chart-card react-insight-card" id="react-task-card" data-no-shadow="true">
+            <div class="insight-react-fallback" aria-live="polite">
+              <p class="insight-react-eyebrow">Unified queue</p>
+              <h3 class="insight-react-headline">Loading task insights…</h3>
+              <p class="insight-react-copy">
+                Live workload distribution across open, in-progress, and closed efforts.
+              </p>
+              <canvas id="insight-task-canvas" class="chart-canvas" aria-hidden="true"></canvas>
+            </div>
+          </div>
+          <div class="chart-card react-insight-card" id="react-finance-card" data-no-shadow="true">
+            <div class="insight-react-fallback" aria-live="polite">
+              <p class="insight-react-eyebrow">Finance pulse</p>
+              <h3 class="insight-react-headline">Loading ROI metrics…</h3>
+              <p class="insight-react-copy">
+                Tracking reclaimed labor, projected cash, and days sales outstanding improvements.
+              </p>
+              <canvas id="insight-finance-canvas" class="chart-canvas" aria-hidden="true"></canvas>
+            </div>
+          </div>
+          <div class="chart-card react-insight-card" id="react-inventory-card" data-no-shadow="true">
+            <div class="insight-react-fallback" aria-live="polite">
+              <p class="insight-react-eyebrow">Inventory actions</p>
+              <h3 class="insight-react-headline">Loading inventory guidance…</h3>
+              <p class="insight-react-copy">
+                Highlights SKUs with reorder urgency, watch lists, and healthy buffers.
+              </p>
+              <canvas id="insight-inventory-canvas" class="chart-canvas" aria-hidden="true"></canvas>
+            </div>
+          </div>
+          <div class="chart-card react-insight-card" id="react-revenue-mini" data-no-shadow="true">
+            <div class="insight-react-fallback" aria-live="polite">
+              <p class="insight-react-eyebrow">Revenue</p>
+              <h3 class="insight-react-headline">Loading revenue trends…</h3>
+              <p class="insight-react-copy">Stacked area by category with smart tooltip formatting.</p>
+            </div>
+          </div>
+          <div class="chart-card react-insight-card" id="react-supplier-mini" data-no-shadow="true">
+            <div class="insight-react-fallback" aria-live="polite">
+              <p class="insight-react-eyebrow">Supplier Reliability</p>
+              <h3 class="insight-react-headline">Loading supplier scores…</h3>
+              <p class="insight-react-copy">Bar chart of on-time % with dispute markers.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="tasks-panel" class="panel">
+        <header>
+          <div class="panel-title-group">
+            <div class="panel-title">
+              <h2>Operations Inbox</h2>
+              <button type="button" class="panel-info" data-panel="tasks-panel" aria-label="Show context for Operations Inbox" aria-haspopup="dialog" aria-expanded="false" aria-controls="panel-help-tasks-panel">
+                <span aria-hidden="true">i</span>
+              </button>
+              <div id="panel-help-tasks-panel" class="panel-help-popover" role="dialog" aria-modal="false" hidden></div>
+            </div>
+            <span class="panel-last-run" data-panel-run="tasks-panel">Last run —</span>
+          </div>
+          <div class="panel-controls">
+            <span id="task-summary" class="pill">Loading…</span>
+            <div id="task-status-chips" class="chip-group">
+              <span class="chip chip-open">Open 0</span>
+              <span class="chip chip-progress">In Progress 0</span>
+              <span class="chip chip-closed">Closed 0</span>
+              <span class="chip chip-sla">SLA Breaches 0</span>
+              <span class="chip chip-cycle">Avg Cycle —</span>
+            </div>
+          </div>
+        </header>
+        <div class="grid single">
+          <table id="task-table">
+            <thead>
+              <tr>
+                <th>Task</th>
+                <th>Type</th>
+                <th>Priority</th>
+                <th>Status</th>
+                <th>Due</th>
+                <th>Notes</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="task-table-body">
+              <tr>
+                <td colspan="7">No tasks yet.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="ordering-panel" class="panel">
+        <header>
+          <div class="panel-title-group">
+            <div class="panel-title">
+              <h2>Automated Ordering &amp; Reordering</h2>
+              <button type="button" class="panel-info" data-panel="ordering-panel" aria-label="Show context for Automated Ordering &amp; Reordering" aria-haspopup="dialog" aria-expanded="false" aria-controls="panel-help-ordering-panel">
+                <span aria-hidden="true">i</span>
+              </button>
+              <div id="panel-help-ordering-panel" class="panel-help-popover" role="dialog" aria-modal="false" hidden></div>
+            </div>
+            <span class="panel-last-run" data-panel-run="ordering-panel">Last run —</span>
+          </div>
+          <div class="panel-controls">
+            <label>Compliance filter
+              <select id="compliance-filter">
+                <option value="all">All</option>
+                <option value="clear">Clear</option>
+                <option value="hold">Hold</option>
+                <option value="unknown">Unknown</option>
+              </select>
+            </label>
+          </div>
+          <div class="panel-actions">
+            <button type="button" id="action-ordering-reorder" class="panel-action ghost">Reorder now</button>
+            <button type="button" id="action-ordering-export" class="panel-action ghost">Export compliance PDF</button>
+          </div>
+        </header>
+        <div class="grid">
+          <div class="card-block">
+            <h3>Patient Work Orders</h3>
+            <table id="work-orders">
+              <thead>
+                <tr>
+                  <th>Patient</th>
+                  <th>SKU</th>
+                  <th>Required</th>
+                  <th>Qty</th>
+                  <th>Status</th>
+                  <th>Notes</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+          <div class="card-block">
+            <h3>Vendor Recommendations</h3>
+            <table id="vendor-orders">
+              <thead>
+                <tr>
+                  <th>SKU</th>
+                  <th>Suggested Qty</th>
+                  <th>Rationale</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+            <h3>Predictive Inventory</h3>
+            <table id="inventory-forecast">
+              <thead>
+                <tr>
+                  <th>SKU</th>
+                  <th>On Hand</th>
+                  <th>Forecast 30d</th>
+                  <th>Buffer</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+            <div id="compliance-alerts" class="alert-list"></div>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <section id="tab-finance" class="tab-panel">
+      <section id="payments-panel" class="panel">
+        <header>
+          <div class="panel-title-group">
+            <div class="panel-title">
+              <h2>Payment Reconciliation</h2>
+              <button type="button" class="panel-info" data-panel="payments-panel" aria-label="Show context for Payment Reconciliation" aria-haspopup="dialog" aria-expanded="false" aria-controls="panel-help-payments-panel">
+                <span aria-hidden="true">i</span>
+              </button>
+              <div id="panel-help-payments-panel" class="panel-help-popover" role="dialog" aria-modal="false" hidden></div>
+            </div>
+            <span class="panel-last-run" data-panel-run="payments-panel">Last run —</span>
+          </div>
+          <div class="panel-controls">
+            <label>Variance threshold ($)
+              <input type="range" id="variance-slider" min="0" max="400" value="0" step="10" />
+            </label>
+            <span id="variance-value">$0</span>
+          </div>
+          <div class="panel-actions">
+            <button type="button" id="action-payments-appeal" class="panel-action ghost">Launch appeals triage</button>
+            <button type="button" id="action-payments-export" class="panel-action ghost">Export variance CSV</button>
+          </div>
+        </header>
+        <div class="grid">
+          <div class="card-block">
+            <h3>Underpayments</h3>
+            <table id="underpayments">
+              <thead>
+                <tr>
+                  <th>Claim</th>
+                  <th>Patient</th>
+                  <th>Payer</th>
+                  <th>Expected</th>
+                  <th>Received</th>
+                  <th>Variance</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+          <div class="card-block">
+            <h3>Documentation Queue</h3>
+            <table id="documentation">
+              <thead>
+                <tr>
+                  <th>Claim</th>
+                  <th>Payer</th>
+                  <th>Denial</th>
+                  <th>Docs Needed</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+            <h3>Aging Snapshot</h3>
+            <table id="aging">
+              <thead>
+                <tr>
+                  <th>Bucket</th>
+                  <th>Outstanding</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section id="performance-panel" class="panel">
+        <header>
+          <div class="panel-title-group">
+            <div class="panel-title">
+              <h2>Performance Tracking</h2>
+              <button type="button" class="panel-info" data-panel="performance-panel" aria-label="Show context for Performance Tracking" aria-haspopup="dialog" aria-expanded="false" aria-controls="panel-help-performance-panel">
+                <span aria-hidden="true">i</span>
+              </button>
+              <div id="panel-help-performance-panel" class="panel-help-popover" role="dialog" aria-modal="false" hidden></div>
+            </div>
+            <span class="panel-last-run" data-panel-run="performance-panel">Last run —</span>
+          </div>
+          <div class="panel-controls">
+            <label>Focus metric
+              <select id="metric-select">
+                <option value="denial_rate">Denial Rate</option>
+                <option value="first_pass_rate">First Pass Rate</option>
+                <option value="dso">Days Sales Outstanding</option>
+                <option value="delivery_sla">Delivery SLA</option>
+              </select>
+            </label>
+          </div>
+        </header>
+        <div class="grid">
+          <div class="card-block">
+            <h3>Latest Snapshot</h3>
+            <div id="metric-cards" class="cards"></div>
+          </div>
+          <div class="card-block">
+            <h3>Trend Insights</h3>
+            <ul id="trend-list" class="trend-list"></ul>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <section id="tab-engagement" class="tab-panel">
+      <section id="engagement-panel" class="panel">
+        <header>
+          <div class="panel-title-group">
+            <div class="panel-title">
+              <h2>Mobile Patient Engagement</h2>
+              <button type="button" class="panel-info" data-panel="engagement-panel" aria-label="Show context for Mobile Patient Engagement" aria-haspopup="dialog" aria-expanded="false" aria-controls="panel-help-engagement-panel">
+                <span aria-hidden="true">i</span>
+              </button>
+              <div id="panel-help-engagement-panel" class="panel-help-popover" role="dialog" aria-modal="false" hidden></div>
+            </div>
+            <span class="panel-last-run" data-panel-run="engagement-panel">Last run —</span>
+          </div>
+          <div class="panel-controls">
+            <label><input type="checkbox" id="show-patient" checked /> Patient messages</label>
+            <label><input type="checkbox" id="show-case-manager" checked /> Case manager alerts</label>
+            <label>Search
+              <input type="search" id="engagement-search" placeholder="Patient, message, or order" />
+            </label>
+          </div>
+        </header>
+        <div class="grid single">
+          <table id="engagement-table">
+            <thead>
+              <tr>
+                <th>Type</th>
+                <th>Patient</th>
+                <th>Channel</th>
+                <th>Destination</th>
+                <th>Order</th>
+                <th>Message</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+    </section>
+
+    <section id="tab-forecasts" class="tab-panel">
+      <section id="workforce-panel" class="panel">
+        <header>
+          <div class="panel-title-group">
+            <div class="panel-title">
+              <h2>Predictive Workforce Management</h2>
+              <button type="button" class="panel-info" data-panel="workforce-panel" aria-label="Show context for Predictive Workforce Management" aria-haspopup="dialog" aria-expanded="false" aria-controls="panel-help-workforce-panel">
+                <span aria-hidden="true">i</span>
+              </button>
+              <div id="panel-help-workforce-panel" class="panel-help-popover" role="dialog" aria-modal="false" hidden></div>
+            </div>
+            <span class="panel-last-run" data-panel-run="workforce-panel">Last run —</span>
+          </div>
+          <div class="panel-controls">
+            <label>Shift hours
+              <input type="number" id="shift-hours" value="6.5" min="4" max="10" step="0.5" />
+            </label>
+          </div>
+        </header>
+        <div class="grid">
+          <div class="card-block">
+            <h3>Weekly Staffing Plan</h3>
+            <table id="staffing-plan">
+              <thead>
+                <tr>
+                  <th>Team</th>
+                  <th>Week</th>
+                  <th>Hours</th>
+                  <th>Headcount</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+          <div class="card-block">
+            <h3>Surge Alerts</h3>
+            <ul id="surge-alerts" class="alert-list"></ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="inventory-scenario-panel" class="panel">
+        <header>
+          <div class="panel-title-group">
+            <div class="panel-title">
+              <h2>Inventory Scenario Planning</h2>
+              <button type="button" class="panel-info" data-panel="inventory-scenario-panel" aria-label="Show context for Inventory Scenario Planning" aria-haspopup="dialog" aria-expanded="false" aria-controls="panel-help-inventory-scenario-panel">
+                <span aria-hidden="true">i</span>
+              </button>
+              <div id="panel-help-inventory-scenario-panel" class="panel-help-popover" role="dialog" aria-modal="false" hidden></div>
+            </div>
+            <span class="panel-last-run" data-panel-run="inventory-scenario-panel">Last run —</span>
+          </div>
+          <p class="panel-subtitle">Model demand surges or supplier delays, then compare the SKU action mix against today's baseline.</p>
+        </header>
+        <form id="inventory-scenario-form" class="scenario-form" autocomplete="off">
+          <div class="scenario-fields">
+            <label for="scenario-growth">Demand growth %
+              <input type="number" id="scenario-growth" name="growth" value="0" step="5" min="-100" max="500" />
+            </label>
+            <label for="scenario-lead">Lead time delta (days)
+              <input type="number" id="scenario-lead" name="lead" value="0" step="1" min="-30" max="120" />
+            </label>
+            <label for="scenario-skus">Focus SKUs (optional)
+              <input type="text" id="scenario-skus" name="skus" placeholder="Comma-separated SKUs" />
+            </label>
+          </div>
+          <div class="scenario-actions">
+            <button type="submit" id="scenario-run" class="primary">Run Scenario</button>
+            <button type="button" id="scenario-reset" class="ghost">Reset</button>
+            <button type="button" id="scenario-download-csv" class="secondary">Download CSV</button>
+            <button type="button" id="scenario-download-pdf" class="ghost">Download Summary PDF</button>
+          </div>
+        </form>
+        <div id="scenario-summary" class="scenario-summary empty-state">Run a scenario to compare baseline vs. simulated inventory actions.</div>
+      </section>
+    </section>
+  </main>
+
+  <footer>
+    <p>Prototype dashboard using synthetic data. Run the backend API (`uvicorn backend.app:app --reload --port 8001`) to activate agents.</p>
+  </footer>
+
+  <div id="toast-stack" class="toast-stack" aria-live="polite" aria-atomic="true"></div>
+
+  <script>
+    window.process = window.process || { env: { NODE_ENV: 'production' } };
+  </script>
+  <!-- Use a relative path so the embed loads when opened from a subpath or file:// -->
+  <script defer src="assets/command-insights-embed.js?v=20251010l"></script>
+  <script defer src="app.js?v=20251003c"></script>
+</body>
+</html>

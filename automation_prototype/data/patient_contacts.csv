@@ -1,0 +1,13 @@
+patient_id,patient_name,preferred_channel,destination,risk_level,case_manager_email
+P001,Maria Lewis,sms,+12025550101,medium,cmaria@globalrounds.org
+P002,James Cole,app,james.cole@app,low,cmaria@globalrounds.org
+P003,Linda Shea,sms,+12025550145,medium,aroberts@globalrounds.org
+P004,Robert King,email,robert.king@email,low,aroberts@globalrounds.org
+P005,Aisha Noor,sms,+12025550177,high,cmaria@globalrounds.org
+P006,Harold Diaz,app,harold.diaz@app,medium,jpatel@globalrounds.org
+P007,Camila Ortiz,sms,+12025550202,medium,jpatel@globalrounds.org
+P008,Noah Wright,email,noah.wright@email,high,staylor@globalrounds.org
+P009,Elena Park,sms,+12025550256,low,staylor@globalrounds.org
+P010,Victor Chen,email,victor.chen@email,low,aroberts@globalrounds.org
+P011,Sophia Grant,sms,+12025550288,medium,cmaria@globalrounds.org
+P012,Imani Wells,sms,+12025550314,high,jpatel@globalrounds.org

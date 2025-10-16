@@ -5,6 +5,8 @@ from starlette.middleware.sessions import SessionMiddleware
 from starlette.requests import Request
 from dotenv import load_dotenv
 import os
+import sys
+from pathlib import Path
 
 load_dotenv()
 app = FastAPI()
@@ -48,4 +50,17 @@ app.include_router(cart.router)
 from app import checkout
 app.include_router(checkout.router)
 
+
+# Optional: mount Command Center (automation_prototype) if present
+try:
+    repo_root = Path(__file__).resolve().parents[1]
+    cc_root = repo_root / "automation_prototype"
+    if cc_root.exists():
+        if str(cc_root) not in sys.path:
+            sys.path.insert(0, str(cc_root))
+        from backend.app import app as command_center_app  # type: ignore
+        app.mount("/command-center", command_center_app)
+except Exception:
+    # If command center is not available, keep main app running
+    pass
 

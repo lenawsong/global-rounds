@@ -1,0 +1,652 @@
+{
+  "ordering": {
+    "patient_work_orders": [
+      {
+        "patient_id": "P001",
+        "supply_sku": "INC-XL-24",
+        "required_date": "2024-08-26",
+        "quantity": 120,
+        "compliance_status": "clear",
+        "notes": "Low warehouse inventory (80)"
+      },
+      {
+        "patient_id": "P003",
+        "supply_sku": "CATH-LEG-1L",
+        "required_date": "2024-08-25",
+        "quantity": 30,
+        "compliance_status": "hold",
+        "notes": "F2F expired; Compliance due before fulfillment"
+      },
+      {
+        "patient_id": "P005",
+        "supply_sku": "INC-L-30",
+        "required_date": "2024-08-27",
+        "quantity": 90,
+        "compliance_status": "clear",
+        "notes": "Low warehouse inventory (50)"
+      },
+      {
+        "patient_id": "P006",
+        "supply_sku": "OXY-CONS-5L",
+        "required_date": "2024-08-28",
+        "quantity": 24,
+        "compliance_status": "clear",
+        "notes": ""
+      },
+      {
+        "patient_id": "P007",
+        "supply_sku": "NEB-KIT-CHILD",
+        "required_date": "2024-08-29",
+        "quantity": 36,
+        "compliance_status": "clear",
+        "notes": ""
+      },
+      {
+        "patient_id": "P009",
+        "supply_sku": "BED-PADS-50",
+        "required_date": "2024-08-30",
+        "quantity": 84,
+        "compliance_status": "clear",
+        "notes": ""
+      },
+      {
+        "patient_id": "P012",
+        "supply_sku": "OSTO-BAG-60",
+        "required_date": "2024-08-26",
+        "quantity": 60,
+        "compliance_status": "clear",
+        "notes": "Low warehouse inventory (35)"
+      }
+    ],
+    "compliance_alerts": [
+      {
+        "severity": "high",
+        "message": "Compliance issue for patient P003 / CATH-LEG-1L",
+        "notes": "F2F expired; Compliance due before fulfillment"
+      }
+    ],
+    "vendor_reorders": [
+      {
+        "supply_sku": "INC-XL-24",
+        "suggested_order_qty": 120,
+        "rationale": "On hand 80 <= reorder point 120; projected 30-day demand 120; lead time 10 days"
+      },
+      {
+        "supply_sku": "CATH-LEG-1L",
+        "suggested_order_qty": 60,
+        "rationale": "On hand 40 <= reorder point 60; projected 30-day demand 30; lead time 7 days"
+      },
+      {
+        "supply_sku": "INC-L-30",
+        "suggested_order_qty": 90,
+        "rationale": "On hand 50 <= reorder point 90; projected 30-day demand 90; lead time 10 days"
+      },
+      {
+        "supply_sku": "OXY-CONS-5L",
+        "suggested_order_qty": 40,
+        "rationale": "On hand 25 <= reorder point 40; projected 30-day demand 24; lead time 14 days"
+      },
+      {
+        "supply_sku": "NUTR-FEED-1200",
+        "suggested_order_qty": 110,
+        "rationale": "On hand 90 <= reorder point 110; projected 30-day demand 30; lead time 15 days"
+      },
+      {
+        "supply_sku": "BRACE-KNEE-L",
+        "suggested_order_qty": 70,
+        "rationale": "On hand 65 <= reorder point 70; projected 30-day demand 15; lead time 20 days"
+      },
+      {
+        "supply_sku": "OSTO-BAG-60",
+        "suggested_order_qty": 80,
+        "rationale": "On hand 35 <= reorder point 80; projected 30-day demand 60; lead time 12 days"
+      }
+    ]
+  },
+  "payments": {
+    "aging_alerts": [],
+    "underpayments": [
+      {
+        "claim_id": "CLM002",
+        "patient_id": "P002",
+        "payer": "DC Health Alliance",
+        "expected": "210.00",
+        "received": "0.00",
+        "variance": "210.00",
+        "status": "information requested"
+      },
+      {
+        "claim_id": "CLM003",
+        "patient_id": "P003",
+        "payer": "Amerigroup",
+        "expected": "450.00",
+        "received": "400.00",
+        "variance": "50.00",
+        "status": "processed"
+      },
+      {
+        "claim_id": "CLM005",
+        "patient_id": "P005",
+        "payer": "AmeriHealth",
+        "expected": "280.00",
+        "received": "0.00",
+        "variance": "280.00",
+        "status": "denied"
+      },
+      {
+        "claim_id": "CLM006",
+        "patient_id": "P006",
+        "payer": "Amerigroup",
+        "expected": "360.00",
+        "received": "330.00",
+        "variance": "30.00",
+        "status": "processed"
+      },
+      {
+        "claim_id": "CLM007",
+        "patient_id": "P008",
+        "payer": "Medicaid DC",
+        "expected": "540.00",
+        "received": "0.00",
+        "variance": "540.00",
+        "status": "information requested"
+      },
+      {
+        "claim_id": "CLM008",
+        "patient_id": "P010",
+        "payer": "Medicare",
+        "expected": "220.00",
+        "received": "190.00",
+        "variance": "30.00",
+        "status": "processed"
+      },
+      {
+        "claim_id": "CLM009",
+        "patient_id": "P011",
+        "payer": "AmeriHealth",
+        "expected": "195.00",
+        "received": "0.00",
+        "variance": "195.00",
+        "status": "submitted"
+      },
+      {
+        "claim_id": "CLM010",
+        "patient_id": "P012",
+        "payer": "Amerigroup",
+        "expected": "410.00",
+        "received": "380.00",
+        "variance": "30.00",
+        "status": "processed"
+      }
+    ],
+    "documentation_queue": [
+      {
+        "claim_id": "CLM002",
+        "payer": "DC Health Alliance",
+        "denial_code": "CO-16",
+        "requested_docs": "Medical records / WOPD",
+        "status": "information requested"
+      },
+      {
+        "claim_id": "CLM005",
+        "payer": "AmeriHealth",
+        "denial_code": "CO-197",
+        "requested_docs": "Medical records / WOPD",
+        "status": "denied"
+      },
+      {
+        "claim_id": "CLM007",
+        "payer": "Medicaid DC",
+        "denial_code": "M27",
+        "requested_docs": "Medical records / WOPD",
+        "status": "information requested"
+      }
+    ],
+    "outstanding_summary": [
+      {
+        "aging_bucket": "<=30",
+        "outstanding": "1380.00"
+      }
+    ]
+  },
+  "workforce": {
+    "staffing_plan": [
+      {
+        "team": "Intake",
+        "week_start": "2024-08-26",
+        "hours_needed": "7.6",
+        "recommended_headcount": "1.2"
+      },
+      {
+        "team": "Intake",
+        "week_start": "2024-09-02",
+        "hours_needed": "9.0",
+        "recommended_headcount": "1.4"
+      },
+      {
+        "team": "Intake",
+        "week_start": "2024-09-09",
+        "hours_needed": "9.6",
+        "recommended_headcount": "1.5"
+      },
+      {
+        "team": "PriorAuth",
+        "week_start": "2024-08-26",
+        "hours_needed": "17.5",
+        "recommended_headcount": "2.7"
+      },
+      {
+        "team": "PriorAuth",
+        "week_start": "2024-09-02",
+        "hours_needed": "20.0",
+        "recommended_headcount": "3.1"
+      },
+      {
+        "team": "PriorAuth",
+        "week_start": "2024-09-09",
+        "hours_needed": "21.0",
+        "recommended_headcount": "3.2"
+      },
+      {
+        "team": "Fulfillment",
+        "week_start": "2024-08-26",
+        "hours_needed": "15.0",
+        "recommended_headcount": "2.3"
+      },
+      {
+        "team": "Fulfillment",
+        "week_start": "2024-09-02",
+        "hours_needed": "17.3",
+        "recommended_headcount": "2.7"
+      },
+      {
+        "team": "Fulfillment",
+        "week_start": "2024-09-09",
+        "hours_needed": "18.3",
+        "recommended_headcount": "2.8"
+      }
+    ],
+    "surge_alerts": [
+      {
+        "team": "Intake",
+        "week_start": "2024-08-26",
+        "hours": "7.6",
+        "baseline_hours": "5.2",
+        "message": "Projected workload surge"
+      },
+      {
+        "team": "Intake",
+        "week_start": "2024-09-02",
+        "hours": "9.0",
+        "baseline_hours": "5.2",
+        "message": "Projected workload surge"
+      },
+      {
+        "team": "Intake",
+        "week_start": "2024-09-09",
+        "hours": "9.6",
+        "baseline_hours": "5.2",
+        "message": "Projected workload surge"
+      },
+      {
+        "team": "PriorAuth",
+        "week_start": "2024-08-26",
+        "hours": "17.5",
+        "baseline_hours": "9.5",
+        "message": "Projected workload surge"
+      },
+      {
+        "team": "PriorAuth",
+        "week_start": "2024-09-02",
+        "hours": "20.0",
+        "baseline_hours": "9.5",
+        "message": "Projected workload surge"
+      },
+      {
+        "team": "PriorAuth",
+        "week_start": "2024-09-09",
+        "hours": "21.0",
+        "baseline_hours": "9.5",
+        "message": "Projected workload surge"
+      },
+      {
+        "team": "Fulfillment",
+        "week_start": "2024-08-26",
+        "hours": "15.0",
+        "baseline_hours": "10.0",
+        "message": "Projected workload surge"
+      },
+      {
+        "team": "Fulfillment",
+        "week_start": "2024-09-02",
+        "hours": "17.3",
+        "baseline_hours": "10.0",
+        "message": "Projected workload surge"
+      },
+      {
+        "team": "Fulfillment",
+        "week_start": "2024-09-09",
+        "hours": "18.3",
+        "baseline_hours": "10.0",
+        "message": "Projected workload surge"
+      }
+    ]
+  },
+  "engagement": {
+    "patient_messages": [
+      {
+        "patient_id": "P001",
+        "channel": "sms",
+        "destination": "+12025550101",
+        "template": "delivery_reminder",
+        "order_id": "ORD1001",
+        "message": "Hi Maria Lewis, your INC-XL-24 delivery is scheduled for 2024-08-26. Reply HELP for support."
+      },
+      {
+        "patient_id": "P002",
+        "channel": "app",
+        "destination": "james.cole@app",
+        "template": "delivery_reminder",
+        "order_id": "ORD1002",
+        "message": "Hi James Cole, your GLU-STRIPS-50 delivery is scheduled for 2024-08-25. Reply HELP for support."
+      },
+      {
+        "patient_id": "P012",
+        "channel": "sms",
+        "destination": "+12025550314",
+        "template": "delivery_reminder",
+        "order_id": "ORD1012",
+        "message": "Hi Imani Wells, your OSTO-BAG-60 delivery is scheduled for 2024-08-26. Reply HELP for support."
+      },
+      {
+        "patient_id": "P001",
+        "channel": "sms",
+        "destination": "+12025550101",
+        "template": "resupply_checkin",
+        "message": "It's time to review your INC-XL-24 supplies. Tap the app or reply YES to confirm you still need a resupply."
+      },
+      {
+        "patient_id": "P003",
+        "channel": "sms",
+        "destination": "+12025550145",
+        "template": "resupply_checkin",
+        "message": "It's time to review your CATH-LEG-1L supplies. Tap the app or reply YES to confirm you still need a resupply."
+      },
+      {
+        "patient_id": "P005",
+        "channel": "sms",
+        "destination": "+12025550177",
+        "template": "resupply_checkin",
+        "message": "It's time to review your INC-L-30 supplies. Tap the app or reply YES to confirm you still need a resupply."
+      },
+      {
+        "patient_id": "P006",
+        "channel": "app",
+        "destination": "harold.diaz@app",
+        "template": "resupply_checkin",
+        "message": "It's time to review your OXY-CONS-5L supplies. Tap the app or reply YES to confirm you still need a resupply."
+      },
+      {
+        "patient_id": "P012",
+        "channel": "sms",
+        "destination": "+12025550314",
+        "template": "resupply_checkin",
+        "message": "It's time to review your OSTO-BAG-60 supplies. Tap the app or reply YES to confirm you still need a resupply."
+      }
+    ],
+    "case_manager_messages": [
+      {
+        "patient_id": "P003",
+        "order_id": "ORD1003",
+        "channel": "email",
+        "destination": "aroberts@globalrounds.org",
+        "template": "compliance_block",
+        "message": "Compliance hold on order ORD1003 for Linda Shea (CATH-LEG-1L). Please review documents."
+      },
+      {
+        "patient_id": "P010",
+        "order_id": "ORD1010",
+        "channel": "email",
+        "destination": "aroberts@globalrounds.org",
+        "template": "compliance_block",
+        "message": "Compliance hold on order ORD1010 for Victor Chen (BRACE-KNEE-L). Please review documents."
+      },
+      {
+        "patient_id": "P005",
+        "channel": "email",
+        "destination": "cmaria@globalrounds.org",
+        "template": "high_risk_resupply",
+        "message": "High-risk patient Aisha Noor has 4.0 days left of supplies. Please confirm needs."
+      },
+      {
+        "patient_id": "P012",
+        "channel": "email",
+        "destination": "jpatel@globalrounds.org",
+        "template": "high_risk_resupply",
+        "message": "High-risk patient Imani Wells has 3.0 days left of supplies. Please confirm needs."
+      }
+    ]
+  },
+  "performance": {
+    "latest_snapshot": [
+      {
+        "date": "2024-08-22",
+        "denial_rate": "6.2%",
+        "first_pass_rate": "79.0%",
+        "dso": "34.0",
+        "delivery_sla": "85.0%",
+        "resupply_cadence": "25.0"
+      }
+    ],
+    "alerts": [],
+    "trend_summary": [
+      {
+        "metric": "denial_rate",
+        "period": "2024-06-01 to 2024-08-22",
+        "change": "-1.8%"
+      },
+      {
+        "metric": "first_pass_rate",
+        "period": "2024-06-01 to 2024-08-22",
+        "change": "5.0%"
+      },
+      {
+        "metric": "dso",
+        "period": "2024-06-01 to 2024-08-22",
+        "change": "-2.0"
+      },
+      {
+        "metric": "delivery_sla",
+        "period": "2024-06-01 to 2024-08-22",
+        "change": "0.0"
+      }
+    ]
+  },
+  "finance": {
+    "latest_snapshot": [
+      {
+        "date": "2024-08-23",
+        "labor_minutes_saved": "204",
+        "projected_cash_recovered": "$960",
+        "dso": "41.6"
+      }
+    ],
+    "trend_summary": [
+      {
+        "metric": "labor_minutes_saved",
+        "period": "This month",
+        "change": "204"
+      },
+      {
+        "metric": "projected_cash_recovered",
+        "period": "This month",
+        "change": "$960"
+      },
+      {
+        "metric": "dso",
+        "period": "This month",
+        "change": "3.4"
+      }
+    ]
+  },
+  "tasks": [
+    {
+      "id": "TASK-1001",
+      "title": "Confirm F2F visit for P003",
+      "task_type": "sla_breach",
+      "priority": "high",
+      "status": "open",
+      "due_at": "2024-08-24T16:00:00Z",
+      "created_at": "2024-08-21T10:00:00Z",
+      "updated_at": "2024-08-21T10:00:00Z",
+      "metadata": {
+        "patient_id": "P003",
+        "supply_sku": "CATH-LEG-1L",
+        "notes": "F2F expired; compliance hold until visit"
+      },
+      "breach_reason": "F2F documentation expired",
+      "cycle_time_secs": 172800
+    },
+    {
+      "id": "TASK-1002",
+      "title": "Upload signed WOPD",
+      "task_type": "documentation",
+      "priority": "normal",
+      "status": "open",
+      "due_at": "2024-08-25T19:00:00Z",
+      "created_at": "2024-08-22T12:30:00Z",
+      "updated_at": "2024-08-22T12:30:00Z",
+      "metadata": {
+        "patient_id": "P009",
+        "supply_sku": "BED-PADS-50",
+        "notes": "Awaiting provider fax"
+      }
+    },
+    {
+      "id": "TASK-1003",
+      "title": "Review payer denial for DME-2211",
+      "task_type": "appeal_review",
+      "priority": "high",
+      "status": "in_progress",
+      "due_at": "2024-08-27T21:00:00Z",
+      "created_at": "2024-08-20T15:00:00Z",
+      "updated_at": "2024-08-22T14:10:00Z",
+      "metadata": {
+        "payer": "Aetna",
+        "amount": "$430",
+        "message": "Need medical necessity narrative"
+      },
+      "cycle_time_secs": 259200
+    },
+    {
+      "id": "TASK-1004",
+      "title": "Close compliance follow-up",
+      "task_type": "compliance_review",
+      "priority": "normal",
+      "status": "closed",
+      "due_at": "2024-08-20T22:00:00Z",
+      "created_at": "2024-08-18T09:15:00Z",
+      "updated_at": "2024-08-20T18:45:00Z",
+      "metadata": {
+        "patient_id": "P005",
+        "supply_sku": "INC-L-30",
+        "notes": "Provider uploaded required chart notes"
+      },
+      "cycle_time_secs": 176400
+    },
+    {
+      "id": "TASK-1005",
+      "title": "Escalate surge staffing plan",
+      "task_type": "workforce_planning",
+      "priority": "normal",
+      "status": "in_progress",
+      "due_at": "2024-08-26T14:00:00Z",
+      "created_at": "2024-08-22T08:00:00Z",
+      "updated_at": "2024-08-23T11:45:00Z",
+      "metadata": {
+        "notes": "Projected call volume +18% next week"
+      }
+    },
+    {
+      "id": "TASK-1006",
+      "title": "Confirm patient resupply preference",
+      "task_type": "patient_outreach",
+      "priority": "low",
+      "status": "open",
+      "due_at": "2024-08-28T17:30:00Z",
+      "created_at": "2024-08-22T09:05:00Z",
+      "updated_at": "2024-08-22T09:05:00Z",
+      "metadata": {
+        "patient_id": "P012",
+        "preferred_channel": "SMS",
+        "notes": "Awaiting confirmation"
+      }
+    },
+    {
+      "id": "TASK-1007",
+      "title": "Verify remit posting",
+      "task_type": "payments_reconciliation",
+      "priority": "normal",
+      "status": "open",
+      "due_at": "2024-08-24T20:00:00Z",
+      "created_at": "2024-08-21T13:25:00Z",
+      "updated_at": "2024-08-21T13:25:00Z",
+      "metadata": {
+        "payer": "BCBS",
+        "amount": "$1,120",
+        "notes": "Remit file pending ingestion"
+      }
+    },
+    {
+      "id": "TASK-1008",
+      "title": "Review LLM appeal draft",
+      "task_type": "appeal_review",
+      "priority": "low",
+      "status": "closed",
+      "due_at": "2024-08-19T16:00:00Z",
+      "created_at": "2024-08-17T11:30:00Z",
+      "updated_at": "2024-08-18T18:20:00Z",
+      "metadata": {
+        "payer": "Humana",
+        "amount": "$280",
+        "ai_notes": [
+          "LLM drafted initial appeal",
+          "Supervisor approved"
+        ]
+      },
+      "cycle_time_secs": 93600
+    }
+  ],
+  "inventory_forecast": {
+    "INC-XL-24": {
+      "on_hand": 80,
+      "forecast_units": 140,
+      "recommended_buffer": 45,
+      "action": "reorder"
+    },
+    "CATH-LEG-1L": {
+      "on_hand": 40,
+      "forecast_units": 70,
+      "recommended_buffer": 28,
+      "action": "reorder"
+    },
+    "NEB-KIT-CHILD": {
+      "on_hand": 55,
+      "forecast_units": 60,
+      "recommended_buffer": 20,
+      "action": "watch"
+    },
+    "INC-L-30": {
+      "on_hand": 95,
+      "forecast_units": 80,
+      "recommended_buffer": 30,
+      "action": "buffer_ok"
+    },
+    "OXY-CONS-5L": {
+      "on_hand": 35,
+      "forecast_units": 65,
+      "recommended_buffer": 25,
+      "action": "watch"
+    }
+  }
+}

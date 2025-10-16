@@ -1,0 +1,305 @@
+{
+  "orders": [
+    {
+      "id": "ORD-20240822-ALPHA1",
+      "patient_id": "P009",
+      "supply_sku": "CPAP-FLT-HEPA",
+      "quantity": 60,
+      "recommended_quantity": 90,
+      "requested_date": "2024-08-24",
+      "priority": "routine",
+      "delivery_mode": "warehouse",
+      "recommended_fulfillment": "warehouse",
+      "notes": "Routine filter replacement",
+      "status": "approved",
+      "ai_disposition": "approved",
+      "ai_compliance_status": "clear",
+      "ai_notes": [
+        "Patient adherence current",
+        "Inventory sufficient for fulfillment"
+      ],
+      "source": "portal",
+      "created_at": "2024-08-22T14:05:00+00:00",
+      "updated_at": "2024-08-22T14:05:00+00:00",
+      "as_of": "2024-08-22T14:05:00+00:00",
+      "events": [
+        {
+          "code": "created",
+          "actor": "portal",
+          "note": "Order created through portal.",
+          "timestamp": "2024-08-22T14:05:00+00:00"
+        },
+        {
+          "code": "ai_approved",
+          "actor": "automation",
+          "note": "AI disposition: approved. Findings: Patient adherence current; Inventory sufficient for fulfillment.",
+          "timestamp": "2024-08-22T14:05:00+00:00"
+        },
+        {
+          "code": "approved",
+          "actor": "automation",
+          "note": "Automatically approved by compliance checks.",
+          "timestamp": "2024-08-22T14:05:00+00:00"
+        }
+      ]
+    },
+    {
+      "id": "ORD-20240822-BETA2",
+      "patient_id": "P012",
+      "supply_sku": "CATH-LEG-1L",
+      "quantity": 30,
+      "recommended_quantity": 45,
+      "requested_date": "2024-08-23",
+      "priority": "urgent",
+      "delivery_mode": "dropship",
+      "recommended_fulfillment": "dropship",
+      "notes": "Leg bag ruptured",
+      "status": "approved",
+      "ai_disposition": "requires_review",
+      "ai_compliance_status": "hold",
+      "ai_notes": [
+        "WOPD missing",
+        "Prior auth pending",
+        "Warehouse inventory low (20 on hand)"
+      ],
+      "source": "portal",
+      "created_at": "2024-08-22T15:10:00+00:00",
+      "updated_at": "2025-09-22T02:15:08.846616+00:00",
+      "as_of": "2024-08-22T15:10:00+00:00",
+      "events": [
+        {
+          "code": "created",
+          "actor": "portal",
+          "note": "Order created through portal.",
+          "timestamp": "2024-08-22T15:10:00+00:00"
+        },
+        {
+          "code": "ai_requires_review",
+          "actor": "automation",
+          "note": "AI disposition: requires_review. Findings: WOPD missing; Prior auth pending; Warehouse inventory low (20 on hand).",
+          "timestamp": "2024-08-22T15:10:00+00:00"
+        },
+        {
+          "code": "approved",
+          "actor": "staff",
+          "note": "Approved via portal/dashboard.",
+          "timestamp": "2025-09-22T02:15:08.846652+00:00"
+        }
+      ]
+    },
+    {
+      "id": "ORD-20240822-GAMMA3",
+      "patient_id": "P015",
+      "supply_sku": "INC-XL-24",
+      "quantity": 120,
+      "recommended_quantity": 120,
+      "requested_date": "2024-08-25",
+      "priority": "routine",
+      "delivery_mode": "warehouse",
+      "recommended_fulfillment": "dropship",
+      "notes": "Patient increased usage",
+      "status": "approved",
+      "ai_disposition": "requires_review",
+      "ai_compliance_status": "unknown",
+      "ai_notes": [
+        "No compliance record on file.",
+        "Warehouse inventory low (80 on hand)"
+      ],
+      "source": "portal",
+      "created_at": "2024-08-22T16:30:00+00:00",
+      "updated_at": "2025-09-22T02:15:09.503279+00:00",
+      "as_of": "2024-08-22T16:30:00+00:00",
+      "events": [
+        {
+          "code": "created",
+          "actor": "portal",
+          "note": "Order created through portal.",
+          "timestamp": "2024-08-22T16:30:00+00:00"
+        },
+        {
+          "code": "ai_requires_review",
+          "actor": "automation",
+          "note": "AI disposition: requires_review. Findings: No compliance record on file.; Warehouse inventory low (80 on hand).",
+          "timestamp": "2024-08-22T16:30:00+00:00"
+        },
+        {
+          "code": "approved",
+          "actor": "staff",
+          "note": "Approved via portal/dashboard.",
+          "timestamp": "2025-09-22T02:15:09.503307+00:00"
+        }
+      ]
+    },
+    {
+      "id": "ORD-20250918-5ED92F",
+      "patient_id": "P034",
+      "supply_sku": "OXY-CONS-5L",
+      "quantity": 50,
+      "recommended_quantity": 50,
+      "requested_date": "2025-09-18",
+      "priority": "urgent",
+      "delivery_mode": "dropship",
+      "recommended_fulfillment": "dropship",
+      "notes": "Need ice too",
+      "status": "approved",
+      "ai_disposition": "requires_review",
+      "ai_compliance_status": "unknown",
+      "ai_notes": [
+        "No compliance record on file.",
+        "Warehouse inventory low (25 on hand)"
+      ],
+      "source": "portal",
+      "created_at": "2025-09-18T17:28:02.545055+00:00",
+      "updated_at": "2025-09-26T14:08:20.343416+00:00",
+      "as_of": "2025-09-18T17:28:02.542390+00:00",
+      "events": [
+        {
+          "code": "created",
+          "actor": "portal",
+          "note": "Order created through portal.",
+          "timestamp": "2025-09-18T17:28:02.545092+00:00"
+        },
+        {
+          "code": "ai_requires_review",
+          "actor": "automation",
+          "note": "AI disposition: requires_review. Findings: No compliance record on file.; Warehouse inventory low (25 on hand).",
+          "timestamp": "2025-09-18T17:28:02.545101+00:00"
+        },
+        {
+          "code": "approved",
+          "actor": "staff",
+          "note": "Approved via portal/dashboard.",
+          "timestamp": "2025-09-26T14:08:20.343454+00:00"
+        }
+      ]
+    },
+    {
+      "id": "ORD-20250918-5F3B14",
+      "patient_id": "P037",
+      "supply_sku": "OXY-CONS-5L",
+      "quantity": 17,
+      "recommended_quantity": 17,
+      "requested_date": "2025-09-18",
+      "priority": "stat",
+      "delivery_mode": "dropship",
+      "recommended_fulfillment": "warehouse",
+      "notes": "So low on supplies right now top up via normal address",
+      "status": "approved",
+      "ai_disposition": "requires_review",
+      "ai_compliance_status": "unknown",
+      "ai_notes": [
+        "No compliance record on file."
+      ],
+      "source": "portal",
+      "created_at": "2025-09-18T17:28:55.061584+00:00",
+      "updated_at": "2025-09-18T17:29:23.203344+00:00",
+      "as_of": "2025-09-18T17:28:55.059088+00:00",
+      "events": [
+        {
+          "code": "created",
+          "actor": "portal",
+          "note": "Order created through portal.",
+          "timestamp": "2025-09-18T17:28:55.061606+00:00"
+        },
+        {
+          "code": "ai_requires_review",
+          "actor": "automation",
+          "note": "AI disposition: requires_review. Findings: No compliance record on file..",
+          "timestamp": "2025-09-18T17:28:55.061613+00:00"
+        },
+        {
+          "code": "approved",
+          "actor": "staff",
+          "note": "Approved via portal/dashboard.",
+          "timestamp": "2025-09-18T17:29:23.203395+00:00"
+        }
+      ]
+    },
+    {
+      "id": "ORD-20250918-B731E9",
+      "patient_id": "P056",
+      "supply_sku": "KSM-DKDK-OP",
+      "quantity": 30,
+      "recommended_quantity": 30,
+      "requested_date": "2025-09-18",
+      "priority": "routine",
+      "delivery_mode": "dropship",
+      "recommended_fulfillment": "dropship",
+      "notes": "",
+      "status": "approved",
+      "ai_disposition": "requires_review",
+      "ai_compliance_status": "unknown",
+      "ai_notes": [
+        "No compliance record on file.",
+        "SKU missing from inventory table"
+      ],
+      "source": "portal",
+      "created_at": "2025-09-18T20:12:32.308556+00:00",
+      "updated_at": "2025-09-22T02:15:06.547148+00:00",
+      "as_of": "2025-09-18T20:12:32.306096+00:00",
+      "events": [
+        {
+          "code": "created",
+          "actor": "portal",
+          "note": "Order created through portal.",
+          "timestamp": "2025-09-18T20:12:32.308576+00:00"
+        },
+        {
+          "code": "ai_requires_review",
+          "actor": "automation",
+          "note": "AI disposition: requires_review. Findings: No compliance record on file.; SKU missing from inventory table.",
+          "timestamp": "2025-09-18T20:12:32.308583+00:00"
+        },
+        {
+          "code": "approved",
+          "actor": "staff",
+          "note": "Approved via portal/dashboard.",
+          "timestamp": "2025-09-22T02:15:06.547210+00:00"
+        }
+      ]
+    },
+    {
+      "id": "ORD-20250922-9B48C7",
+      "patient_id": "wer",
+      "supply_sku": "uytgy",
+      "quantity": 30,
+      "recommended_quantity": 30,
+      "requested_date": "",
+      "priority": "urgent",
+      "delivery_mode": "dropship",
+      "recommended_fulfillment": "dropship",
+      "notes": "refs",
+      "status": "approved",
+      "ai_disposition": "requires_review",
+      "ai_compliance_status": "unknown",
+      "ai_notes": [
+        "No compliance record on file.",
+        "SKU missing from inventory table"
+      ],
+      "source": "portal",
+      "created_at": "2025-09-22T02:28:44.676402+00:00",
+      "updated_at": "2025-09-26T14:08:17.661210+00:00",
+      "as_of": "2025-09-22T02:28:44.674560+00:00",
+      "events": [
+        {
+          "code": "created",
+          "actor": "portal",
+          "note": "Order created through portal.",
+          "timestamp": "2025-09-22T02:28:44.676429+00:00"
+        },
+        {
+          "code": "ai_requires_review",
+          "actor": "automation",
+          "note": "AI disposition: requires_review. Findings: No compliance record on file.; SKU missing from inventory table.",
+          "timestamp": "2025-09-22T02:28:44.676439+00:00"
+        },
+        {
+          "code": "approved",
+          "actor": "staff",
+          "note": "Approved via portal/dashboard.",
+          "timestamp": "2025-09-26T14:08:17.661248+00:00"
+        }
+      ]
+    }
+  ]
+}

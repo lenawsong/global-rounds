@@ -1,0 +1,11 @@
+claim_id,status,status_date,denial_code
+CLM001,processed,2024-08-01,
+CLM002,information requested,2024-08-18,CO-16
+CLM003,processed,2024-07-25,
+CLM004,paid,2024-07-10,
+CLM005,denied,2024-08-12,CO-197
+CLM006,processed,2024-08-05,
+CLM007,information requested,2024-08-17,M27
+CLM008,processed,2024-08-03,
+CLM009,submitted,2024-08-20,
+CLM010,processed,2024-08-06,

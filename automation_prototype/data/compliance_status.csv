@@ -1,0 +1,13 @@
+patient_id,supply_sku,f2f_status,wopd_status,prior_auth_status,next_due_date
+P001,INC-XL-24,current,on_file,approved,2024-10-01
+P002,GLU-STRIPS-50,current,missing,pending,2024-09-05
+P003,CATH-LEG-1L,expired,on_file,approved,2024-08-25
+P004,WND-DRS-FOAM,current,on_file,approved,2024-11-15
+P005,INC-L-30,current,on_file,approved,2024-09-15
+P006,OXY-CONS-5L,current,on_file,approved,2024-09-20
+P007,NEB-KIT-CHILD,current,on_file,not_required,2024-09-25
+P008,NUTR-FEED-1200,current,on_file,approved,2024-10-05
+P009,BED-PADS-50,current,on_file,approved,2024-09-12
+P010,BRACE-KNEE-L,expired,missing,pending,2024-08-28
+P011,GLU-LANCETS-100,current,on_file,approved,2024-09-22
+P012,OSTO-BAG-60,current,on_file,approved,2024-09-03

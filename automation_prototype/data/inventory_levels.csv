@@ -1,0 +1,13 @@
+supply_sku,on_hand_units,reorder_point_units,lead_time_days,vendor
+INC-XL-24,80,120,10,SupplierA
+GLU-STRIPS-50,200,150,14,SupplierB
+CATH-LEG-1L,40,60,7,SupplierC
+WND-DRS-FOAM,150,100,12,SupplierD
+INC-L-30,50,90,10,SupplierA
+OXY-CONS-5L,25,40,14,SupplierE
+NEB-KIT-CHILD,70,60,9,SupplierF
+NUTR-FEED-1200,90,110,15,SupplierG
+BED-PADS-50,140,130,8,SupplierD
+BRACE-KNEE-L,65,70,20,SupplierH
+GLU-LANCETS-100,220,180,14,SupplierB
+OSTO-BAG-60,35,80,12,SupplierI

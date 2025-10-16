@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Global Rounds Ordering Portal</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body data-api-base="http://localhost:8001">
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-mark">GR</span>
+        <div>
+          <h1>Ordering Portal</h1>
+          <p>Submit patient supply requests and track AI approvals in real time.</p>
+        </div>
+      </div>
+      <button id="refresh-orders" class="ghost" type="button">Refresh</button>
+    </header>
+
+    <main>
+      <div class="mode-toggle">
+        <button id="toggle-clinician" class="ghost">Clinician Mode: Off</button>
+      </div>
+      <section class="card">
+        <h2>New Order</h2>
+        <form id="order-form" autocomplete="off">
+          <div class="field">
+            <label for="patient-id">Patient ID</label>
+            <input type="text" id="patient-id" name="patient_id" required placeholder="P001" />
+          </div>
+          <div class="field">
+            <label for="supply-sku">Supply SKU</label>
+            <input type="text" id="supply-sku" name="supply_sku" required placeholder="INC-XL-24" />
+          </div>
+          <div class="field-grid">
+            <div class="field">
+              <label for="quantity">Quantity</label>
+              <input type="number" id="quantity" name="quantity" min="1" value="30" required />
+            </div>
+            <div class="field">
+              <label for="priority">Priority</label>
+              <select id="priority" name="priority">
+                <option value="routine">Routine</option>
+                <option value="urgent">Urgent</option>
+                <option value="stat">Stat</option>
+              </select>
+            </div>
+          </div>
+          <div class="field-grid">
+            <div class="field">
+              <label for="delivery-mode">Delivery</label>
+              <select id="delivery-mode" name="delivery_mode">
+                <option value="auto">Auto</option>
+                <option value="warehouse">Warehouse</option>
+                <option value="dropship">Dropship</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="requested-date">Requested Date</label>
+              <input type="date" id="requested-date" name="requested_date" />
+            </div>
+          </div>
+          <div class="field">
+            <label for="notes">Notes (optional)</label>
+            <textarea id="notes" name="notes" rows="3" placeholder="Add context or document references"></textarea>
+          </div>
+          <button id="submit-order" type="submit">Submit Order</button>
+        </form>
+        <div id="form-feedback" class="form-feedback" role="status" aria-live="polite"></div>
+      </section>
+
+      <section class="card">
+        <div class="card-header">
+          <h2>Recent Orders</h2>
+          <div class="pill" id="order-count">0 orders</div>
+        </div>
+        <ul id="order-list" class="order-list" aria-live="polite"></ul>
+      </section>
+
+      <section class="card">
+        <div class="card-header">
+          <h2>Task Inbox</h2>
+          <div class="pill" id="task-count">0 tasks</div>
+        </div>
+        <ul id="task-list" class="order-list" aria-live="polite"></ul>
+      </section>
+
+      <section class="card clinician-only" id="copilot-card">
+        <div class="card-header">
+          <h2>Provider Co-Pilot</h2>
+          <div class="pill" id="copilot-count">0 tasks</div>
+        </div>
+        <ul id="copilot-list" class="order-list" aria-live="polite">
+          <li class="order-item">Enable clinician mode to view compliance tasks.</li>
+        </ul>
+      </section>
+    </main>
+
+    <aside id="clinician-drawer" class="drawer" aria-hidden="true">
+      <div class="drawer-content">
+        <header>
+          <h2 id="drawer-title">Task Detail</h2>
+          <button id="drawer-close" class="ghost" type="button">Close</button>
+        </header>
+        <div id="drawer-body" class="drawer-body"></div>
+        <footer class="drawer-footer">
+          <button id="drawer-start" class="ghost" type="button">Start Task</button>
+          <button id="drawer-complete" class="primary" type="button">Mark Complete</button>
+          <button id="drawer-download" class="secondary" type="button">Download WOPD Stub</button>
+          <button id="drawer-f2f" class="secondary" type="button">Download F2F Letter</button>
+          <button id="drawer-esign" class="ghost" type="button">Request E-Sign</button>
+          <button id="drawer-link" class="ghost" type="button">Create Patient Link</button>
+        </footer>
+      </div>
+    </aside>
+
+    <div id="toast-stack" class="toast-stack" aria-live="assertive" aria-atomic="true"></div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
