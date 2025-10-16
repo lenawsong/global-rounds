@@ -59,3 +59,21 @@ uvicorn app.main:app --host 0.0.0.0 --port $PORT
 Notes
 - The Command Center is mounted at `/command-center/` and appears in the header nav.
 - Set env vars as needed: `SESSION_SECRET` (generate), `DATABASE_URL` (defaults to SQLite), `ANTHROPIC_API_KEY` (for Command Center features), and optional Stripe keys.
+
+### Render setup steps (recommended)
+- Root directory: `.` (so `render.yaml` is picked up).
+- Python: 3.11.x. If the UI shows 3.13 by default, switch to 3.11 or let `render.yaml` control it (pythonVersion 3.11.9).
+- Do not override Build/Start in the UI unless necessary; if you do, use the commands above exactly.
+- Clear Build Cache on the service when switching repos/branches to ensure the latest commit and commands are used.
+
+### Migrating an existing Render service
+1) In the service settings, change the GitHub repository to `lenawsong/global-rounds` and the branch to `main`.
+2) Clear Build Cache, then Deploy latest.
+3) Verify the app at the root URL and that `/command-center/` loads.
+
+### Troubleshooting
+- `pip: command not found` during Build: remove stray backslashes and use `python -m pip` as shown above.
+- Building an old commit: Clear Build Cache and deploy again; confirm the commit SHA matches GitHub.
+- Python 3.13 selected: set Python 3.11 in the UI or rely on `render.yaml` by not overriding language/runtime settings.
+- Repo access warning: reauthorize the Render GitHub App for this repo or make the repo public to Render.
+- Command Center features inactive: set `ANTHROPIC_API_KEY` in the service environment.
