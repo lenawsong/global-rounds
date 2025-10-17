@@ -60,7 +60,13 @@ try:
             sys.path.insert(0, str(cc_root))
         from backend.app import app as command_center_app  # type: ignore
         app.mount("/command-center", command_center_app)
+        # If the sub-app redirects '/' -> '/dashboard/' as an absolute path,
+        # catch '/dashboard/' at the top level and send users back to the mounted path.
+        from fastapi.responses import RedirectResponse  # inline import to avoid unused if CC absent
+
+        @app.get("/dashboard/", include_in_schema=False)
+        def redirect_global_dashboard():
+            return RedirectResponse(url="/command-center/dashboard/")
 except Exception:
     # If command center is not available, keep main app running
     pass
-
