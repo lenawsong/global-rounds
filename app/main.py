@@ -67,6 +67,11 @@ try:
         @app.get("/dashboard/", include_in_schema=False)
         def redirect_global_dashboard():
             return RedirectResponse(url="/command-center/dashboard/")
+
+        @app.api_route("/api/{full_path:path}", methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"], include_in_schema=False)
+        async def proxy_api(full_path: str):
+            # Preserve method/body via 307 redirect
+            return RedirectResponse(url=f"/command-center/api/{full_path}", status_code=307)
 except Exception:
     # If command center is not available, keep main app running
     pass
