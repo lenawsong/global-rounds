@@ -17,6 +17,7 @@
   --success: #1a9d63;
   --warning: #f59f3d;
   --danger: #d64545;
+  --glow: rgba(31, 91, 230, 0.15);
 }
 
 * {
@@ -208,7 +209,7 @@ input[type='range'] {
   border-radius: 20px;
   border: 1px solid var(--border);
   padding: 1.9rem;
-  box-shadow: 0 20px 36px rgba(15, 32, 79, 0.12);
+  box-shadow: 0 20px 36px rgba(15, 32, 79, 0.12), 0 0 0 1px rgba(255,255,255,0.4) inset;
 }
 
 .panel-subtitle {
@@ -231,10 +232,15 @@ input[type='range'] {
   border-radius: 18px;
   border: 1px solid rgba(17, 42, 94, 0.12);
   padding: 0.95rem 1.25rem 1.05rem;
-  box-shadow: 0 20px 32px rgba(15, 32, 79, 0.08);
+  box-shadow: 0 20px 32px rgba(15, 32, 79, 0.08), 0 8px 24px var(--glow);
   display: flex;
   flex-direction: column;
   gap: 0.55rem;
+}
+
+.chart-card:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 26px 40px rgba(15, 32, 79, 0.12), 0 10px 28px var(--glow);
 }
 
 .chart-card-header {
@@ -300,6 +306,28 @@ input[type='range'] {
   border-radius: 14px;
   border: 1px solid rgba(17, 42, 94, 0.08);
   background: #ffffff;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --bg-top: #0b1220;
+    --bg-bottom: #0d1627;
+    --surface: rgba(13, 22, 39, 0.9);
+    --surface-alt: rgba(17, 27, 46, 0.92);
+    --card: #0e1626;
+    --table-head: rgba(255,255,255,0.04);
+    --border: rgba(255,255,255,0.08);
+    --border-strong: rgba(255,255,255,0.14);
+    --text: #ecf2ff;
+    --muted: rgba(236, 242, 255, 0.6);
+    --glow: rgba(31, 91, 230, 0.25);
+  }
+  body { background: linear-gradient(180deg, var(--bg-top) 0%, var(--bg-bottom) 60%, #0b1220 100%); }
+  .site-header { background: linear-gradient(135deg, rgba(17,27,46,0.92), rgba(13,22,39,0.9)); border-color: var(--border); }
+  button.secondary { background: rgba(31, 91, 230, 0.16); border-color: rgba(31, 91, 230, 0.34); color: #dbe6ff; }
+  input[type='search'], input[type='number'], select, textarea { background: rgba(255,255,255,0.04); color: var(--text); }
+  .chart-canvas { background: rgba(255,255,255,0.02); border-color: rgba(255,255,255,0.06); }
 }
 
 .chart-canvas[hidden] {

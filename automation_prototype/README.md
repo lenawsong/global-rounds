@@ -58,7 +58,13 @@ The FastAPI app in `backend/app.py` exposes the automation rail:
 - Patient microsite routes (`/api/patient_links`, `/api/patient_actions`)
 - Compliance radar (`/api/compliance/scan`), predictive inventory (`/api/inventory/*`), finance snapshot (`/api/finance/snapshot`), payer connectors, and external DME partner APIs.
 
+New in this iteration:
+- `POST /api/intake` – Patient intake upload/form endpoint that creates a portal order, attaches documents to the audit vault, optionally creates a partner order when approved, and returns a patient tracking link token.
+- `POST /api/lexicon/expand` – Recursive lexicon expander that returns the closure of terms appearing in definitions of definitions (bounded by a depth parameter).
+
 Run `uvicorn backend.app:app --reload` to explore interactively.
+
+Patient-facing intake page is available at `/patient/intake.html` (optionally pass `?api=http://localhost:8001`).
 
 ## Data & Simulation
 All datasets in `data/` are synthetic. Swap them with Brightree/Kyron/payer exports once credentials are approved. The event ledger (`data/events.jsonl`) captures every simulated transition so dashboards, SSE listeners, and partners agree on the same truth source.

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Patient Intake · Global Rounds</title>
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      body { max-width: 860px; margin: 0 auto; padding: 16px; }
+      header h1 { margin-bottom: 4px; }
+      form .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+      form .grid-3 { grid-template-columns: 2fr 1fr 1fr; }
+      form .row { margin-top: 10px; }
+      label { display: block; font-size: 14px; margin-bottom: 4px; color: #334155; }
+      input, select, textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 8px; }
+      textarea { resize: vertical; }
+      .actions { display: flex; gap: 8px; margin-top: 14px; }
+      .primary { background: #1f5be6; color: white; border: none; padding: 10px 14px; border-radius: 8px; cursor: pointer; }
+      .ghost { background: transparent; border: 1px solid #cbd5e1; padding: 10px 14px; border-radius: 8px; cursor: pointer; }
+      .card { background: white; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; box-shadow: 0 1px 10px rgba(0,0,0,0.04); }
+      .hint { font-size: 13px; color: #475569; }
+      .muted { color: #64748b; }
+      .success { color: #0f766e; }
+      .error { color: #b91c1c; }
+      .divider { height: 1px; background: #e2e8f0; margin: 16px 0; }
+      .hidden { display: none; }
+      .pill { display: inline-block; padding: 4px 10px; border-radius: 999px; background: #eef2ff; color: #3730a3; font-size: 12px; }
+      .toast-stack { position: fixed; right: 16px; bottom: 16px; display: flex; flex-direction: column; gap: 8px; }
+      .toast { background: #111827; color: white; padding: 10px 12px; border-radius: 8px; opacity: 0; transform: translateY(8px); transition: all 180ms ease; }
+      .toast.visible { opacity: 1; transform: translateY(0); }
+    </style>
+  </head>
+  <body>
+    <main>
+      <section class="card">
+        <header>
+          <h1>Patient Intake</h1>
+          <p class="muted">Start a supply request and upload your documents. We’ll route it to fulfillment automatically if everything checks out.</p>
+        </header>
+        <form id="intake-form" autocomplete="off">
+          <h3>Patient</h3>
+          <div class="grid">
+            <div>
+              <label for="first-name">First name</label>
+              <input id="first-name" name="first_name" />
+            </div>
+            <div>
+              <label for="last-name">Last name</label>
+              <input id="last-name" name="last_name" />
+            </div>
+            <div>
+              <label for="dob">Date of birth</label>
+              <input id="dob" name="dob" type="date" />
+            </div>
+            <div>
+              <label for="patient-id">Patient ID (if known)</label>
+              <input id="patient-id" name="patient_id" placeholder="e.g., P001" />
+            </div>
+          </div>
+
+          <div class="grid">
+            <div>
+              <label for="phone">Phone</label>
+              <input id="phone" name="phone" type="tel" />
+            </div>
+            <div>
+              <label for="email">Email</label>
+              <input id="email" name="email" type="email" />
+            </div>
+          </div>
+
+          <div class="row">
+            <label for="address1">Address</label>
+            <input id="address1" name="address_line1" placeholder="Street address" />
+          </div>
+          <div class="row">
+            <input id="address2" name="address_line2" placeholder="Apt, suite, etc. (optional)" />
+          </div>
+          <div class="grid grid-3">
+            <div>
+              <label for="city">City</label>
+              <input id="city" name="city" />
+            </div>
+            <div>
+              <label for="state">State</label>
+              <input id="state" name="state" />
+            </div>
+            <div>
+              <label for="postal">ZIP</label>
+              <input id="postal" name="postal_code" />
+            </div>
+          </div>
+
+          <div class="divider"></div>
+
+          <h3>Order</h3>
+          <div class="grid">
+            <div>
+              <label for="supply-sku">Supply SKU</label>
+              <input id="supply-sku" name="supply_sku" required placeholder="e.g., INC-XL-24" />
+            </div>
+            <div>
+              <label for="quantity">Quantity</label>
+              <input id="quantity" name="quantity" type="number" min="1" value="30" required />
+            </div>
+          </div>
+          <div class="grid">
+            <div>
+              <label for="requested-date">Requested date</label>
+              <input id="requested-date" name="requested_date" type="date" />
+            </div>
+            <div>
+              <label for="priority">Priority</label>
+              <select id="priority" name="priority">
+                <option value="routine">Routine</option>
+                <option value="urgent">Urgent</option>
+                <option value="stat">Stat</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid">
+            <div>
+              <label for="delivery-mode">Delivery mode</label>
+              <select id="delivery-mode" name="delivery_mode">
+                <option value="auto">Auto</option>
+                <option value="warehouse">Warehouse</option>
+                <option value="dropship">Dropship</option>
+              </select>
+            </div>
+            <div>
+              <label for="payer-id">Payer (optional)</label>
+              <input id="payer-id" name="payer_id" placeholder="e.g., Medicaid DC" />
+            </div>
+          </div>
+
+          <div class="row">
+            <label for="notes">Notes</label>
+            <textarea id="notes" name="notes" rows="3" placeholder="Add any helpful details"></textarea>
+          </div>
+
+          <div class="row">
+            <label for="files">Upload documents (referral, insurance card, etc.)</label>
+            <input id="files" type="file" multiple />
+            <p class="hint">You can add multiple files. PDFs and images are supported.</p>
+          </div>
+
+          <div class="actions">
+            <button class="primary" type="submit">Submit Intake</button>
+            <button class="ghost" type="reset">Clear</button>
+            <span id="submit-status" class="pill">Ready</span>
+          </div>
+        </form>
+      </section>
+
+      <section id="result-card" class="card hidden">
+        <h2 id="result-title">Intake submitted</h2>
+        <p class="muted" id="result-copy"></p>
+        <div class="actions" id="result-actions"></div>
+      </section>
+    </main>
+
+    <div id="toast-stack" class="toast-stack" aria-live="assertive" aria-atomic="true"></div>
+
+    <script src="intake.js"></script>
+  </body>
+  </html>
+

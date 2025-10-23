@@ -18,6 +18,8 @@ from fastapi import FastAPI, HTTPException, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import RedirectResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
+import uuid
+import re
 
 # Ensure automation package is discoverable when running from /backend
 ROOT = Path(__file__).resolve().parents[1]
@@ -100,6 +102,10 @@ from backend.schemas import (  # noqa: E402
     SlaEvaluateRequest,
     SlaScoreResponse,
     SlaPolicyResponse,
+    PatientIntakeRequest,
+    PatientIntakeResponse,
+    LexiconExpandRequest,
+    LexiconExpandResponse,
 )
 from backend.sla import SlaService  # noqa: E402
 
@@ -1360,6 +1366,228 @@ async def audit_add_attachment(order_id: str, request: AuditAttachmentRequest) -
         },
     )
     return AuditAttachmentResponse(**record)
+
+
+# ---------------------------- Patient Intake API ----------------------------
+
+
+def _generate_patient_id() -> str:
+    return f"P{uuid.uuid4().hex[:8].upper()}"
+
+
+@app.post("/api/intake", response_model=PatientIntakeResponse)
+async def patient_intake(request: PatientIntakeRequest) -> PatientIntakeResponse:
+    as_of = datetime.now(timezone.utc)
+    # 1) Resolve patient_id (use provided or generate)
+    patient_id = (request.patient.patient_id or "").strip() or _generate_patient_id()
+
+    # 2) Assess and create the portal order
+    assessment = assess_order(
+        DEFAULT_DATA_DIR,
+        patient_id=patient_id,
+        supply_sku=request.order.supply_sku,
+        quantity=request.order.quantity,
+        requested_date=request.order.requested_date,
+        as_of=as_of,
+    )
+
+    intake_notes: List[str] = []
+    if request.patient.first_name or request.patient.last_name:
+        intake_notes.append(
+            f"Patient: {(request.patient.first_name or '').strip()} {(request.patient.last_name or '').strip()}".strip()
+        )
+    if request.patient.dob:
+        intake_notes.append(f"DOB: {request.patient.dob}")
+    if request.patient.phone:
+        intake_notes.append(f"Phone: {request.patient.phone}")
+    if request.patient.email:
+        intake_notes.append(f"Email: {request.patient.email}")
+    if request.patient.address_line1:
+        parts = [
+            request.patient.address_line1 or "",
+            request.patient.address_line2 or "",
+            f"{request.patient.city or ''}, {request.patient.state or ''} {request.patient.postal_code or ''}".strip(),
+        ]
+        intake_notes.append("Address: " + ", ".join(p for p in parts if p.strip()))
+    if request.payer_id:
+        intake_notes.append(f"Payer: {request.payer_id}")
+    if request.order.notes:
+        intake_notes.append(request.order.notes)
+
+    order_payload: Mapping[str, object] = {
+        "patient_id": patient_id,
+        "supply_sku": request.order.supply_sku,
+        "quantity": request.order.quantity,
+        "priority": request.order.priority or "routine",
+        "delivery_mode": request.order.delivery_mode or assessment.recommended_fulfillment,
+        "requested_date": request.order.requested_date,
+        "notes": "; ".join(intake_notes).strip(),
+        "source": "patient_intake",
+    }
+    order = portal_store.create_order(order_payload, assessment, as_of)
+
+    event_dispatcher.publish(
+        "intake.order.created",
+        {
+            "order_id": order.get("id"),
+            "patient_id": patient_id,
+            "supply_sku": order.get("supply_sku"),
+            "status": order.get("status"),
+        },
+    )
+
+    # 3) Attach uploaded documents (if provided)
+    for idx, attachment in enumerate(request.attachments or []):
+        try:
+            payload = base64.b64decode(attachment.content, validate=True)
+        except (binascii.Error, ValueError):
+            payload = (attachment.content or "").encode("utf-8")
+        record = audit_vault.add_attachment(
+            order["id"],
+            name=attachment.name or f"intake-upload-{idx+1}",
+            content=payload,
+            content_type=attachment.content_type or "application/octet-stream",
+            metadata={
+                "source": "patient_intake",
+                "uploaded_by": "patient",
+                "index": idx,
+                **(attachment.metadata or {}),
+            },
+        )
+        event_dispatcher.publish(
+            "intake.attachment.added",
+            {
+                "order_id": order.get("id"),
+                "attachment_id": record["attachment_id"],
+                "name": record["name"],
+            },
+        )
+
+    # 4) Create task if order on hold (mirrors portal behavior)
+    task = ensure_task_for_portal_hold(task_store, order)
+    if task:
+        event_dispatcher.publish(
+            "task.created",
+            {
+                "task_id": task.get("id"),
+                "task_type": task.get("task_type"),
+                "priority": task.get("priority"),
+                "order_id": order.get("id"),
+            },
+        )
+
+    # 5) Run agents to push toward fulfillment
+    orchestrator.run_agents(["ordering", "performance", "finance"], as_of)
+    event_dispatcher.publish(
+        "agent.completed",
+        {
+            "agents": ["ordering", "performance", "finance"],
+            "as_of": as_of.isoformat(),
+            "run_at": datetime.now(timezone.utc).isoformat(),
+            "trigger": "patient_intake",
+            "order_id": order.get("id"),
+        },
+    )
+
+    # 6) Optionally create partner order if approved
+    partner_record: Mapping[str, object] | None = None
+    if request.auto_partner and str(order.get("status")) == "approved":
+        partner_id = request.partner_id or "MEDLINE"
+        partner_record = partner_order_store.create_order(
+            partner_id=partner_id,
+            patient_id=patient_id,
+            supply_sku=str(order.get("supply_sku")),
+            quantity=int(order.get("quantity") or 1),
+            metadata={
+                "intake_order_id": order.get("id"),
+                "delivery_mode": order.get("delivery_mode"),
+                "payer_id": request.payer_id or None,
+                "source": "patient_intake",
+            },
+        )
+        event_dispatcher.publish(
+            "partner.order.created",
+            {
+                "order_id": partner_record["order_id"],
+                "partner_id": partner_record["partner_id"],
+                "supply_sku": partner_record["supply_sku"],
+                "quantity": partner_record["quantity"],
+            },
+        )
+
+    # 7) Optionally create a patient tracking link
+    token: str | None = None
+    tracking_url: str | None = None
+    if request.create_patient_link:
+        link = patient_link_store.create_link(patient_id, order["id"], expires_minutes=request.link_expires_minutes)
+        token = str(link.get("token"))
+        tracking_url = f"/patient/?token={token}"
+
+    # 8) Response
+    from backend.schemas import PortalOrderResponse, PartnerOrderResponse  # local import for typing clarity
+
+    partner_model = PartnerOrderResponse(**partner_record) if partner_record else None
+    return PatientIntakeResponse(
+        order=PortalOrderResponse(**order),
+        partner_order=partner_model,
+        patient_link_token=token,
+        tracking_url=tracking_url,
+    )
+
+
+# ---------------------------- Lexicon Expansion ----------------------------
+
+
+_WORD_RE = re.compile(r"[A-Za-z0-9_\-']+")
+
+
+def _normalize_term(term: str, lower: bool = True) -> str:
+    return term.strip().lower() if lower else term.strip()
+
+
+def _terms_from_definition(definition: str, *, lower: bool = True) -> List[str]:
+    if not definition:
+        return []
+    return [t.lower() if lower else t for t in _WORD_RE.findall(definition)]
+
+
+@app.post("/api/lexicon/expand", response_model=LexiconExpandResponse)
+async def lexicon_expand(request: LexiconExpandRequest) -> LexiconExpandResponse:
+    # Normalize dictionary according to case handling
+    if request.case_insensitive:
+        terms_map: Dict[str, str] = {k.lower(): v for k, v in request.terms.items()}
+        roots = [r.lower() for r in request.root_terms]
+        stop = {s.lower() for s in (request.stop_terms or [])}
+    else:
+        terms_map = dict(request.terms)
+        roots = list(request.root_terms)
+        stop = set(request.stop_terms or [])
+
+    closure: Dict[str, str] = {}
+    frontier: List[str] = []
+
+    # Seed frontier with valid roots known to the map
+    for r in roots:
+        if r in terms_map and r not in closure:
+            closure[r] = terms_map[r]
+            frontier.append(r)
+
+    depth = int(request.depth or 0)
+    for _ in range(depth):
+        if not frontier:
+            break
+        next_frontier: List[str] = []
+        for term in frontier:
+            definition = closure.get(term) or terms_map.get(term) or ""
+            for candidate in _terms_from_definition(definition, lower=request.case_insensitive):
+                if candidate in stop:
+                    continue
+                if candidate in terms_map and candidate not in closure:
+                    closure[candidate] = terms_map[candidate]
+                    next_frontier.append(candidate)
+        frontier = next_frontier
+
+    return LexiconExpandResponse(roots=roots, depth=depth, closure=closure)
 
 
 @app.post("/api/patient-links", response_model=PatientLinkResponse)

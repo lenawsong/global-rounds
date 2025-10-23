@@ -501,3 +501,69 @@ class DashboardChatRequest(BaseModel):
 class DashboardChatResponse(BaseModel):
     message: DashboardChatMessage
     model: Optional[str] = None
+
+
+# ----------------------------- Patient Intake -----------------------------
+
+class AttachmentUpload(BaseModel):
+    name: str
+    content: str
+    content_type: Optional[str] = Field(default="application/octet-stream")
+    metadata: Optional[Mapping[str, Any]] = None
+
+
+class PatientProfile(BaseModel):
+    patient_id: Optional[str] = Field(default=None, description="Existing patient ID, if known.")
+    first_name: Optional[str] = None
+    last_name: Optional[str] = None
+    dob: Optional[str] = Field(default=None, description="Date of birth (YYYY-MM-DD)")
+    phone: Optional[str] = None
+    email: Optional[str] = None
+    address_line1: Optional[str] = None
+    address_line2: Optional[str] = None
+    city: Optional[str] = None
+    state: Optional[str] = None
+    postal_code: Optional[str] = None
+
+
+class PatientIntakeOrder(BaseModel):
+    supply_sku: str
+    quantity: int = Field(..., gt=0)
+    requested_date: Optional[str] = None
+    priority: Optional[str] = Field(default="routine")
+    delivery_mode: Optional[str] = Field(default="auto")
+    notes: Optional[str] = None
+
+
+class PatientIntakeRequest(BaseModel):
+    patient: PatientProfile
+    order: PatientIntakeOrder
+    attachments: List[AttachmentUpload] = Field(default_factory=list)
+    create_patient_link: bool = Field(default=True)
+    link_expires_minutes: int = Field(default=4320, ge=5, le=43200, description="Minutes until link expires (default 3 days).")
+    auto_partner: bool = Field(default=True, description="Create a partner order if approved.")
+    partner_id: Optional[str] = Field(default=None, description="Partner identifier for fulfillment (e.g., MEDLINE).")
+    payer_id: Optional[str] = Field(default=None, description="Optional payer to include as metadata for partners.")
+
+
+class PatientIntakeResponse(BaseModel):
+    order: PortalOrderResponse
+    partner_order: Optional[PartnerOrderResponse] = None
+    patient_link_token: Optional[str] = None
+    tracking_url: Optional[str] = None
+
+
+# ------------------------------- Lexicon API ------------------------------
+
+class LexiconExpandRequest(BaseModel):
+    terms: Mapping[str, str] = Field(..., description="Dictionary of term -> definition")
+    root_terms: List[str] = Field(..., description="Start terms to expand from")
+    depth: int = Field(default=2, ge=0, le=8, description="Expansion depth from the roots")
+    stop_terms: Optional[List[str]] = Field(default=None, description="Optional list of terms to not expand further")
+    case_insensitive: bool = Field(default=True, description="Normalize to lowercase for matching")
+
+
+class LexiconExpandResponse(BaseModel):
+    roots: List[str]
+    depth: int
+    closure: Mapping[str, str]
