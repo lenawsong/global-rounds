@@ -108,9 +108,9 @@
 
 <body class="font-body text-slate-900">
   <!-- Header -->
-  <header class="sticky top-0 z-40 border-b bg-white/85 backdrop-blur-lg border-white/40">
+  <header class="sticky top-0 z-40 border-b bg-white border-slate-200">
     <div class="max-w-7xl mx-auto flex items-center justify-between px-4 py-4 md:px-6">
-      <a href="/" class="flex items-center gap-3 rounded-full bg-white/60 px-3 py-1.5 shadow-sm ring-1 ring-white/70 transition hover:shadow-md">
+      <a href="/" class="flex items-center gap-3 rounded-full bg-white px-3 py-1.5 shadow-sm ring-1 ring-slate-200 transition hover:shadow-md">
         <img src="{{ url_for('static', path='logo.png') }}?v=1" alt="Global Rounds logo" class="h-9 w-auto md:h-11">
         <span class="font-heading text-lg tracking-tight text-brand-800 md:text-2xl">Nexus Health</span>
       </a>
@@ -135,7 +135,7 @@
       </nav>
 
       <!-- Mobile menu button -->
-      <button id="nav-toggle" class="flex h-11 w-11 items-center justify-center rounded-full bg-brand-600 text-white shadow-card transition hover:bg-brand-500 lg:hidden" aria-label="Toggle navigation" aria-expanded="false">
+      <button id="nav-toggle" class="flex h-11 w-11 items-center justify-center rounded-full bg-white text-brand-700 ring-1 ring-slate-200 shadow-sm transition hover:bg-slate-50 lg:hidden" aria-label="Toggle navigation" aria-expanded="false">
         <svg id="icon-menu" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
           <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
         </svg>
@@ -147,7 +147,7 @@
 
     <!-- Mobile flyout -->
     <div id="mobile-nav" class="pointer-events-none fixed inset-0 z-40 flex opacity-0 transition-opacity duration-300 lg:hidden">
-      <div class="flex-1 bg-slate-900" aria-hidden="true"></div>
+      <div class="flex-1 bg-slate-900/50" aria-hidden="true"></div>
       <div class="relative w-80 max-w-[82vw] bg-white ring-1 ring-slate-200 shadow-2xl transition-transform duration-300 ease-out translate-x-full" role="dialog" aria-modal="true">
         <div class="flex h-full flex-col gap-6 px-6 py-8">
           <div>
