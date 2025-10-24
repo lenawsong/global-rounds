@@ -125,6 +125,39 @@
     renderBars: renderBars,
     renderRevenueMini: renderRevenueMini,
     renderSupplierMini: renderSupplierMini,
+    renderLine: async function(container, rows, xField, yField, colorField){
+      if(!hasVega() || !container) return false;
+      var spec = {
+        $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
+        background: null,
+        data: { values: rows || [] },
+        mark: { type: 'line', interpolate: 'monotone' },
+        encoding: {
+          x: { field: xField||'date', type: 'temporal' },
+          y: { field: yField||'value', type: 'quantitative' },
+          color: colorField ? { field: colorField, type: 'nominal' } : undefined
+        },
+        view: { stroke: null }
+      };
+      try { await window.vegaEmbed(container, spec, { actions:false, renderer:'canvas' }); return true; }
+      catch(e){ console.warn('Vega line failed', e); return false; }
+    },
+    renderHeatmap: async function(container, rows, xField, yField, valueField){
+      if(!hasVega() || !container) return false;
+      var spec = {
+        $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
+        background: null,
+        data: { values: rows || [] },
+        mark: 'rect',
+        encoding: {
+          x: { field: xField||'x', type: 'ordinal' },
+          y: { field: yField||'y', type: 'ordinal' },
+          color: { field: valueField||'value', type: 'quantitative' }
+        },
+        view: { stroke: null }
+      };
+      try { await window.vegaEmbed(container, spec, { actions:false, renderer:'canvas' }); return true; }
+      catch(e){ console.warn('Vega heatmap failed', e); return false; }
+    }
   };
 })();
-

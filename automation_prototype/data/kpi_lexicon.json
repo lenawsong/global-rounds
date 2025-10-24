@@ -26,8 +26,18 @@
     "gross_margin": "revenue minus cost of goods sold expressed as an amount or percentage",
     "revenue": "income generated from operations before expenses",
     "cogs": "cost of goods sold: direct costs attributable to production or procurement",
-    "ar_aging": "accounts receivable aging: distribution of unpaid invoices by time bucket"
+    "ar_aging": "accounts receivable aging: distribution of unpaid invoices by time bucket",
+    "cash_collection_rate": "percentage of billed amounts collected within a period",
+    "net_collection_rate": "percentage of net collectible amounts actually collected",
+    "bad_debt": "uncollectible receivables written off as expense",
+    "ltv": "lifetime value: total gross margin expected from a customer over the relationship",
+    "cac": "customer acquisition cost: total sales and marketing cost to acquire a customer",
+    "nrr": "net revenue retention: revenue retained including expansion and contraction from existing customers",
+    "gross_churn": "percentage of revenue lost from existing customers in a period excluding expansion",
+    "nps": "net promoter score: index ranging from -100 to 100 measuring customer loyalty and satisfaction",
+    "avg_handle_time": "average duration to resolve a customer interaction or ticket",
+    "magic_number": "sales efficiency metric: net new ARR divided by prior quarter sales and marketing spend",
+    "dsr": "days sales remaining: projected days required to convert receivables to cash"
   },
   "roots": ["dso", "denial_rate", "sla", "variance", "first_pass_yield", "cycle_time", "on_time_delivery", "fill_rate", "gross_margin", "ar_aging"]
 }
-

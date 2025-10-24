@@ -116,6 +116,9 @@ const elements = {
   reactVarianceCard: document.getElementById('react-variance-card'),
   reactRevenueMini: document.getElementById('react-revenue-mini'),
   reactSupplierMini: document.getElementById('react-supplier-mini'),
+  reactSlaCard: document.getElementById('react-sla-card'),
+  reactDenialCard: document.getElementById('react-denial-card'),
+  reactWorkloadCard: document.getElementById('react-workload-card'),
   scenarioForm: document.getElementById('inventory-scenario-form'),
   scenarioGrowth: document.getElementById('scenario-growth'),
   scenarioLead: document.getElementById('scenario-lead'),
@@ -1512,6 +1515,82 @@ function renderVarianceCard() {
   }
 }
 
+function renderSlaTrendCard() {
+  const container = elements.reactSlaCard;
+  if (!container) return;
+  const now = Date.now();
+  const days = 14;
+  const buckets = [];
+  for (let i = days - 1; i >= 0; i--) {
+    const d = new Date(now - i * 24 * 3600 * 1000);
+    buckets.push({ date: new Date(d.getFullYear(), d.getMonth(), d.getDate()) });
+  }
+  const counts = new Map(buckets.map((b) => [b.date.toISOString().slice(0,10), 0]));
+  (state.tasks || []).forEach((t) => {
+    const due = t?.due_at ? new Date(t.due_at) : null;
+    const status = String(t?.status || '').toLowerCase();
+    if (due && status !== 'closed' && due.getTime() < now) {
+      const key = new Date(due.getFullYear(), due.getMonth(), due.getDate()).toISOString().slice(0,10);
+      if (counts.has(key)) counts.set(key, counts.get(key) + 1);
+    }
+  });
+  const rows = Array.from(counts.entries()).map(([d, v]) => ({ date: d, value: v }));
+  const v = getWorldViz();
+  const host = ensureChartHost(container, 'vega-sla-host');
+  if (v && host) { v.renderLine(host, rows, 'date', 'value'); return; }
+  // fallback: ECharts line
+  const eHost = ensureChartHost(container, 'echart-sla-host');
+  if (window.echarts && eHost) {
+    const chart = window.echarts.init(eHost);
+    chart.setOption({ xAxis: { type: 'category', data: rows.map((r) => r.date) }, yAxis: { type: 'value' }, series: [{ type: 'line', data: rows.map((r) => r.value) }] });
+    return;
+  }
+  // canvas fallback: bars
+  const canvas = ensureCanvas(container, 'insight-sla-canvas');
+  if (canvas) drawBarChart(canvas, rows.map((r,i) => ({ label: String(i+1), value: r.value, color: CHART_COLORS[i%CHART_COLORS.length] })), { padding: 28 });
+}
+
+function renderDenialParetoCard() {
+  const container = elements.reactDenialCard;
+  if (!container) return;
+  const docs = state.data?.payments?.documentation_queue || [];
+  const counts = {};
+  docs.forEach((d) => { const code = String(d?.denial_code || 'UNK'); counts[code] = (counts[code] || 0) + 1; });
+  const dataset = Object.entries(counts).map(([label, value]) => ({ label, value })).sort((a,b) => b.value - a.value).slice(0, 12);
+  const v = getWorldViz();
+  const host = ensureChartHost(container, 'vega-denial-host');
+  if (v && host) { v.renderBars(host, dataset); return; }
+  const eHost = ensureChartHost(container, 'echart-denial-host');
+  const used = eHost && drawEChartsBars(eHost, dataset);
+  if (!used) { const canvas = ensureCanvas(container, 'insight-denial-canvas'); if (canvas) drawBarChart(canvas, dataset, { padding: 28 }); }
+}
+
+function renderWorkloadHeatmapCard() {
+  const container = elements.reactWorkloadCard;
+  if (!container) return;
+  const tasks = state.tasks || [];
+  const days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  const types = Array.from(new Set(tasks.map((t) => String(t?.task_type || 'other'))));
+  const counts = {};
+  days.forEach((d) => { types.forEach((t) => { counts[d+'|'+t] = 0; }); });
+  tasks.forEach((t) => {
+    const created = t?.created_at ? new Date(t.created_at) : null;
+    const day = created ? days[created.getDay()] : 'Mon';
+    const ty = String(t?.task_type || 'other');
+    const key = day+'|'+ty;
+    counts[key] = (counts[key] || 0) + 1;
+  });
+  const rows = Object.entries(counts).map(([k,v]) => { const [day,type] = k.split('|'); return { x: type, y: day, value: v }; });
+  const v = getWorldViz();
+  const host = ensureChartHost(container, 'vega-workload-host');
+  if (v && host) { v.renderHeatmap(host, rows, 'x', 'y', 'value'); return; }
+  // fallback to bars by type
+  const dataset = types.map((t) => ({ label: t, value: rows.filter((r) => r.x===t).reduce((a,b)=>a+b.value,0) }));
+  const eHost = ensureChartHost(container, 'echart-workload-host');
+  const used = eHost && drawEChartsBars(eHost, dataset);
+  if (!used) { const canvas = ensureCanvas(container, 'insight-workload-canvas'); if (canvas) drawBarChart(canvas, dataset, { padding: 28 }); }
+}
+
 function togglePanelHelp(panelId) {
   if (!panelId) {
     return;
@@ -2512,6 +2591,9 @@ function renderInsights() {
   renderInventoryInsights();
   renderComplianceCard();
   renderVarianceCard();
+  renderSlaTrendCard();
+  renderDenialParetoCard();
+  renderWorkloadHeatmapCard();
   renderRevenueMini();
   renderSupplierMini();
   validateInsightHeights();
@@ -2519,7 +2601,12 @@ function renderInsights() {
 
 function validateInsightHeights() {
   try {
-    const ids = ['react-revenue-mini', 'react-supplier-mini', 'react-task-card', 'react-finance-card', 'react-inventory-card', 'react-compliance-card', 'react-variance-card'];
+    const ids = [
+      'react-revenue-mini', 'react-supplier-mini',
+      'react-task-card', 'react-finance-card', 'react-inventory-card',
+      'react-compliance-card', 'react-variance-card',
+      'react-sla-card', 'react-denial-card', 'react-workload-card'
+    ];
     const nodes = ids.map((id) => document.getElementById(id)).filter(Boolean);
     const report = nodes.map((el) => ({ id: el.id, h: el.offsetHeight }));
     if (typeof console !== 'undefined') {
