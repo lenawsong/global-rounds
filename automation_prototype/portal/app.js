@@ -29,6 +29,7 @@ const elements = {
   orderList: document.getElementById('order-list'),
   orderCount: document.getElementById('order-count'),
   refreshBtn: document.getElementById('refresh-orders'),
+  openIntake: document.getElementById('open-intake'),
   toastStack: document.getElementById('toast-stack'),
   taskList: document.getElementById('task-list'),
   taskCount: document.getElementById('task-count'),
@@ -57,6 +58,16 @@ if (state.apiBase) {
 
 function apiUrl(path) {
   return `${state.apiBase.replace(/\/$/, '')}${path}`;
+}
+
+// Ensure the "New Patient Intake" link points at the correct API base
+try {
+  if (elements.openIntake) {
+    const href = `/patient/intake.html?api=${encodeURIComponent(state.apiBase)}`;
+    elements.openIntake.setAttribute('href', href);
+  }
+} catch (e) {
+  // non-fatal
 }
 
 async function fetchJson(path, options = {}) {
