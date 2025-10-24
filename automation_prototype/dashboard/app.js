@@ -1350,6 +1350,87 @@ function drawBarChart(canvas, dataset, options = {}) {
   ctx.restore();
 }
 
+// ---------------------------------------------------------------------------
+// ECharts helpers (if available) for world-class data viz
+// ---------------------------------------------------------------------------
+
+function ensureChartHost(container, id) {
+  if (!container) return null;
+  let host = container.querySelector(`#${id}`);
+  if (!host) {
+    host = document.createElement('div');
+    host.id = id;
+    host.style.width = '100%';
+    host.style.height = '280px';
+    host.style.borderRadius = '14px';
+    host.style.border = '1px solid rgba(17,42,94,0.08)';
+    host.style.background = '#ffffff';
+    container.appendChild(host);
+  }
+  return host;
+}
+
+function drawEChartsDonut(container, segments, opts = {}) {
+  if (!window.echarts || !container) return false;
+  const chart = window.echarts.init(container);
+  const series = [{
+    type: 'pie',
+    radius: ['58%', '85%'],
+    avoidLabelOverlap: true,
+    itemStyle: { borderWidth: 0 },
+    label: { show: false },
+    emphasis: { label: { show: true, fontSize: 12, formatter: '{b}: {c}' } },
+    data: (segments || []).map((s, i) => ({ name: s.label, value: s.value || 0, itemStyle: { color: s.color || CHART_COLORS[i % CHART_COLORS.length] } })),
+  }];
+  chart.setOption({
+    animation: true,
+    tooltip: { trigger: 'item', formatter: '{b}: {c} ({d}%)' },
+    series,
+  });
+  return true;
+}
+
+function drawEChartsHorizontalBars(container, dataset) {
+  if (!window.echarts || !container) return false;
+  const chart = window.echarts.init(container);
+  const labels = (dataset || []).map((d) => d.label);
+  const values = (dataset || []).map((d) => d.value || 0);
+  const colors = (dataset || []).map((d, i) => d.color || CHART_COLORS[i % CHART_COLORS.length]);
+  chart.setOption({
+    animation: true,
+    grid: { left: 140, right: 24, top: 24, bottom: 24 },
+    xAxis: { type: 'value', axisLabel: { formatter: (v) => formatChartNumber(v) } },
+    yAxis: { type: 'category', data: labels },
+    tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
+    series: [{
+      type: 'bar',
+      data: values,
+      itemStyle: { color: (p) => colors[p.dataIndex] },
+      showBackground: true,
+      backgroundStyle: { color: 'rgba(15,32,79,0.06)' },
+      barWidth: 18,
+    }],
+  });
+  return true;
+}
+
+function drawEChartsBars(container, dataset) {
+  if (!window.echarts || !container) return false;
+  const chart = window.echarts.init(container);
+  const labels = (dataset || []).map((d) => d.label);
+  const values = (dataset || []).map((d) => d.value || 0);
+  const colors = (dataset || []).map((d, i) => d.color || CHART_COLORS[i % CHART_COLORS.length]);
+  chart.setOption({
+    animation: true,
+    grid: { left: 36, right: 24, top: 28, bottom: 32 },
+    xAxis: { type: 'category', data: labels, axisLabel: { rotate: 0 } },
+    yAxis: { type: 'value', axisLabel: { formatter: (v) => formatChartNumber(v) } },
+    tooltip: { trigger: 'axis' },
+    series: [{ type: 'bar', data: values, itemStyle: { color: (p) => colors[p.dataIndex] }, barMaxWidth: 28 }],
+  });
+  return true;
+}
+
 function togglePanelHelp(panelId) {
   if (!panelId) {
     return;
@@ -2467,21 +2548,19 @@ function renderTaskInsights() {
       copy: fallbackCopy,
       items: breakdown,
     });
-    const canvas = ensureCanvas(container, 'insight-task-canvas');
-    if (canvas) {
-      try {
-        const segments = Array.isArray(insight?.dataset)
-          ? insight.dataset.map((s, i) => ({
-              label: s.label,
-              value: Number(s.value) || 0,
-              color: s.color || CHART_COLORS[i % CHART_COLORS.length],
-            }))
-          : [];
-        drawDonutChart(canvas, segments, {
-          centerLabel: total > 0 ? total.toLocaleString() : '0',
-          centerSubLabel: 'tasks',
-        });
-      } catch (_) {}
+    // Try world-class chart first
+    const segments = Array.isArray(insight?.dataset)
+      ? insight.dataset.map((s, i) => ({ label: s.label, value: Number(s.value) || 0, color: s.color || CHART_COLORS[i % CHART_COLORS.length] }))
+      : [];
+    const eHost = ensureChartHost(container, 'echart-task-host');
+    const usedECharts = eHost && drawEChartsDonut(eHost, segments, {});
+    if (!usedECharts) {
+      const canvas = ensureCanvas(container, 'insight-task-canvas');
+      if (canvas) {
+        try {
+          drawDonutChart(canvas, segments, { centerLabel: total > 0 ? total.toLocaleString() : '0', centerSubLabel: 'tasks' });
+        } catch (_) {}
+      }
     }
   }
 }
@@ -2559,25 +2638,17 @@ function renderFinanceInsights() {
       })
     : [];
   if (!reactMounted) {
-    renderInsightFallback(container, {
-      eyebrow: 'Finance pulse',
-      headline,
-      copy,
-      items: metrics,
-    });
-    const canvas = ensureCanvas(container, 'insight-finance-canvas');
-    if (canvas) {
-      try {
-        const bars = Array.isArray(insight?.dataset)
-          ? insight.dataset.map((s, i) => ({
-              label: s.label,
-              value: Number(s.value) || 0,
-              color: s.color || CHART_COLORS[i % CHART_COLORS.length],
-              displayValue: s.displayValue,
-            }))
-          : [];
-        drawHorizontalBarChart(canvas, bars, { paddingTop: 18, paddingBottom: 24 });
-      } catch (_) {}
+    renderInsightFallback(container, { eyebrow: 'Finance pulse', headline, copy, items: metrics });
+    const bars = Array.isArray(insight?.dataset)
+      ? insight.dataset.map((s, i) => ({ label: s.label, value: Number(s.value) || 0, color: s.color || CHART_COLORS[i % CHART_COLORS.length], displayValue: s.displayValue }))
+      : [];
+    const eHost = ensureChartHost(container, 'echart-finance-host');
+    const usedECharts = eHost && drawEChartsHorizontalBars(eHost, bars);
+    if (!usedECharts) {
+      const canvas = ensureCanvas(container, 'insight-finance-canvas');
+      if (canvas) {
+        try { drawHorizontalBarChart(canvas, bars, { paddingTop: 18, paddingBottom: 24 }); } catch (_) {}
+      }
     }
   }
 }
@@ -2654,24 +2725,17 @@ function renderInventoryInsights() {
   if (!reactMounted) {
     // Ensure fallback is visible only when React isn't mounted
     container.classList.remove('react-mounted');
-    renderInsightFallback(container, {
-      eyebrow: 'Inventory actions',
-      headline,
-      copy,
-      items: metrics,
-    });
-    const canvas = ensureCanvas(container, 'insight-inventory-canvas');
-    if (canvas) {
-      try {
-        const bars = Array.isArray(baseInsight?.dataset)
-          ? baseInsight.dataset.map((s, i) => ({
-              label: s.label,
-              value: Number(s.value) || 0,
-              color: s.color || CHART_COLORS[i % CHART_COLORS.length],
-            }))
-          : [];
-        drawBarChart(canvas, bars, { padding: 28 });
-      } catch (_) {}
+    renderInsightFallback(container, { eyebrow: 'Inventory actions', headline, copy, items: metrics });
+    const bars = Array.isArray(baseInsight?.dataset)
+      ? baseInsight.dataset.map((s, i) => ({ label: s.label, value: Number(s.value) || 0, color: s.color || CHART_COLORS[i % CHART_COLORS.length] }))
+      : [];
+    const eHost = ensureChartHost(container, 'echart-inventory-host');
+    const usedECharts = eHost && drawEChartsBars(eHost, bars);
+    if (!usedECharts) {
+      const canvas = ensureCanvas(container, 'insight-inventory-canvas');
+      if (canvas) {
+        try { drawBarChart(canvas, bars, { padding: 28 }); } catch (_) {}
+      }
     }
   }
 }

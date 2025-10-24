@@ -548,6 +548,8 @@
   <script>
     window.process = window.process || { env: { NODE_ENV: 'production' } };
   </script>
+  <!-- World-class charts: Apache ECharts (loaded from CDN at runtime) -->
+  <script defer src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
   <!-- Use a relative path so the embed loads when opened from a subpath or file:// -->
   <script defer src="assets/command-insights-embed.js?v=20251010l"></script>
   <script defer src="app.js?v=20251003c"></script>
