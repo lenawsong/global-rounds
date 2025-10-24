@@ -1,0 +1,15 @@
+{
+  "name": "@gr/charts",
+  "version": "0.1.0",
+  "private": true,
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "peerDependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-vega": "^7.6.0",
+    "vega": "^5.27.0",
+    "vega-lite": "^5.16.0"
+  }
+}
+
