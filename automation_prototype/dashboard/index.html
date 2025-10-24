@@ -548,8 +548,12 @@
   <script>
     window.process = window.process || { env: { NODE_ENV: 'production' } };
   </script>
-  <!-- World-class charts: Apache ECharts (loaded from CDN at runtime) -->
+  <!-- World-class charts: Apache ECharts + Vega-Lite via CDN -->
   <script defer src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/vega@5/build/vega.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/vega-lite@5/build/vega-lite.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/vega-embed@6/build/vega-embed.min.js"></script>
+  <script defer src="assets/worldclass-viz.js?v=20251024a"></script>
   <!-- Use a relative path so the embed loads when opened from a subpath or file:// -->
   <script defer src="assets/command-insights-embed.js?v=20251010l"></script>
   <script defer src="app.js?v=20251003c"></script>

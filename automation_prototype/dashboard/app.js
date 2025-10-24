@@ -921,16 +921,16 @@ function renderRevenueMini() {
   const data = live ? state.analyticsSummary.revenueByCategory : buildRevenueDemoData();
   let reactMounted = false;
   if (embed?.renderRevenueMini) {
-    try {
-      embed.renderRevenueMini(container, { data, loading: false, live });
-      container.classList.add('react-mounted');
-      reactMounted = true;
-    } catch (error) {
-      console.error('Failed to render React revenue mini', error);
-    }
+    try { embed.renderRevenueMini(container, { data, loading: false, live }); container.classList.add('react-mounted'); reactMounted = true; } catch (error) { console.error('Failed to render React revenue mini', error); }
   }
   if (!reactMounted) {
     container.classList.remove('react-mounted');
+    // World-class Vega chart for revenue mini
+    const v = getWorldViz();
+    const host = ensureChartHost(container, 'vega-revenue-mini');
+    if (v && host) {
+      v.renderRevenueMini(host, data);
+    }
   }
 }
 
@@ -942,16 +942,15 @@ function renderSupplierMini() {
   const data = live ? state.analyticsSummary.supplierReliability : buildSupplierDemoData();
   let reactMounted = false;
   if (embed?.renderSupplierMini) {
-    try {
-      embed.renderSupplierMini(container, { data, loading: false, live });
-      container.classList.add('react-mounted');
-      reactMounted = true;
-    } catch (error) {
-      console.error('Failed to render React supplier mini', error);
-    }
+    try { embed.renderSupplierMini(container, { data, loading: false, live }); container.classList.add('react-mounted'); reactMounted = true; } catch (error) { console.error('Failed to render React supplier mini', error); }
   }
   if (!reactMounted) {
     container.classList.remove('react-mounted');
+    const v = getWorldViz();
+    const host = ensureChartHost(container, 'vega-supplier-mini');
+    if (v && host) {
+      v.renderSupplierMini(host, data);
+    }
   }
 }
 
@@ -1430,6 +1429,8 @@ function drawEChartsBars(container, dataset) {
   });
   return true;
 }
+
+function getWorldViz(){ return window.WorldViz || null; }
 
 function togglePanelHelp(panelId) {
   if (!panelId) {
@@ -2548,19 +2549,21 @@ function renderTaskInsights() {
       copy: fallbackCopy,
       items: breakdown,
     });
-    // Try world-class chart first
+    // Prefer Vega-Lite, then ECharts, then Canvas
     const segments = Array.isArray(insight?.dataset)
       ? insight.dataset.map((s, i) => ({ label: s.label, value: Number(s.value) || 0, color: s.color || CHART_COLORS[i % CHART_COLORS.length] }))
       : [];
-    const eHost = ensureChartHost(container, 'echart-task-host');
-    const usedECharts = eHost && drawEChartsDonut(eHost, segments, {});
-    if (!usedECharts) {
-      const canvas = ensureCanvas(container, 'insight-task-canvas');
-      if (canvas) {
-        try {
-          drawDonutChart(canvas, segments, { centerLabel: total > 0 ? total.toLocaleString() : '0', centerSubLabel: 'tasks' });
-        } catch (_) {}
+    const v = getWorldViz();
+    const vHost = ensureChartHost(container, 'vega-task-host');
+    if (!(v && vHost)) {
+      const eHost = ensureChartHost(container, 'echart-task-host');
+      const usedECharts = eHost && drawEChartsDonut(eHost, segments, {});
+      if (!usedECharts) {
+        const canvas = ensureCanvas(container, 'insight-task-canvas');
+        if (canvas) { try { drawDonutChart(canvas, segments, { centerLabel: total > 0 ? total.toLocaleString() : '0', centerSubLabel: 'tasks' }); } catch (_) {} }
       }
+    } else {
+      v.renderDonut(vHost, segments, {});
     }
   }
 }
@@ -2642,13 +2645,17 @@ function renderFinanceInsights() {
     const bars = Array.isArray(insight?.dataset)
       ? insight.dataset.map((s, i) => ({ label: s.label, value: Number(s.value) || 0, color: s.color || CHART_COLORS[i % CHART_COLORS.length], displayValue: s.displayValue }))
       : [];
-    const eHost = ensureChartHost(container, 'echart-finance-host');
-    const usedECharts = eHost && drawEChartsHorizontalBars(eHost, bars);
-    if (!usedECharts) {
-      const canvas = ensureCanvas(container, 'insight-finance-canvas');
-      if (canvas) {
-        try { drawHorizontalBarChart(canvas, bars, { paddingTop: 18, paddingBottom: 24 }); } catch (_) {}
+    const v = getWorldViz();
+    const vHost = ensureChartHost(container, 'vega-finance-host');
+    if (!(v && vHost)) {
+      const eHost = ensureChartHost(container, 'echart-finance-host');
+      const usedECharts = eHost && drawEChartsHorizontalBars(eHost, bars);
+      if (!usedECharts) {
+        const canvas = ensureCanvas(container, 'insight-finance-canvas');
+        if (canvas) { try { drawHorizontalBarChart(canvas, bars, { paddingTop: 18, paddingBottom: 24 }); } catch (_) {} }
       }
+    } else {
+      v.renderBarsHorizontal(vHost, bars);
     }
   }
 }
@@ -2729,13 +2736,17 @@ function renderInventoryInsights() {
     const bars = Array.isArray(baseInsight?.dataset)
       ? baseInsight.dataset.map((s, i) => ({ label: s.label, value: Number(s.value) || 0, color: s.color || CHART_COLORS[i % CHART_COLORS.length] }))
       : [];
-    const eHost = ensureChartHost(container, 'echart-inventory-host');
-    const usedECharts = eHost && drawEChartsBars(eHost, bars);
-    if (!usedECharts) {
-      const canvas = ensureCanvas(container, 'insight-inventory-canvas');
-      if (canvas) {
-        try { drawBarChart(canvas, bars, { padding: 28 }); } catch (_) {}
+    const v = getWorldViz();
+    const vHost = ensureChartHost(container, 'vega-inventory-host');
+    if (!(v && vHost)) {
+      const eHost = ensureChartHost(container, 'echart-inventory-host');
+      const usedECharts = eHost && drawEChartsBars(eHost, bars);
+      if (!usedECharts) {
+        const canvas = ensureCanvas(container, 'insight-inventory-canvas');
+        if (canvas) { try { drawBarChart(canvas, bars, { padding: 28 }); } catch (_) {} }
       }
+    } else {
+      v.renderBars(vHost, bars);
     }
   }
 }
