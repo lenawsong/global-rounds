@@ -15,6 +15,8 @@
     <div class="hero-actions">
       <button id="run-agents-api" class="primary">Run Agents</button>
       <button id="reload-sample" class="ghost">Sample Dataset</button>
+      <a id="open-intake-dashboard" class="secondary" href="#" target="_self">New Patient Intake</a>
+      <button id="theme-toggle" class="ghost" type="button">Theme: Auto</button>
       <label class="file-pill">Load JSON
         <input type="file" id="data-file" accept="application/json" />
       </label>
@@ -178,6 +180,22 @@
               <canvas id="insight-inventory-canvas" class="chart-canvas" aria-hidden="true"></canvas>
             </div>
           </div>
+          <div class="chart-card react-insight-card" id="react-compliance-card" data-no-shadow="true">
+            <div class="insight-react-fallback" aria-live="polite">
+              <p class="insight-react-eyebrow">Compliance mix</p>
+              <h3 class="insight-react-headline">Loading compliance status…</h3>
+              <p class="insight-react-copy">Donut chart of clear / hold / unknown across patient work orders.</p>
+              <canvas id="insight-compliance-canvas" class="chart-canvas" aria-hidden="true"></canvas>
+            </div>
+          </div>
+          <div class="chart-card react-insight-card" id="react-variance-card" data-no-shadow="true">
+            <div class="insight-react-fallback" aria-live="polite">
+              <p class="insight-react-eyebrow">Variance distribution</p>
+              <h3 class="insight-react-headline">Loading payments variance…</h3>
+              <p class="insight-react-copy">Histogram of underpayment buckets ($0–50, $50–100, …).</p>
+              <canvas id="insight-variance-canvas" class="chart-canvas" aria-hidden="true"></canvas>
+            </div>
+          </div>
           <div class="chart-card react-insight-card" id="react-revenue-mini" data-no-shadow="true">
             <div class="insight-react-fallback" aria-live="polite">
               <p class="insight-react-eyebrow">Revenue</p>
@@ -313,6 +331,36 @@
           </div>
         </div>
       </section>
+    </section>
+
+    <section id="kpi-lexicon-panel" class="panel">
+      <header>
+        <div class="panel-title-group">
+          <div class="panel-title">
+            <h2>Key KPI Lexicon</h2>
+            <button type="button" class="panel-info" data-panel="kpi-lexicon-panel" aria-label="Show context for Key KPI Lexicon" aria-haspopup="dialog" aria-expanded="false" aria-controls="panel-help-kpi-lexicon-panel">
+              <span aria-hidden="true">i</span>
+            </button>
+            <div id="panel-help-kpi-lexicon-panel" class="panel-help-popover" role="dialog" aria-modal="false" hidden></div>
+          </div>
+        </div>
+        <p class="panel-subtitle">Recursive definitions: terms, the words in their definitions, and so on.</p>
+      </header>
+      <form id="kpi-lexicon-form" class="scenario-form" autocomplete="off">
+        <div class="scenario-fields">
+          <label for="kpi-roots">Root terms
+            <input type="text" id="kpi-roots" name="roots" placeholder="e.g., dso, denial_rate, sla" />
+          </label>
+          <label for="kpi-depth">Depth
+            <input type="number" id="kpi-depth" name="depth" value="2" min="0" max="6" />
+          </label>
+        </div>
+        <div class="scenario-actions">
+          <button type="submit" class="primary">Expand</button>
+          <button type="button" id="kpi-reset" class="ghost">Reset</button>
+        </div>
+      </form>
+      <div id="kpi-lexicon-results" class="scenario-summary"></div>
     </section>
 
     <section id="tab-finance" class="tab-panel">

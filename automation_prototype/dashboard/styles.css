@@ -311,17 +311,17 @@ input[type='range'] {
 @media (prefers-color-scheme: dark) {
   :root {
     color-scheme: dark;
-    --bg-top: #0b1220;
-    --bg-bottom: #0d1627;
-    --surface: rgba(13, 22, 39, 0.9);
-    --surface-alt: rgba(17, 27, 46, 0.92);
-    --card: #0e1626;
-    --table-head: rgba(255,255,255,0.04);
-    --border: rgba(255,255,255,0.08);
-    --border-strong: rgba(255,255,255,0.14);
-    --text: #ecf2ff;
-    --muted: rgba(236, 242, 255, 0.6);
-    --glow: rgba(31, 91, 230, 0.25);
+    --bg-top: #0e1424;
+    --bg-bottom: #0f172a;
+    --surface: #0f172a; /* solid for readability */
+    --surface-alt: #111b33;
+    --card: #0f1b31;
+    --table-head: rgba(255,255,255,0.06);
+    --border: rgba(255,255,255,0.12);
+    --border-strong: rgba(255,255,255,0.2);
+    --text: #e6ecff;
+    --muted: rgba(230, 236, 255, 0.74);
+    --glow: rgba(56, 139, 253, 0.25);
   }
   body { background: linear-gradient(180deg, var(--bg-top) 0%, var(--bg-bottom) 60%, #0b1220 100%); }
   .site-header { background: linear-gradient(135deg, rgba(17,27,46,0.92), rgba(13,22,39,0.9)); border-color: var(--border); }
@@ -329,6 +329,14 @@ input[type='range'] {
   input[type='search'], input[type='number'], select, textarea { background: rgba(255,255,255,0.04); color: var(--text); }
   .chart-canvas { background: rgba(255,255,255,0.02); border-color: rgba(255,255,255,0.06); }
 }
+
+/* Force-light override if user chooses */
+body[data-theme='light'] {
+  color-scheme: light !important;
+}
+body[data-theme='light'] .site-header,
+body[data-theme='light'] .panel,
+body[data-theme='light'] .chart-card { filter: none !important; }
 
 .chart-canvas[hidden] {
   display: none;

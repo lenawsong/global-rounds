@@ -1,0 +1,33 @@
+{
+  "terms": {
+    "kpi": "key performance indicator: a measurable value that demonstrates how effectively an organization achieves key objectives",
+    "dso": "days sales outstanding: the average number of days it takes to collect payment after a sale",
+    "days": "units of time equal to twenty-four hours",
+    "sales": "revenue resulting from goods or services provided to customers",
+    "outstanding": "remaining unpaid or unresolved",
+    "denial_rate": "percentage of claims denied by payers over a period",
+    "percentage": "a portion of one hundred used to express ratios or rates",
+    "claims": "requests for payment submitted to payers for services rendered",
+    "payers": "entities such as insurers or government programs that reimburse claims",
+    "sla": "service level agreement: a contractually defined performance commitment with metrics and credits",
+    "service": "the action of helping or doing work for someone",
+    "level": "a relative rank or degree of intensity",
+    "agreement": "a negotiated and typically legally binding arrangement",
+    "variance": "difference between expected and actual amounts",
+    "expected": "predicted or budgeted value based on assumptions",
+    "actual": "observed value realized in practice",
+    "first_pass_yield": "percentage of items that meet quality criteria without rework",
+    "quality": "degree to which something meets requirements",
+    "rework": "additional effort needed to correct defects",
+    "cycle_time": "elapsed time from start to finish of a process",
+    "throughput": "amount of work processed over a given time",
+    "on_time_delivery": "percentage of orders delivered by the promised date",
+    "fill_rate": "percentage of demand fulfilled immediately from stock on hand",
+    "gross_margin": "revenue minus cost of goods sold expressed as an amount or percentage",
+    "revenue": "income generated from operations before expenses",
+    "cogs": "cost of goods sold: direct costs attributable to production or procurement",
+    "ar_aging": "accounts receivable aging: distribution of unpaid invoices by time bucket"
+  },
+  "roots": ["dso", "denial_rate", "sla", "variance", "first_pass_yield", "cycle_time", "on_time_delivery", "fill_rate", "gross_margin", "ar_aging"]
+}
+

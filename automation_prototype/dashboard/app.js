@@ -77,6 +77,8 @@ const elements = {
   apiStatus: document.getElementById('api-status'),
   runAllButton: document.getElementById('run-agents-api'),
   reloadSample: document.getElementById('reload-sample'),
+  openIntakeDashboard: document.getElementById('open-intake-dashboard'),
+  themeToggle: document.getElementById('theme-toggle'),
   dataFile: document.getElementById('data-file'),
   agentButtons: Array.from(document.querySelectorAll('[data-agent]')),
   complianceFilter: document.getElementById('compliance-filter'),
@@ -110,6 +112,8 @@ const elements = {
   reactTaskCard: document.getElementById('react-task-card'),
   reactFinanceCard: document.getElementById('react-finance-card'),
   reactInventoryCard: document.getElementById('react-inventory-card'),
+  reactComplianceCard: document.getElementById('react-compliance-card'),
+  reactVarianceCard: document.getElementById('react-variance-card'),
   reactRevenueMini: document.getElementById('react-revenue-mini'),
   reactSupplierMini: document.getElementById('react-supplier-mini'),
   scenarioForm: document.getElementById('inventory-scenario-form'),
@@ -121,6 +125,11 @@ const elements = {
   scenarioSummary: document.getElementById('scenario-summary'),
   scenarioCsv: document.getElementById('scenario-download-csv'),
   scenarioPdf: document.getElementById('scenario-download-pdf'),
+  kpiForm: document.getElementById('kpi-lexicon-form'),
+  kpiRoots: document.getElementById('kpi-roots'),
+  kpiDepth: document.getElementById('kpi-depth'),
+  kpiReset: document.getElementById('kpi-reset'),
+  kpiResults: document.getElementById('kpi-lexicon-results'),
   panelHelpButtons: new Map(),
   panelHelpPopovers: new Map(),
   panelRunDisplays: new Map(),
@@ -236,6 +245,7 @@ const FINANCE_DSO_BASELINE = 45;
 const INVENTORY_BASE_LEAD_TIME = 14;
 
 const CHAT_HISTORY_LIMIT = 12;
+const THEME_KEY = 'gr-dashboard-theme';
 
 const PANEL_HELP_CONFIG = {
   'agent-panel': {
@@ -1432,6 +1442,76 @@ function drawEChartsBars(container, dataset) {
 
 function getWorldViz(){ return window.WorldViz || null; }
 
+// Theme + intake helpers
+function applyThemePreference() {
+  let pref = null;
+  try { pref = window.localStorage.getItem(THEME_KEY); } catch (_) {}
+  if (pref === 'light') {
+    document.body.dataset.theme = 'light';
+    if (elements.themeToggle) elements.themeToggle.textContent = 'Theme: Light';
+  } else {
+    delete document.body.dataset.theme;
+    if (elements.themeToggle) elements.themeToggle.textContent = 'Theme: Auto';
+  }
+}
+
+function toggleTheme() {
+  const forced = document.body.dataset.theme === 'light';
+  try { window.localStorage.setItem(THEME_KEY, forced ? '' : 'light'); } catch (_) {}
+  applyThemePreference();
+}
+
+function wireIntakeLink() {
+  if (!elements.openIntakeDashboard) return;
+  const href = `/command-center/patient/intake.html?api=${encodeURIComponent(state.apiBase)}`;
+  elements.openIntakeDashboard.setAttribute('href', href);
+}
+
+// Additional insight cards
+function renderComplianceCard() {
+  const container = elements.reactComplianceCard;
+  if (!container) return;
+  const orders = (state.data?.ordering?.patient_work_orders || []).concat([]);
+  const counts = { clear: 0, hold: 0, unknown: 0 };
+  orders.forEach((o) => { const s = String(o?.compliance_status || 'unknown').toLowerCase(); if (counts[s] !== undefined) counts[s] += 1; else counts.unknown += 1; });
+  const segments = [
+    { label: 'Clear', value: counts.clear, color: CHART_COLORS[1] },
+    { label: 'Hold', value: counts.hold, color: CHART_COLORS[2] },
+    { label: 'Unknown', value: counts.unknown, color: CHART_COLORS[0] },
+  ];
+  const v = getWorldViz();
+  const host = ensureChartHost(container, 'vega-compliance-host');
+  if (v && host) { v.renderDonut(host, segments, {}); return; }
+  const eHost = ensureChartHost(container, 'echart-compliance-host');
+  const used = eHost && drawEChartsDonut(eHost, segments, {});
+  if (!used) {
+    const canvas = ensureCanvas(container, 'insight-compliance-canvas');
+    if (canvas) drawDonutChart(canvas, segments, {});
+  }
+}
+
+function renderVarianceCard() {
+  const container = elements.reactVarianceCard;
+  if (!container) return;
+  const under = state.data?.payments?.underpayments || [];
+  const vals = under.map((u) => Number(String(u?.variance || '0').replace(/\$|,/g, '')) || 0);
+  const labels = ['0–50', '50–100', '100–250', '250–500', '500+'];
+  const counts = [0,0,0,0,0];
+  vals.forEach((v) => {
+    if (v <= 50) counts[0]++; else if (v <= 100) counts[1]++; else if (v <= 250) counts[2]++; else if (v <= 500) counts[3]++; else counts[4]++;
+  });
+  const dataset = labels.map((label, i) => ({ label, value: counts[i], color: CHART_COLORS[i % CHART_COLORS.length] }));
+  const v = getWorldViz();
+  const host = ensureChartHost(container, 'vega-variance-host');
+  if (v && host) { v.renderBars(host, dataset); return; }
+  const eHost = ensureChartHost(container, 'echart-variance-host');
+  const used = eHost && drawEChartsBars(eHost, dataset);
+  if (!used) {
+    const canvas = ensureCanvas(container, 'insight-variance-canvas');
+    if (canvas) drawBarChart(canvas, dataset, { padding: 28 });
+  }
+}
+
 function togglePanelHelp(panelId) {
   if (!panelId) {
     return;
@@ -2430,6 +2510,8 @@ function renderInsights() {
   renderTaskInsights();
   renderFinanceInsights();
   renderInventoryInsights();
+  renderComplianceCard();
+  renderVarianceCard();
   renderRevenueMini();
   renderSupplierMini();
   validateInsightHeights();
@@ -2437,7 +2519,7 @@ function renderInsights() {
 
 function validateInsightHeights() {
   try {
-    const ids = ['react-revenue-mini', 'react-supplier-mini', 'react-task-card', 'react-finance-card', 'react-inventory-card'];
+    const ids = ['react-revenue-mini', 'react-supplier-mini', 'react-task-card', 'react-finance-card', 'react-inventory-card', 'react-compliance-card', 'react-variance-card'];
     const nodes = ids.map((id) => document.getElementById(id)).filter(Boolean);
     const report = nodes.map((el) => ({ id: el.id, h: el.offsetHeight }));
     if (typeof console !== 'undefined') {
@@ -4486,6 +4568,9 @@ async function runSingleAgent(agent, button) {
 
 function attachEventListeners() {
   elements.reloadSample?.addEventListener('click', () => loadSample());
+  elements.themeToggle?.addEventListener('click', () => toggleTheme());
+  wireIntakeLink();
+  applyThemePreference();
 
   elements.runAllButton?.addEventListener('click', () => runAllAgents());
 
@@ -4559,6 +4644,10 @@ function attachEventListeners() {
   elements.scenarioCsv?.addEventListener('click', () => handleScenarioCsvExport());
   elements.scenarioPdf?.addEventListener('click', () => handleScenarioPdfExport());
 
+  // KPI Lexicon
+  elements.kpiForm?.addEventListener('submit', (ev) => { ev.preventDefault(); expandKpiLexicon(); });
+  elements.kpiReset?.addEventListener('click', () => resetKpiLexicon());
+
   elements.dataFile?.addEventListener('change', (event) => {
     const [file] = event.target.files;
     if (!file) {
@@ -4594,6 +4683,7 @@ startStatusPolling();
 refreshStatus({ silent: true });
 loadInventoryForecast({ silent: true });
 refreshAnalytics({ silent: true });
+initKpiLexicon();
 
 window.addEventListener('command-insights-ready', () => {
   renderInsights();
@@ -4640,6 +4730,62 @@ function handleScenarioCsvExport() {
     .map((row) => row.map((cell) => escapeCsv(cell)).join(','))
     .join('\n');
   downloadFile('inventory-scenario.csv', 'text/csv', csvLines);
+}
+
+// ----------------------------- KPI Lexicon UI -----------------------------
+let kpiLexiconData = null;
+
+async function initKpiLexicon() {
+  try {
+    const response = await fetch('../data/kpi_lexicon.json?cache=' + Date.now());
+    const data = await response.json();
+    kpiLexiconData = data;
+    if (elements.kpiRoots && Array.isArray(data?.roots)) {
+      elements.kpiRoots.value = data.roots.join(', ');
+    }
+  } catch (e) {
+    // optional
+  }
+}
+
+async function expandKpiLexicon() {
+  if (!elements.kpiResults) return;
+  const rawRoots = elements.kpiRoots?.value || '';
+  const depth = Number(elements.kpiDepth?.value || 2);
+  const roots = rawRoots.split(',').map((s) => s.trim()).filter(Boolean);
+  const terms = (kpiLexiconData?.terms) || {};
+  if (!Object.keys(terms).length || !roots.length) {
+    elements.kpiResults.textContent = 'Provide roots to expand.';
+    return;
+  }
+  try {
+    const payload = { terms, root_terms: roots, depth, case_insensitive: true };
+    const result = await callApi('/api/lexicon/expand', { method: 'POST', body: payload });
+    renderKpiLexicon(result);
+  } catch (e) {
+    elements.kpiResults.textContent = 'Failed to expand lexicon.';
+  }
+}
+
+function resetKpiLexicon() {
+  if (!elements.kpiResults) return;
+  elements.kpiResults.textContent = '';
+  if (kpiLexiconData?.roots && elements.kpiRoots) {
+    elements.kpiRoots.value = kpiLexiconData.roots.join(', ');
+  }
+  if (elements.kpiDepth) elements.kpiDepth.value = 2;
+}
+
+function renderKpiLexicon(response) {
+  if (!elements.kpiResults) return;
+  const closure = response?.closure || {};
+  const keys = Object.keys(closure).sort();
+  if (!keys.length) {
+    elements.kpiResults.textContent = 'No terms resolved at this depth.';
+    return;
+  }
+  const html = keys.map((k) => `<div><strong>${escapeHtml(k)}</strong>: ${escapeHtml(String(closure[k] || ''))}</div>`).join('');
+  elements.kpiResults.innerHTML = html;
 }
 
 function handleScenarioPdfExport() {
