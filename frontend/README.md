@@ -39,6 +39,17 @@ frontend/
    - Web: http://localhost:3000
    - Dashboard: http://localhost:3001
 
+4) Storybook (component QA):
+   ```bash
+   pnpm storybook
+   ```
+   - Available at http://localhost:6006
+
+5) Playwright smoke test (after `pnpm dev` in another terminal):
+   ```bash
+   pnpm --filter dashboard test:e2e
+   ```
+
 ## Environment
 The dashboard expects the automation API (FastAPI) at `http://localhost:8001` by default. Override via `NEXT_PUBLIC_API_BASE`.
 
@@ -62,4 +73,3 @@ NEXT_PUBLIC_API_BASE=http://localhost:8001
 ## Notes
 - Storybook/Playwright configs are minimal placeholders; enable as you go.
 - This scaffold avoids runtime network calls during bootstrap here; install locally.
-
