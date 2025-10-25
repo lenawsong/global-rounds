@@ -1,9 +1,10 @@
 'use client';
 
 import * as React from 'react';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import { createApiClient } from '../lib/api';
 import { Badge, Button, Card, CardBody, CardSubtle, CardTitle, Shell } from '@gr/ui';
+import { useDashboardSnapshot } from '../hooks/useDashboardData';
 
 const api = createApiClient();
 
@@ -12,7 +13,7 @@ type ChatMsg = { role: 'user' | 'assistant'; content: string };
 export function AskClient() {
   const [input, setInput] = React.useState('Which claims need documentation?');
   const [chat, setChat] = React.useState<ChatMsg[]>([]);
-  const { data: snapshot } = useQuery({ queryKey: ['dashboard-snapshot'], queryFn: () => api.getDashboardSnapshot() });
+  const { data: snapshot } = useDashboardSnapshot();
 
   const askMutation = useMutation({
     mutationFn: async (question: string) => {
@@ -89,4 +90,3 @@ export function AskClient() {
     </Shell>
   );
 }
-

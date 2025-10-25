@@ -1,10 +1,9 @@
 'use client';
 
 import * as React from 'react';
-import { createApiClient } from '../lib/api';
+import Link from 'next/link';
 import { Button, Card, CardBody, CardSubtle, CardTitle, Shell } from '@gr/ui';
-
-const api = createApiClient();
+import { expandLexicon } from '../lib/lexicon';
 
 export function LexiconClient() {
   const [roots, setRoots] = React.useState('dso, denial_rate, sla');
@@ -12,20 +11,18 @@ export function LexiconClient() {
   const [closure, setClosure] = React.useState<Record<string, string>>({});
   const [error, setError] = React.useState<string | null>(null);
 
-  async function expand() {
+  async function handleExpand() {
     setError(null);
-    setClosure({});
     try {
-      // Try API first, then fallback to local sample file
-      const terms = await loadTerms();
-      const body = { terms, root_terms: roots.split(',').map((s) => s.trim()).filter(Boolean), depth, case_insensitive: true } as any;
-      const res = await fetch((process.env.NEXT_PUBLIC_API_BASE || 'http://localhost:8001').replace(/\/$/, '') + '/api/lexicon/expand', {
-        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body)
-      });
-      if (!res.ok) throw new Error(await res.text());
-      const data = await res.json();
-      setClosure(data?.closure || {});
-    } catch (e) {
+      const list = roots.split(',').map((s) => s.trim()).filter(Boolean);
+      if (!list.length) {
+        setClosure({});
+        return;
+      }
+      const result = await expandLexicon(list, depth);
+      setClosure(result?.closure || {});
+    } catch (err) {
+      console.error(err);
       setError('Expansion failed. Check API and try again.');
     }
   }
@@ -50,11 +47,20 @@ export function LexiconClient() {
           <CardTitle>Expand terms</CardTitle>
           <CardSubtle>Enter comma‑separated roots and a depth. We will recursively expand from definitions.</CardSubtle>
           <CardBody>
-            <form className="grid gap-3 md:grid-cols-[1fr_140px_140px]" onSubmit={(e) => { e.preventDefault(); expand(); }}>
+            <form
+              className="grid gap-3 md:grid-cols-[1fr_140px_140px]"
+              onSubmit={(e) => {
+                e.preventDefault();
+                handleExpand();
+              }}
+            >
               <input className="rounded-lg border border-slate-200 px-3 py-2" value={roots} onChange={(e) => setRoots(e.target.value)} />
               <input className="rounded-lg border border-slate-200 px-3 py-2" type="number" min={0} max={6} value={depth} onChange={(e) => setDepth(Number(e.target.value))} />
               <Button type="submit">Expand</Button>
             </form>
+            <div className="mt-3 text-sm text-slate-500">
+              <Link className="text-blue-600 transition hover:text-blue-800" href="/lexicon/graph">View as graph →</Link>
+            </div>
             {error ? <p className="mt-3 text-sm text-rose-600">{error}</p> : null}
           </CardBody>
         </Card>
@@ -76,24 +82,3 @@ export function LexiconClient() {
     </Shell>
   );
 }
-
-async function loadTerms(): Promise<Record<string, string>> {
-  // Try a local sample first, then fall back to backend /data if available
-  try {
-    const res = await fetch('/sample/kpi_lexicon.json');
-    if (res.ok) {
-      const data = await res.json();
-      if (data?.terms) return data.terms as Record<string, string>;
-    }
-  } catch {}
-  try {
-    const base = (process.env.NEXT_PUBLIC_API_BASE || 'http://localhost:8001').replace(/\/$/, '');
-    const res = await fetch(base + '/data/kpi_lexicon.json');
-    if (res.ok) {
-      const data = await res.json();
-      if (data?.terms) return data.terms as Record<string, string>;
-    }
-  } catch {}
-  return {};
-}
-

@@ -1,0 +1,24 @@
+{
+  "orders": [
+    {
+      "id": "ORD-1001",
+      "patient_id": "P001",
+      "supply_sku": "INC-XL-24",
+      "quantity": 120,
+      "status": "approved",
+      "requested_date": "2025-10-26",
+      "ai_compliance_status": "clear",
+      "created_at": "2025-10-23T09:00:00Z"
+    },
+    {
+      "id": "ORD-1002",
+      "patient_id": "P003",
+      "supply_sku": "CATH-LEG-1L",
+      "quantity": 30,
+      "status": "pending_review",
+      "requested_date": "2025-10-27",
+      "ai_compliance_status": "hold",
+      "created_at": "2025-10-24T08:45:00Z"
+    }
+  ]
+}

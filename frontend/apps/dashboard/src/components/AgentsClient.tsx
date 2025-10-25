@@ -1,16 +1,17 @@
 'use client';
 
 import * as React from 'react';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import { createApiClient } from '../lib/api';
 import { Badge, Button, Card, CardBody, CardSubtle, CardTitle, Shell } from '@gr/ui';
+import { useAgentStatuses } from '../hooks/useDashboardData';
 
 const api = createApiClient();
 
 const AGENTS = ['ordering', 'payments', 'workforce', 'engagement', 'performance', 'finance'] as const;
 
 export function AgentsClient() {
-  const { data: statuses, refetch } = useQuery({ queryKey: ['agent-status'], queryFn: () => api.listAgentStatus() });
+  const { data: statuses, refetch } = useAgentStatuses();
   const runAll = useMutation({
     mutationFn: () => api.runAgents(),
     onSuccess: () => refetch()
@@ -84,4 +85,3 @@ export function AgentsClient() {
     </Shell>
   );
 }
-

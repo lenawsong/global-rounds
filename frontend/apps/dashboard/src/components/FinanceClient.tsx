@@ -1,14 +1,14 @@
 'use client';
 
-import { useQuery } from '@tanstack/react-query';
-import { createApiClient } from '../lib/api';
 import { Badge, Button, Card, CardBody, CardSubtle, CardTitle, Shell } from '@gr/ui';
 import { HorizontalBarChart, DualAxesPareto } from '@gr/charts-antv';
+import { useDashboardSnapshot } from '../hooks/useDashboardData';
+import { createApiClient } from '../lib/api';
 
 const api = createApiClient();
 
 export function FinanceClient() {
-  const { data: snapshot } = useQuery({ queryKey: ['dashboard-snapshot'], queryFn: () => api.getDashboardSnapshot() });
+  const { data: snapshot } = useDashboardSnapshot();
   const underpayments = Array.isArray(snapshot?.payments?.underpayments)
     ? (snapshot?.payments?.underpayments as any[])
     : [];

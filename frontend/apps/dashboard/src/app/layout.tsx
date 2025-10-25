@@ -21,13 +21,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                   <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-slate-900 text-white">GR</span>
                   Command Center
                 </Link>
-                <nav className="flex items-center gap-3 text-sm text-slate-600">
+                <nav className="flex flex-wrap items-center gap-3 text-sm text-slate-600">
                   <Link className="transition hover:text-slate-900" href="/">Overview</Link>
                   <Link className="transition hover:text-slate-900" href="/ops">Ops</Link>
                   <Link className="transition hover:text-slate-900" href="/finance">Finance</Link>
                   <Link className="transition hover:text-slate-900" href="/inventory">Inventory</Link>
                   <Link className="transition hover:text-slate-900" href="/engagement">Engagement</Link>
                   <Link className="transition hover:text-slate-900" href="/scenarios">Scenarios</Link>
+                  <Link className="transition hover:text-slate-900" href="/ask">Ask</Link>
+                  <Link className="transition hover:text-slate-900" href="/agents">Agents</Link>
+                  <Link className="transition hover:text-slate-900" href="/lexicon">Lexicon</Link>
                   <a className="inline-flex items-center rounded-full border border-slate-200 px-3 py-1.5 text-slate-600 transition hover:border-slate-300 hover:text-slate-900" href="/command-center/patient/intake.html">New Intake</a>
                 </nav>
               </div>

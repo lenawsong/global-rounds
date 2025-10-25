@@ -1,15 +1,16 @@
 'use client';
 
-import { useQuery, useMutation } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import { createApiClient } from '../lib/api';
 import { Badge, Button, Card, CardBody, CardSubtle, CardTitle, Shell } from '@gr/ui';
 import { HorizontalBarChart } from '@gr/charts-antv';
+import { useDashboardSnapshot } from '../hooks/useDashboardData';
 import * as React from 'react';
 
 const api = createApiClient();
 
 export function InventoryClient() {
-  const { data: snapshot } = useQuery({ queryKey: ['dashboard-snapshot'], queryFn: () => api.getDashboardSnapshot() });
+  const { data: snapshot } = useDashboardSnapshot();
   const workOrders = Array.isArray(snapshot?.ordering?.patient_work_orders)
     ? (snapshot?.ordering?.patient_work_orders as any[])
     : [];

@@ -1,14 +1,11 @@
 'use client';
 
-import { useQuery } from '@tanstack/react-query';
-import { createApiClient } from '../lib/api';
 import { Badge, Card, CardBody, CardSubtle, CardTitle, Shell } from '@gr/ui';
 import { RoseChart } from '@gr/charts-antv';
-
-const api = createApiClient();
+import { useDashboardSnapshot } from '../hooks/useDashboardData';
 
 export function EngagementClient() {
-  const { data: snapshot } = useQuery({ queryKey: ['dashboard-snapshot'], queryFn: () => api.getDashboardSnapshot() });
+  const { data: snapshot } = useDashboardSnapshot();
   const messages = Array.isArray(snapshot?.engagement?.messages) ? (snapshot?.engagement?.messages as any[]) : [];
 
   const sms = messages.filter((m) => m.channel === 'sms').length;
@@ -58,16 +55,6 @@ export function EngagementClient() {
         </Card>
       </section>
     </Shell>
-  );
-}
-
-function ChannelCard({ label, value }: { label: string; value: number }) {
-  return (
-    <div className="rounded-2xl border border-slate-200/70 bg-white/80 p-4 shadow-sm">
-      <Badge variant="brand">{label}</Badge>
-      <p className="mt-3 text-2xl font-semibold text-slate-900">{value}</p>
-      <p className="text-xs text-slate-500">touchpoints</p>
-    </div>
   );
 }
 

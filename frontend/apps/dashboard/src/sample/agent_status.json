@@ -1,0 +1,32 @@
+[
+  {
+    "agent": "ordering",
+    "last_run": "2025-10-24T14:05:00Z",
+    "records": 12
+  },
+  {
+    "agent": "payments",
+    "last_run": "2025-10-24T13:45:00Z",
+    "records": 8
+  },
+  {
+    "agent": "workforce",
+    "last_run": "2025-10-24T12:10:00Z",
+    "records": 5
+  },
+  {
+    "agent": "engagement",
+    "last_run": "2025-10-24T14:20:00Z",
+    "records": 6
+  },
+  {
+    "agent": "performance",
+    "last_run": "2025-10-24T09:30:00Z",
+    "records": 4
+  },
+  {
+    "agent": "finance",
+    "last_run": "2025-10-24T14:00:00Z",
+    "records": 7
+  }
+]

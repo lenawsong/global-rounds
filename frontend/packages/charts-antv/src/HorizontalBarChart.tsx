@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import { Bar, BarConfig } from '@ant-design/plots';
-import { defaultColorRange } from './theme';
+import { defaultColorRange, ensureNexusTheme } from './theme';
 
 export interface BarDatum { label: string; value: number }
 
@@ -18,8 +18,12 @@ export function HorizontalBarChart({ data, height = 280 }: { data: BarDatum[]; h
       x: { labelFormatter: (v: number) => Number(v).toLocaleString() },
       y: { labelFormatter: (s: string) => s }
     },
+    animation: {
+      appear: { animation: 'slide-in-left', duration: 350, easing: 'easeOutCubic' },
+      enter: { animation: 'slide-in-left', duration: 350 }
+    },
+    theme: ensureNexusTheme(),
     height
   };
   return <Bar {...config} />;
 }
-

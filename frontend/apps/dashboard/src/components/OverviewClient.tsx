@@ -1,17 +1,15 @@
 'use client';
 
-import { useQuery } from '@tanstack/react-query';
-import { createApiClient } from '../lib/api';
 import { Badge, Button, Card, CardBody, CardSubtle, CardTitle, Metric, Shell } from '@gr/ui';
 import Link from 'next/link';
 import { DonutChart } from '@gr/charts-antv';
-
-const api = createApiClient();
+import { HeroSurface } from './HeroSurface';
+import { useDashboardSnapshot, useDashboardTasks, usePortalOrders } from '../hooks/useDashboardData';
 
 export function OverviewClient() {
-  const { data: snapshot } = useQuery({ queryKey: ['dashboard-snapshot'], queryFn: () => api.getDashboardSnapshot() });
-  const { data: tasks } = useQuery({ queryKey: ['tasks'], queryFn: () => api.listTasks() });
-  const { data: orders } = useQuery({ queryKey: ['orders'], queryFn: () => api.listPortalOrders() });
+  const { data: snapshot } = useDashboardSnapshot();
+  const { data: tasks } = useDashboardTasks();
+  const { data: orders } = usePortalOrders();
 
   const totalTasks = tasks?.tasks.length ?? 0;
   const openTasks = tasks?.tasks.filter((t) => t.status.toLowerCase() !== 'closed').length ?? 0;
@@ -43,6 +41,16 @@ export function OverviewClient() {
         <Metric label="Active tasks" value={openTasks} sublabel={`${totalTasks} total`} trend="↑ refreshed in real-time" />
         <Metric label="AI approved orders" value={approvals} sublabel="Past 7 days" />
         <Metric label="Automation coverage" value={formatPercent(snapshot)} sublabel="Workflows monitored" />
+      </section>
+
+      <section className="grid gap-6">
+        <Card>
+          <CardTitle>Backlog surface</CardTitle>
+          <CardSubtle>Hero view of backlog intensity by compliance status and forecast horizon.</CardSubtle>
+          <CardBody>
+            <HeroSurface />
+          </CardBody>
+        </Card>
       </section>
 
       <section className="grid gap-6 lg:grid-cols-2">

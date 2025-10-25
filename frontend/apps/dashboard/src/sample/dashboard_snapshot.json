@@ -1,0 +1,139 @@
+{
+  "ordering": {
+    "patient_work_orders": [
+      {
+        "patient_id": "P001",
+        "supply_sku": "INC-XL-24",
+        "quantity": 120,
+        "compliance_status": "clear",
+        "notes": "Low warehouse inventory (80)"
+      },
+      {
+        "patient_id": "P003",
+        "supply_sku": "CATH-LEG-1L",
+        "quantity": 30,
+        "compliance_status": "hold",
+        "notes": "F2F expired"
+      },
+      {
+        "patient_id": "P006",
+        "supply_sku": "OXY-CONS-5L",
+        "quantity": 24,
+        "compliance_status": "clear",
+        "notes": ""
+      }
+    ],
+    "vendor_reorders": [
+      {
+        "supply_sku": "INC-XL-24",
+        "suggested_order_qty": 120,
+        "rationale": "On hand 80 <= reorder point 120; forecast demand 140"
+      },
+      {
+        "supply_sku": "CATH-LEG-1L",
+        "suggested_order_qty": 60,
+        "rationale": "Compliance hold — ship once docs cleared"
+      }
+    ],
+    "compliance_alerts": [
+      {
+        "patient_id": "P003",
+        "supply_sku": "CATH-LEG-1L",
+        "severity": "high",
+        "notes": "F2F expired; compliance due before fulfillment"
+      }
+    ]
+  },
+  "payments": {
+    "underpayments": [
+      {
+        "claim_id": "CLM-101",
+        "patient_id": "P002",
+        "payer": "DC Health Alliance",
+        "expected": "210.00",
+        "received": "0.00",
+        "variance": "210.00",
+        "status": "information requested"
+      },
+      {
+        "claim_id": "CLM-118",
+        "patient_id": "P005",
+        "payer": "AmeriHealth",
+        "expected": "360.00",
+        "received": "300.00",
+        "variance": "60.00",
+        "status": "processed"
+      },
+      {
+        "claim_id": "CLM-133",
+        "patient_id": "P008",
+        "payer": "Medicaid DC",
+        "expected": "540.00",
+        "received": "0.00",
+        "variance": "540.00",
+        "status": "denied"
+      }
+    ],
+    "documentation_queue": [
+      {
+        "claim_id": "CLM-101",
+        "payer": "DC Health Alliance",
+        "denial_code": "CO-16",
+        "requested_docs": "Medical records / WOPD",
+        "status": "information requested"
+      },
+      {
+        "claim_id": "CLM-133",
+        "payer": "Medicaid DC",
+        "denial_code": "M27",
+        "requested_docs": "Progress notes",
+        "status": "denied"
+      }
+    ]
+  },
+  "inventory_forecast": {
+    "INC-XL-24": {
+      "on_hand": 80,
+      "forecast_units": 140,
+      "recommended_buffer": 45,
+      "action": "reorder"
+    },
+    "CATH-LEG-1L": {
+      "on_hand": 38,
+      "forecast_units": 70,
+      "recommended_buffer": 24,
+      "action": "reorder"
+    },
+    "OXY-CONS-5L": {
+      "on_hand": 35,
+      "forecast_units": 60,
+      "recommended_buffer": 20,
+      "action": "watch"
+    }
+  },
+  "engagement": {
+    "messages": [
+      {
+        "id": "MSG-1001",
+        "channel": "sms",
+        "message": "Patient confirmed delivery window",
+        "order_id": "ORD-1001",
+        "timestamp": "2025-10-24T14:32:00Z"
+      },
+      {
+        "id": "MSG-1002",
+        "channel": "email",
+        "message": "Caregiver uploaded documentation",
+        "order_id": "ORD-1002",
+        "timestamp": "2025-10-24T13:20:00Z"
+      },
+      {
+        "id": "MSG-1003",
+        "channel": "voice",
+        "message": "Case manager escalated prior auth",
+        "order_id": "ORD-0998",
+        "timestamp": "2025-10-24T11:05:00Z"
+      }
+    ]
+  }
+}

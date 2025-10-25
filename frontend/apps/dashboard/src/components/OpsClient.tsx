@@ -1,20 +1,20 @@
 'use client';
 
-import { useQuery } from '@tanstack/react-query';
 import { createApiClient } from '../lib/api';
-import { Badge, Button, Card, CardBody, CardSubtle, CardTitle, Skeleton, Shell } from '@gr/ui';
+import { Badge, Button, Card, CardBody, CardSubtle, CardTitle, Shell } from '@gr/ui';
 import { DonutChart } from '@gr/charts-antv';
+import { useDashboardSnapshot, useDashboardTasks } from '../hooks/useDashboardData';
 
 const api = createApiClient();
 
 export function OpsClient() {
-  const { data: tasks, isLoading: loadingTasks } = useQuery({ queryKey: ['tasks'], queryFn: () => api.listTasks() });
-  const { data: snapshot } = useQuery({ queryKey: ['snapshot'], queryFn: () => api.getDashboardSnapshot() });
+  const { data: tasksData, isFallback: tasksFallback } = useDashboardTasks();
+  const { data: snapshot } = useDashboardSnapshot();
   const orders = Array.isArray(snapshot?.ordering?.patient_work_orders)
     ? (snapshot?.ordering?.patient_work_orders as any[])
     : [];
 
-  const queue = buildQueue(tasks?.tasks || []);
+  const queue = buildQueue(tasksData.tasks || []);
   const compliance = buildCompliance(orders);
 
   return (
@@ -37,28 +37,24 @@ export function OpsClient() {
           <CardTitle>Unified queue mix</CardTitle>
           <CardSubtle>Live snapshot of open, in progress, and closed work items.</CardSubtle>
           <CardBody>
-            {loadingTasks ? (
-              <Skeleton className="h-64" />
-            ) : (
-              <div className="grid gap-6 md:grid-cols-[260px_1fr]">
-                <div className="space-y-3 text-sm text-slate-600">
-                  <Badge variant="brand">Tasks</Badge>
-                  <p>
-                    {queue.reduce((acc, item) => acc + item.value, 0)} tasks synced from automation agents with SLA context
-                    and guardrails.
-                  </p>
-                  <ul className="space-y-1 text-xs">
-                    {queue.map((item) => (
-                      <li key={item.label} className="flex items-center justify-between">
-                        <span>{item.label}</span>
-                        <span className="font-semibold text-slate-900">{item.value}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <DonutChart data={queue} />
+            <div className="grid gap-6 md:grid-cols-[260px_1fr]">
+              <div className="space-y-3 text-sm text-slate-600">
+                <Badge variant="brand">Tasks</Badge>
+                <p>
+                  {queue.reduce((acc, item) => acc + item.value, 0)} tasks synced from automation agents with SLA context
+                  and guardrails.
+                </p>
+                <ul className="space-y-1 text-xs">
+                  {queue.map((item) => (
+                    <li key={item.label} className="flex items-center justify-between">
+                      <span>{item.label}</span>
+                      <span className="font-semibold text-slate-900">{item.value}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
-            )}
+              <DonutChart data={queue} />
+            </div>
           </CardBody>
         </Card>
 
@@ -103,7 +99,7 @@ export function OpsClient() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100">
-                  {(tasks?.tasks || []).slice(0, 8).map((task) => (
+                  {(tasksData.tasks || []).slice(0, 8).map((task) => (
                     <tr key={task.id} className="hover:bg-slate-50/60">
                       <td className="px-4 py-3 font-medium text-slate-900">{task.title}</td>
                       <td className="px-4 py-3 text-slate-600">{task.task_type}</td>
@@ -114,7 +110,7 @@ export function OpsClient() {
                       <td className="px-4 py-3 text-slate-500">{formatDate(task.due_at)}</td>
                     </tr>
                   ))}
-                  {!tasks?.tasks?.length ? (
+                  {!tasksData.tasks?.length ? (
                     <tr>
                       <td colSpan={5} className="px-4 py-6 text-center text-slate-400">
                         No tasks found.

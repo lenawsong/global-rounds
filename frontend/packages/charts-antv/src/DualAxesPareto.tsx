@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 import { DualAxes, DualAxesConfig } from '@ant-design/plots';
+import { ensureNexusTheme } from './theme';
 
 export interface ParetoDatum { label: string; value: number }
 
@@ -18,8 +19,8 @@ export function DualAxesPareto({ data, height = 280 }: { data: ParetoDatum[]; he
       { geometry: 'column', label: { position: 'top' } },
       { geometry: 'line', smooth: true, yAxis: { min: 0, max: 100 } }
     ],
+    theme: ensureNexusTheme(),
     height
   };
   return <DualAxes {...config} />;
 }
-
