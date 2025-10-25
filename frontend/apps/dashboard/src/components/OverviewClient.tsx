@@ -22,7 +22,7 @@ export function OverviewClient() {
 
   return (
     <Shell
-      title="Global Rounds Command Center"
+      title="Nexus Health Command Center"
       description="World-class automation cockpit for durable medical equipment operations."
       primaryAction={(
         <a href="/command-center/patient/intake.html" className="inline-flex">
@@ -119,4 +119,3 @@ function formatPercent(snapshot?: import('@gr/api').DashboardSnapshot) {
   const clear = ordering.filter((o) => String(o?.compliance_status || 'clear').toLowerCase() === 'clear').length;
   return `${Math.round((clear / ordering.length) * 100)}%`; 
 }
-

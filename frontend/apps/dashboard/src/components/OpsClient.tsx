@@ -85,7 +85,10 @@ export function OpsClient() {
 
       <section className="grid gap-6">
         <Card>
-          <CardTitle>Task Inbox</CardTitle>
+          <CardTitle className="flex items-center justify-between">
+            <span>Task Inbox</span>
+            <Button variant="secondary" onClick={handleComplianceExport}>Export Compliance PDF</Button>
+          </CardTitle>
           <CardSubtle>Top workload requiring operator attention.</CardSubtle>
           <CardBody>
             <div className="overflow-hidden rounded-2xl border border-slate-200/70">
@@ -170,3 +173,16 @@ function formatDate(value?: string) {
   return date.toLocaleDateString();
 }
 
+async function handleComplianceExport() {
+  try {
+    const snapshot = await createApiClient().getDashboardSnapshot();
+    const alerts = Array.isArray((snapshot as any)?.ordering?.compliance_alerts) ? (snapshot as any).ordering.compliance_alerts : [];
+    const blob = await createApiClient().exportCompliancePdf('Compliance Alert Packet', alerts);
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = 'compliance-alerts.pdf'; a.click();
+    URL.revokeObjectURL(url);
+  } catch (e) {
+    alert('Failed to export PDF. Ensure API is running.');
+  }
+}

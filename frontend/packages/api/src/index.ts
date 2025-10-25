@@ -54,6 +54,20 @@ export interface InventoryScenarioResponse {
   deltas: Record<string, Record<string, number>>;
 }
 
+export interface AgentStatus {
+  agent: string;
+  last_run?: string | null;
+  records: number;
+}
+
+export interface DashboardChatMessage { role: 'system' | 'user' | 'assistant'; content: string }
+export interface DashboardChatRequest {
+  messages: DashboardChatMessage[];
+  context?: Record<string, unknown>;
+  model?: string | null;
+}
+export interface DashboardChatResponse { message: DashboardChatMessage; model?: string | null }
+
 export class GrApiClient {
   constructor(private base = process.env.NEXT_PUBLIC_API_BASE || 'http://localhost:8001') {}
 
@@ -81,5 +95,16 @@ export class GrApiClient {
   listPortalOrders() { return this.getJson<PortalOrderListResponse>('/api/portal/orders'); }
   runInventoryScenario(payload: InventoryScenarioRequest) {
     return this.postJson<InventoryScenarioResponse>('/api/inventory/scenario', payload);
+  }
+  listAgentStatus() { return this.getJson<AgentStatus[]>('/api/agents/status'); }
+  askDashboard(body: DashboardChatRequest) { return this.postJson<DashboardChatResponse>('/api/dashboard/ask', body); }
+  async exportCompliancePdf(title: string, alerts: any[]): Promise<Blob> {
+    const res = await fetch(this.url('/api/compliance/report'), {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ title, alerts })
+    });
+    if (!res.ok) throw new Error(await res.text());
+    return res.blob();
   }
 }
