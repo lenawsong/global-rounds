@@ -18,6 +18,42 @@ export interface TaskItem {
 
 export interface TaskListResponse { tasks: TaskItem[] }
 
+export interface DashboardSnapshot {
+  ordering?: Record<string, unknown>;
+  payments?: Record<string, unknown>;
+  workforce?: Record<string, unknown>;
+  engagement?: Record<string, unknown>;
+  performance?: Record<string, unknown>;
+  finance?: Record<string, unknown>;
+}
+
+export interface PortalOrder {
+  id: string;
+  patient_id: string;
+  supply_sku: string;
+  quantity: number;
+  status: string;
+  requested_date?: string;
+  ai_compliance_status?: string;
+  created_at: string;
+}
+
+export interface PortalOrderListResponse { orders: PortalOrder[] }
+
+export interface InventoryScenarioRequest {
+  growth_percent: number;
+  lead_time_delta: number;
+  skus?: string[];
+}
+
+export interface InventoryScenarioResponse {
+  generated_at: string;
+  growth_percent: number;
+  lead_time_delta: number;
+  scenario: Record<string, Record<string, number>>;
+  deltas: Record<string, Record<string, number>>;
+}
+
 export class GrApiClient {
   constructor(private base = process.env.NEXT_PUBLIC_API_BASE || 'http://localhost:8001') {}
 
@@ -41,5 +77,9 @@ export class GrApiClient {
 
   listTasks() { return this.getJson<TaskListResponse>('/api/tasks'); }
   runAgents(agents?: string[]) { return this.postJson<AgentRunResponse>('/api/agents/run', { agents }); }
+  getDashboardSnapshot() { return this.getJson<DashboardSnapshot>('/api/last-run'); }
+  listPortalOrders() { return this.getJson<PortalOrderListResponse>('/api/portal/orders'); }
+  runInventoryScenario(payload: InventoryScenarioRequest) {
+    return this.postJson<InventoryScenarioResponse>('/api/inventory/scenario', payload);
+  }
 }
-

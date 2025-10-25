@@ -13,6 +13,9 @@ const config: Config = {
           400: '#5b93ff', 500: '#2f6dff', 600: '#1f5be6', 700: '#184aba',
           800: '#133b93', 900: '#0f2f77'
         }
+      },
+      fontFamily: {
+        sans: ['"Inter"', 'system-ui', 'sans-serif']
       }
     }
   },
@@ -20,4 +23,3 @@ const config: Config = {
 };
 
 export default config;
-

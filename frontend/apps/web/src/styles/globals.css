@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-:root { color-scheme: light; }
+:root { color-scheme: light; font-family: 'Inter', system-ui, sans-serif; }
 html, body { height: 100%; }
-body { background: #f7f9fc; }
-
+body { background: #f7f9fc; font-family: 'Inter', system-ui, sans-serif; }

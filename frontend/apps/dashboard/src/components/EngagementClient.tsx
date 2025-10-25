@@ -1,0 +1,85 @@
+'use client';
+
+import { useQuery } from '@tanstack/react-query';
+import { createApiClient } from '../lib/api';
+import { Badge, Card, CardBody, CardSubtle, CardTitle, Shell } from '@gr/ui';
+
+const api = createApiClient();
+
+export function EngagementClient() {
+  const { data: snapshot } = useQuery({ queryKey: ['dashboard-snapshot'], queryFn: () => api.getDashboardSnapshot() });
+  const messages = Array.isArray(snapshot?.engagement?.messages) ? (snapshot?.engagement?.messages as any[]) : [];
+
+  const sms = messages.filter((m) => m.channel === 'sms').length;
+  const email = messages.filter((m) => m.channel === 'email').length;
+  const voice = messages.filter((m) => m.channel === 'voice').length;
+
+  return (
+    <Shell
+      title="Patient Engagement"
+      description="Monitor outreach health, patient replies, and escalation signals across channels."
+      tabs={[
+        { key: 'overview', label: 'Overview', href: '/' },
+        { key: 'ops', label: 'Ops', href: '/ops' },
+        { key: 'finance', label: 'Finance', href: '/finance' },
+        { key: 'inventory', label: 'Inventory', href: '/inventory' },
+        { key: 'engagement', label: 'Engagement', href: '/engagement' },
+        { key: 'scenarios', label: 'Scenarios', href: '/scenarios' }
+      ]}
+      activeTab="engagement"
+    >
+      <section className="grid gap-6 lg:grid-cols-2">
+        <Card>
+          <CardTitle>Channel mix</CardTitle>
+          <CardSubtle>SMS, email, and voice touchpoints in the current window.</CardSubtle>
+          <CardBody>
+            <div className="grid gap-4 text-sm text-slate-600 md:grid-cols-3">
+              <ChannelCard label="SMS" value={sms} />
+              <ChannelCard label="Email" value={email} />
+              <ChannelCard label="Voice" value={voice} />
+            </div>
+          </CardBody>
+        </Card>
+        <Card>
+          <CardTitle>Escalation feed</CardTitle>
+          <CardSubtle>Latest replies containing keywords that triggered intervention.</CardSubtle>
+          <CardBody>
+            <div className="space-y-3 text-sm text-slate-600">
+              {messages.slice(0, 6).map((message) => (
+                <div key={message.id || message.order_id} className="rounded-xl border border-slate-200/70 bg-white/80 p-3">
+                  <div className="flex items-center justify-between text-xs text-slate-400">
+                    <span>{message.channel?.toUpperCase()}</span>
+                    <span>{formatDate(message.timestamp)}</span>
+                  </div>
+                  <p className="mt-2 text-slate-700">{message.message}</p>
+                  <Badge variant="brand" className="mt-2">Order {message.order_id || '—'}</Badge>
+                </div>
+              ))}
+              {!messages.length ? <p className="text-slate-400">No escalations detected.</p> : null}
+            </div>
+          </CardBody>
+        </Card>
+      </section>
+    </Shell>
+  );
+}
+
+function ChannelCard({ label, value }: { label: string; value: number }) {
+  return (
+    <div className="rounded-2xl border border-slate-200/70 bg-white/80 p-4 shadow-sm">
+      <Badge variant="brand">{label}</Badge>
+      <p className="mt-3 text-2xl font-semibold text-slate-900">{value}</p>
+      <p className="text-xs text-slate-500">touchpoints</p>
+    </div>
+  );
+}
+
+function formatDate(value?: string) {
+  if (!value) return '—';
+  try {
+    return new Date(value).toLocaleString();
+  } catch {
+    return value;
+  }
+}
+
