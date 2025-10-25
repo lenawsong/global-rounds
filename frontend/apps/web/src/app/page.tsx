@@ -1,5 +1,8 @@
 import { Button, Card, CardBody, CardSubtle, CardTitle, Metric } from '@gr/ui';
-import Link from 'next/link';
+
+const DASHBOARD_URL = process.env.NEXT_PUBLIC_DASHBOARD_URL || 'http://localhost:3101';
+const LEGACY_DASHBOARD_URL = process.env.NEXT_PUBLIC_LEGACY_DASHBOARD_URL || 'http://localhost:8001/command-center/dashboard/';
+const INTAKE_URL = process.env.NEXT_PUBLIC_INTAKE_URL || 'http://localhost:8001/command-center/patient/intake.html';
 
 export default function Page() {
   return (
@@ -16,9 +19,15 @@ export default function Page() {
               built for six-figure SaaS deployments.
             </p>
             <div className="flex flex-wrap gap-4">
-              <Link href="/ops" className="inline-flex"><Button>Explore dashboard</Button></Link>
-              <a href="/command-center/patient/intake.html" className="inline-flex"><Button variant="secondary">New intake</Button></a>
-              <a href="/command-center/dashboard/" className="inline-flex"><Button variant="ghost">Legacy view</Button></a>
+              <a href={`${DASHBOARD_URL}/ops`} className="inline-flex" target="_blank" rel="noreferrer">
+                <Button>Explore dashboard</Button>
+              </a>
+              <a href={INTAKE_URL} className="inline-flex" target="_blank" rel="noreferrer">
+                <Button variant="secondary">New intake</Button>
+              </a>
+              <a href={LEGACY_DASHBOARD_URL} className="inline-flex" target="_blank" rel="noreferrer">
+                <Button variant="ghost">Legacy view</Button>
+              </a>
             </div>
           </div>
           <div className="grid gap-4 md:grid-cols-2">
@@ -67,4 +76,3 @@ function BadgePill({ children }: { children: React.ReactNode }) {
     </span>
   );
 }
-

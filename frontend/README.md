@@ -32,20 +32,29 @@ frontend/
    ```bash
    pnpm install
    ```
-3) Start all apps in parallel:
+3) Start the marketing shell:
    ```bash
-   pnpm dev
+   pnpm --filter web dev
+   # optional port override
+   pnpm --filter web dev -- -p 3100
    ```
-   - Web: http://localhost:3000
-   - Dashboard: http://localhost:3001
+   Visit http://localhost:3000 (or the port you choose).
 
-4) Storybook (component QA):
+4) Start the dashboard shell in a second terminal:
+   ```bash
+   pnpm --filter dashboard dev
+   # optional port override
+   pnpm --filter dashboard dev -- -p 3101
+   ```
+   Visit http://localhost:3001 (or your port).
+
+5) Storybook (component QA):
    ```bash
    pnpm storybook
    ```
    - Available at http://localhost:6006
 
-5) Playwright smoke test (after `pnpm dev` in another terminal):
+6) Playwright smoke test (after `pnpm --filter dashboard dev` in another terminal):
    ```bash
    pnpm --filter dashboard test:e2e
    ```
@@ -56,6 +65,14 @@ The dashboard expects the automation API (FastAPI) at `http://localhost:8001` by
 Create `apps/dashboard/.env.local`:
 ```
 NEXT_PUBLIC_API_BASE=http://localhost:8001
+```
+
+The marketing shell links to the dashboard and intake experience. Override defaults as needed:
+
+```
+NEXT_PUBLIC_DASHBOARD_URL=http://localhost:3001
+NEXT_PUBLIC_LEGACY_DASHBOARD_URL=http://localhost:8001/command-center/dashboard/
+NEXT_PUBLIC_INTAKE_URL=http://localhost:8001/command-center/patient/intake.html
 ```
 
 ## Migration Path
