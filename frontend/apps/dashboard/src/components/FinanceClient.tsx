@@ -3,7 +3,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { createApiClient } from '../lib/api';
 import { Badge, Button, Card, CardBody, CardSubtle, CardTitle, Shell } from '@gr/ui';
-import { VegaChart, Specs } from '@gr/charts';
+import { HorizontalBarChart, DualAxesPareto } from '@gr/charts-antv';
 
 const api = createApiClient();
 
@@ -44,7 +44,7 @@ export function FinanceClient() {
                 <Badge variant="danger">Underpayments</Badge>
                 <p>{underpayments.length} claims with outstanding balances. Focus on the highest bucket first.</p>
               </div>
-              <VegaChart spec={Specs.horizontalBarSpec()} data={{ table: variance }} />
+              <HorizontalBarChart data={variance} />
             </div>
           </CardBody>
         </Card>
@@ -60,7 +60,7 @@ export function FinanceClient() {
                   codes clears {topShare(denialPareto)} of backlog volume.
                 </p>
               </div>
-              <VegaChart spec={Specs.horizontalBarSpec()} data={{ table: denialPareto }} />
+              <DualAxesPareto data={denialPareto} />
             </div>
           </CardBody>
         </Card>
@@ -142,4 +142,3 @@ function topShare(data: { value: number }[]) {
   const top = data.slice(0, 3).reduce((acc, item) => acc + item.value, 0);
   return `${Math.round((top / total) * 100)}%`;
 }
-

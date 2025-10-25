@@ -15,10 +15,12 @@
     "@tanstack/react-query": "^5.40.0",
     "@gr/ui": "workspace:*",
     "@gr/charts": "workspace:*",
+    "@gr/charts-antv": "workspace:*",
     "@gr/api": "workspace:*",
     "react-vega": "^7.6.0",
     "vega": "^5.27.0",
-    "vega-lite": "^5.16.0"
+    "vega-lite": "^5.16.0",
+    "@ant-design/plots": "^2.3.0"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.19",

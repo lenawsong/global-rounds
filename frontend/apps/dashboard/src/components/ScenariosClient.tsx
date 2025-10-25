@@ -4,7 +4,7 @@ import { useMutation } from '@tanstack/react-query';
 import { useState } from 'react';
 import { createApiClient } from '../lib/api';
 import { Badge, Button, Card, CardBody, CardSubtle, CardTitle, Shell } from '@gr/ui';
-import { VegaChart, Specs } from '@gr/charts';
+import { HorizontalBarChart } from '@gr/charts-antv';
 
 const api = createApiClient();
 
@@ -102,7 +102,7 @@ export function ScenariosClient() {
             ) : mutation.isError ? (
               <p className="text-sm text-rose-500">Scenario failed. Please retry.</p>
             ) : chartData.length ? (
-              <VegaChart spec={Specs.horizontalBarSpec()} data={{ table: chartData }} />
+              <HorizontalBarChart data={chartData} />
             ) : (
               <p className="text-sm text-slate-400">Run a scenario to visualize projected changes.</p>
             )}

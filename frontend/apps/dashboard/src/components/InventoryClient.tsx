@@ -3,7 +3,7 @@
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { createApiClient } from '../lib/api';
 import { Badge, Button, Card, CardBody, CardSubtle, CardTitle, Shell } from '@gr/ui';
-import { VegaChart, Specs } from '@gr/charts';
+import { HorizontalBarChart } from '@gr/charts-antv';
 import * as React from 'react';
 
 const api = createApiClient();
@@ -51,7 +51,7 @@ export function InventoryClient() {
                   {' '}on hold pending documentation.
                 </p>
               </div>
-              <VegaChart spec={Specs.horizontalBarSpec()} data={{ table: buildWorkOrderBars(workOrders) }} />
+              <HorizontalBarChart data={buildWorkOrderBars(workOrders)} />
             </div>
           </CardBody>
         </Card>
@@ -95,7 +95,7 @@ export function InventoryClient() {
           <CardTitle>Inventory forecast</CardTitle>
           <CardSubtle>SKU actions derived from predictive inventory model.</CardSubtle>
           <CardBody>
-            <VegaChart spec={Specs.horizontalBarSpec()} data={{ table: forecast }} />
+            <HorizontalBarChart data={forecast} />
           </CardBody>
         </Card>
 

@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { createApiClient } from '../lib/api';
 import { Badge, Button, Card, CardBody, CardSubtle, CardTitle, Metric, Shell } from '@gr/ui';
 import Link from 'next/link';
-import { VegaChart, Specs } from '@gr/charts';
+import { DonutChart } from '@gr/charts-antv';
 
 const api = createApiClient();
 
@@ -56,7 +56,7 @@ export function OverviewClient() {
                 <p>Every task in the rail is synced with SLA references. Hover the chart to see breakdowns by status.</p>
                 <Link href="/ops" className="text-blue-600 transition hover:text-blue-700">Go to Ops →</Link>
               </div>
-              <VegaChart spec={Specs.donutSpec()} data={{ table: queueDonut }} />
+              <DonutChart data={queueDonut} />
             </div>
           </CardBody>
         </Card>
@@ -70,7 +70,7 @@ export function OverviewClient() {
                 <p>Quickly identify orders requiring provider attention before fulfillment.</p>
                 <Link href="/inventory" className="text-blue-600 transition hover:text-blue-700">Go to Inventory →</Link>
               </div>
-              <VegaChart spec={Specs.donutSpec()} data={{ table: complianceDonut }} />
+              <DonutChart data={complianceDonut} />
             </div>
           </CardBody>
         </Card>

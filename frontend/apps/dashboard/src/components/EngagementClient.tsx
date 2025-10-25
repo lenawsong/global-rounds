@@ -3,6 +3,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { createApiClient } from '../lib/api';
 import { Badge, Card, CardBody, CardSubtle, CardTitle, Shell } from '@gr/ui';
+import { RoseChart } from '@gr/charts-antv';
 
 const api = createApiClient();
 
@@ -33,11 +34,7 @@ export function EngagementClient() {
           <CardTitle>Channel mix</CardTitle>
           <CardSubtle>SMS, email, and voice touchpoints in the current window.</CardSubtle>
           <CardBody>
-            <div className="grid gap-4 text-sm text-slate-600 md:grid-cols-3">
-              <ChannelCard label="SMS" value={sms} />
-              <ChannelCard label="Email" value={email} />
-              <ChannelCard label="Voice" value={voice} />
-            </div>
+            <RoseChart data={[{ label: 'SMS', value: sms }, { label: 'Email', value: email }, { label: 'Voice', value: voice }]} />
           </CardBody>
         </Card>
         <Card>
@@ -82,4 +79,3 @@ function formatDate(value?: string) {
     return value;
   }
 }
-

@@ -3,7 +3,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { createApiClient } from '../lib/api';
 import { Badge, Button, Card, CardBody, CardSubtle, CardTitle, Skeleton, Shell } from '@gr/ui';
-import { VegaChart, Specs } from '@gr/charts';
+import { DonutChart } from '@gr/charts-antv';
 
 const api = createApiClient();
 
@@ -56,7 +56,7 @@ export function OpsClient() {
                     ))}
                   </ul>
                 </div>
-                <VegaChart spec={Specs.donutSpec()} data={{ table: queue }} />
+                <DonutChart data={queue} />
               </div>
             )}
           </CardBody>
@@ -77,7 +77,7 @@ export function OpsClient() {
                   Re-evaluate holds
                 </Button>
               </div>
-              <VegaChart spec={Specs.donutSpec()} data={{ table: compliance }} />
+              <DonutChart data={compliance} />
             </div>
           </CardBody>
         </Card>
