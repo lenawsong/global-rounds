@@ -96,7 +96,7 @@ export function ScenariosClient() {
         <Card>
           <CardTitle>Scenario delta</CardTitle>
           <CardSubtle>Forecasted units delta vs. baseline for highlighted SKUs.</CardSubtle>
-          <CardBody>
+          <CardBody className="overflow-visible">
             {mutation.isLoading ? (
               <p className="text-sm text-slate-500">Running scenario…</p>
             ) : mutation.isError ? (

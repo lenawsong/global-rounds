@@ -14,8 +14,8 @@
     "paths": {
       "@gr/ui": ["packages/ui/src"],
       "@gr/charts": ["packages/charts/src"],
-      "@gr/api": ["packages/api/src"]
+      "@gr/api": ["packages/api/src"],
+      "@gr/charts-antv": ["packages/charts-antv/src"]
     }
   }
 }
-

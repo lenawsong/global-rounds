@@ -43,7 +43,7 @@ export function InventoryClient() {
         <Card>
           <CardTitle>Patient work orders</CardTitle>
           <CardSubtle>Upcoming fulfillment backlog by compliance state.</CardSubtle>
-          <CardBody>
+          <CardBody className="overflow-visible">
             <div className="grid gap-6 md:grid-cols-[260px_1fr]">
               <div className="space-y-3 text-sm text-slate-600">
                 <Badge variant="brand">Backlog</Badge>
@@ -95,7 +95,7 @@ export function InventoryClient() {
         <Card>
           <CardTitle>Inventory forecast</CardTitle>
           <CardSubtle>SKU actions derived from predictive inventory model.</CardSubtle>
-          <CardBody>
+          <CardBody className="overflow-visible">
             <HorizontalBarChart data={forecast} />
           </CardBody>
         </Card>

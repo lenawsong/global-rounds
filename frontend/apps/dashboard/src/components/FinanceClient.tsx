@@ -38,7 +38,7 @@ export function FinanceClient() {
         <Card>
           <CardTitle>Variance distribution</CardTitle>
           <CardSubtle>Underpayments buckets ($0-50, $50-100, etc.).</CardSubtle>
-          <CardBody>
+          <CardBody className="overflow-visible">
             <div className="grid gap-6 md:grid-cols-[260px_1fr]">
               <div className="space-y-3 text-sm text-slate-600">
                 <Badge variant="danger">Underpayments</Badge>
@@ -51,7 +51,7 @@ export function FinanceClient() {
         <Card>
           <CardTitle>Denial Pareto</CardTitle>
           <CardSubtle>Denial codes sorted by frequency in the documentation queue.</CardSubtle>
-          <CardBody>
+          <CardBody className="overflow-visible">
             <div className="grid gap-6 md:grid-cols-[260px_1fr]">
               <div className="space-y-3 text-sm text-slate-600">
                 <Badge variant="warning">Denied</Badge>

@@ -36,7 +36,7 @@ export function OpsClient() {
         <Card>
           <CardTitle>Unified queue mix</CardTitle>
           <CardSubtle>Live snapshot of open, in progress, and closed work items.</CardSubtle>
-          <CardBody>
+          <CardBody className="overflow-visible">
             <div className="grid gap-6 md:grid-cols-[260px_1fr]">
               <div className="space-y-3 text-sm text-slate-600">
                 <Badge variant="brand">Tasks</Badge>
@@ -61,7 +61,7 @@ export function OpsClient() {
         <Card>
           <CardTitle>Compliance triage</CardTitle>
           <CardSubtle>Patient work orders categorized by compliance disposition.</CardSubtle>
-          <CardBody>
+          <CardBody className="overflow-visible">
             <div className="grid gap-6 md:grid-cols-[260px_1fr]">
               <div className="space-y-3 text-sm text-slate-600">
                 <Badge variant="warning">Compliance</Badge>

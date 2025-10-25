@@ -16,9 +16,22 @@ export function DualAxesPareto({ data, height = 280 }: { data: ParetoDatum[]; he
     xField: 'label',
     yField: ['value', 'pct'],
     geometryOptions: [
-      { geometry: 'column', label: { position: 'top' } },
-      { geometry: 'line', smooth: true, yAxis: { min: 0, max: 100 } }
+      {
+        geometry: 'column',
+        columnWidthRatio: 0.5,
+        label: { position: 'top', style: { fill: '#0f172a', fontWeight: 600 }, formatter: (datum) => (datum.value ?? 0).toLocaleString() },
+        color: '#2563eb'
+      },
+      {
+        geometry: 'line',
+        smooth: true,
+        color: '#14b8a6',
+        lineStyle: { lineWidth: 2 },
+        point: { size: 4, shape: 'circle' },
+        yAxis: { min: 0, max: 100 }
+      }
     ],
+    tooltip: { shared: true, showMarkers: true },
     theme: ensureNexusTheme(),
     height
   };

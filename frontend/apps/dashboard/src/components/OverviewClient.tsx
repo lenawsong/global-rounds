@@ -57,7 +57,7 @@ export function OverviewClient() {
         <Card>
           <CardTitle>Unified queue status</CardTitle>
           <CardSubtle>Distribution of open, in-progress, and closed work.</CardSubtle>
-          <CardBody>
+          <CardBody className="overflow-visible">
             <div className="grid gap-4 md:grid-cols-[240px_1fr]">
               <div className="flex flex-col gap-3 text-sm text-slate-600">
                 <Badge variant="brand">Operations</Badge>
@@ -71,7 +71,7 @@ export function OverviewClient() {
         <Card>
           <CardTitle>Compliance readiness</CardTitle>
           <CardSubtle>Hold vs clear vs unknown compliance status across patient work orders.</CardSubtle>
-          <CardBody>
+          <CardBody className="overflow-visible">
             <div className="grid gap-4 md:grid-cols-[240px_1fr]">
               <div className="flex flex-col gap-3 text-sm text-slate-600">
                 <Badge variant="warning">Compliance</Badge>

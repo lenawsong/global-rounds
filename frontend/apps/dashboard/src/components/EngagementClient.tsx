@@ -30,7 +30,7 @@ export function EngagementClient() {
         <Card>
           <CardTitle>Channel mix</CardTitle>
           <CardSubtle>SMS, email, and voice touchpoints in the current window.</CardSubtle>
-          <CardBody>
+          <CardBody className="overflow-visible">
             <RoseChart data={[{ label: 'SMS', value: sms }, { label: 'Email', value: email }, { label: 'Voice', value: voice }]} />
           </CardBody>
         </Card>
