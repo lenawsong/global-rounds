@@ -120,8 +120,14 @@ frontend/
    - Web: `cd apps/web && pnpm dev -p 3000` (or `PORT=3000 pnpm --filter web dev`)
 
 ## Visualization Notes
-- Charts: Vega‑Lite via `react‑vega`, centralized specs in `packages/charts/src/specs.ts` with brand palette, readable axes, tooltips, and labels.
-- If API is offline: charts may be empty except Lexicon (which has local sample). Add global snapshot fallbacks if needed.
+- Primary stack: AntV (`@ant-design/plots` for charts) with Nexus Nebula theme tokens.
+- Specialized modules available:
+  - `@antv/g6` for graph/relationship views (e.g., lexicon term graph).
+  - `@antv/s2` for high-density pivot tables.
+  - `@antv/l7`/`@antv/l7plot` for 2D/3D geospatial scenes.
+- Legacy Vega‑Lite specs remain in `packages/charts` but new UI uses `@gr/charts-antv` components.
+- If API is offline: charts may be empty except Lexicon (local sample). Add global sample fallbacks if desired.
+  - Optional enhancements: add `/lexicon/graph` using lazy-loaded `@antv/g6` for a radial/force visualization, and include a single ECharts-GL “trophy” 3D scene (lazy-loaded) for hero metrics.
 
 ## Common Issues & Fixes
 - `ModuleNotFoundError: httpx` when starting Uvicorn
@@ -144,4 +150,3 @@ frontend/
 ---
 
 This context should let ChatGPT Pro accurately navigate code, locate responsibilities, understand the runtime configuration, and make high‑quality changes across backend and frontend modules.
-
