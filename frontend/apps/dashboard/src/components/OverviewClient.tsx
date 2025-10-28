@@ -1,15 +1,41 @@
 'use client';
 
-import { Badge, Button, Card, CardBody, CardSubtle, CardTitle, Metric, Shell } from '@gr/ui';
 import Link from 'next/link';
-import { DonutChart } from '@gr/charts-antv';
+import { Chart } from './viz/Chart';
+import { SpecsCompat as Specs } from '@gr/charts';
+import { AppLayout } from './layout/AppLayout';
+import { dashboardMenu } from './layout/menu';
+import { Badge, Button, Card, CardBody, CardSubtle, CardTitle, Metric } from './ui/antd-primitives';
+import { withLoadingState } from './ui/withLoadingState';
 import { HeroSurface } from './HeroSurface';
 import { useDashboardSnapshot, useDashboardTasks, usePortalOrders } from '../hooks/useDashboardData';
 
+const DASHBOARD_VITE_URL = process.env.NEXT_PUBLIC_DASHBOARD_VITE_URL || 'http://localhost:3001';
+
+const MetricsPanel = withLoadingState(function MetricsPanel({
+  openTasks,
+  totalTasks,
+  approvals,
+  coverage
+}: {
+  openTasks: number;
+  totalTasks: number;
+  approvals: number;
+  coverage: string;
+}) {
+  return (
+    <section className="grid gap-4 md:grid-cols-3">
+      <Metric label="Active tasks" value={openTasks} sublabel={`${totalTasks} total`} trend="↑ refreshed in real-time" />
+      <Metric label="AI approved orders" value={approvals} sublabel="Past 7 days" />
+      <Metric label="Automation coverage" value={coverage} sublabel="Workflows monitored" />
+    </section>
+  );
+}, { active: true, title: false, paragraph: false });
+
 export function OverviewClient() {
-  const { data: snapshot } = useDashboardSnapshot();
-  const { data: tasks } = useDashboardTasks();
-  const { data: orders } = usePortalOrders();
+  const { data: snapshot, isLoading: snapshotLoading } = useDashboardSnapshot();
+  const { data: tasks, isLoading: tasksLoading } = useDashboardTasks();
+  const { data: orders, isLoading: ordersLoading } = usePortalOrders();
 
   const totalTasks = tasks?.tasks.length ?? 0;
   const openTasks = tasks?.tasks.filter((t) => t.status.toLowerCase() !== 'closed').length ?? 0;
@@ -17,31 +43,27 @@ export function OverviewClient() {
 
   const queueDonut = buildQueueDonut(tasks?.tasks || []);
   const complianceDonut = buildCompliance(snapshot);
+  const isLoading = snapshotLoading || tasksLoading || ordersLoading;
 
   return (
-    <Shell
+    <AppLayout
       title="Nexus Health Command Center"
       description="World-class automation cockpit for durable medical equipment operations."
-      primaryAction={(
-        <a href="/command-center/patient/intake.html" className="inline-flex">
-          <Button>New Patient Intake</Button>
-        </a>
-      )}
-      tabs={[
-        { key: 'overview', label: 'Overview', href: '/' },
-        { key: 'ops', label: 'Ops', href: '/ops' },
-        { key: 'finance', label: 'Finance', href: '/finance' },
-        { key: 'inventory', label: 'Inventory', href: '/inventory' },
-        { key: 'engagement', label: 'Engagement', href: '/engagement' },
-        { key: 'scenarios', label: 'Scenarios', href: '/scenarios' }
-      ]}
-      activeTab="overview"
+      activeKey="overview"
+      menuItems={dashboardMenu.map((item) => ({ ...item }))}
+      primaryAction={
+        <Button href={`${DASHBOARD_VITE_URL}/intake`} target="_blank" rel="noreferrer">
+          New Patient Intake
+        </Button>
+      }
     >
-      <section className="grid gap-4 md:grid-cols-3">
-        <Metric label="Active tasks" value={openTasks} sublabel={`${totalTasks} total`} trend="↑ refreshed in real-time" />
-        <Metric label="AI approved orders" value={approvals} sublabel="Past 7 days" />
-        <Metric label="Automation coverage" value={formatPercent(snapshot)} sublabel="Workflows monitored" />
-      </section>
+      <MetricsPanel
+        loading={isLoading}
+        openTasks={openTasks}
+        totalTasks={totalTasks}
+        approvals={approvals}
+        coverage={formatPercent(snapshot)}
+      />
 
       <section className="grid gap-6">
         <Card>
@@ -61,10 +83,14 @@ export function OverviewClient() {
             <div className="grid gap-4 md:grid-cols-[240px_1fr]">
               <div className="flex flex-col gap-3 text-sm text-slate-600">
                 <Badge variant="brand">Operations</Badge>
-                <p>Every task in the rail is synced with SLA references. Hover the chart to see breakdowns by status.</p>
-                <Link href="/ops" className="text-blue-600 transition hover:text-blue-700">Go to Ops →</Link>
+                <p className="text-sm text-slate-500">
+                  Every task in the rail is synced with SLA references. Hover the chart to see breakdowns by status.
+                </p>
+                <Button variant="ghost" className="!px-0" href="/ops">
+                  Go to Ops →
+                </Button>
               </div>
-              <DonutChart data={queueDonut} />
+              <Chart type={Specs.donutSpec().type} data={{ table: queueDonut }} height={280} />
             </div>
           </CardBody>
         </Card>
@@ -75,15 +101,19 @@ export function OverviewClient() {
             <div className="grid gap-4 md:grid-cols-[240px_1fr]">
               <div className="flex flex-col gap-3 text-sm text-slate-600">
                 <Badge variant="warning">Compliance</Badge>
-                <p>Quickly identify orders requiring provider attention before fulfillment.</p>
-                <Link href="/inventory" className="text-blue-600 transition hover:text-blue-700">Go to Inventory →</Link>
+                <p className="text-sm text-slate-500">
+                  Quickly identify orders requiring provider attention before fulfillment.
+                </p>
+                <Link href="/inventory" className="text-blue-600">
+                  View inventory intelligence →
+                </Link>
               </div>
-              <DonutChart data={complianceDonut} />
+              <Chart type={Specs.donutSpec().type} data={{ table: complianceDonut }} height={280} />
             </div>
           </CardBody>
         </Card>
       </section>
-    </Shell>
+    </AppLayout>
   );
 }
 
@@ -125,5 +155,5 @@ function formatPercent(snapshot?: import('@gr/api').DashboardSnapshot) {
     : [];
   if (!ordering.length) return '—';
   const clear = ordering.filter((o) => String(o?.compliance_status || 'clear').toLowerCase() === 'clear').length;
-  return `${Math.round((clear / ordering.length) * 100)}%`; 
+  return `${Math.round((clear / ordering.length) * 100)}%`;
 }

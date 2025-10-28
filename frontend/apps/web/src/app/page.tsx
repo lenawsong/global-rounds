@@ -1,8 +1,9 @@
 import { Button, Card, CardBody, CardSubtle, CardTitle, Metric } from '@gr/ui';
 
-const DASHBOARD_URL = process.env.NEXT_PUBLIC_DASHBOARD_URL || 'http://localhost:3101';
-const LEGACY_DASHBOARD_URL = process.env.NEXT_PUBLIC_LEGACY_DASHBOARD_URL || 'http://localhost:8001/command-center/dashboard/';
-const INTAKE_URL = process.env.NEXT_PUBLIC_INTAKE_URL || 'http://localhost:8001/command-center/patient/intake.html';
+const DASHBOARD_URL = process.env.NEXT_PUBLIC_DASHBOARD_URL || 'http://localhost:3001';
+const LEGACY_DASHBOARD_URL =
+  process.env.NEXT_PUBLIC_LEGACY_DASHBOARD_URL || 'http://localhost:8001/command-center/dashboard/';
+const INTAKE_URL = process.env.NEXT_PUBLIC_INTAKE_URL || `${DASHBOARD_URL}/intake`;
 
 export default function Page() {
   return (
