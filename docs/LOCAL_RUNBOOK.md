@@ -174,7 +174,7 @@ pnpm --filter dashboard-vite test:e2e
 Render runs this composite build so the Vite dashboard assets exist before FastAPI starts. Run it locally to mirror the hosted pipeline or when you need to regenerate the static bundle served at `/dashboard`:
 
 ```bash
-pnpm install --frozen-lockfile \
+pnpm install \
   && pnpm --filter dashboard-vite build \
   && python -m pip install -r requirements.txt \
   && python -m pip install -r automation_prototype/backend/requirements.txt
