@@ -174,13 +174,10 @@ pnpm --filter dashboard-vite test:e2e
 Render runs this composite build so the Vite dashboard assets exist before FastAPI starts. Run it locally to mirror the hosted pipeline or when you need to regenerate the static bundle served at `/dashboard`:
 
 ```bash
-npx pnpm@8.15.4 install \
-  && npx pnpm@8.15.4 --filter dashboard-vite build \
-  && python -m pip install -r requirements.txt \
-  && python -m pip install -r automation_prototype/backend/requirements.txt
+./scripts/render-build.sh
 ```
 
-The Vite output lands in `frontend/apps/dashboard-vite/dist/`, which FastAPI mounts at `/dashboard` during deploys.
+The script enables Corepack, installs workspace dependencies, builds the Vite dashboard, and reinstalls the Python requirements. The generated assets land in `frontend/apps/dashboard-vite/dist/`, which FastAPI mounts at `/dashboard` during deploys.
 
 ---
 
