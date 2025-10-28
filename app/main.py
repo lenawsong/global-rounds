@@ -20,6 +20,32 @@ app.add_middleware(
 )
 
 templates = Jinja2Templates(directory="app/templates")
+
+
+def resolve_command_center_base() -> str:
+    default_base = "/dashboard" if os.getenv("RENDER") else "http://localhost:3001"
+    candidates = [
+        "COMMAND_CENTER_URL",
+        "DASHBOARD_VITE_URL",
+        "DASHBOARD_URL",
+        "NEXT_PUBLIC_COMMAND_CENTER_URL",
+        "NEXT_PUBLIC_DASHBOARD_VITE_URL",
+        "NEXT_PUBLIC_DASHBOARD_URL",
+    ]
+    for key in candidates:
+        raw = os.getenv(key)
+        if not raw:
+            continue
+        trimmed = raw.rstrip("/")
+        if "/command-center/" in trimmed:
+            continue
+        return trimmed
+    return default_base
+
+
+COMMAND_CENTER_BASE = resolve_command_center_base()
+templates.env.globals["command_center_base"] = COMMAND_CENTER_BASE
+
 app.mount("/static", StaticFiles(directory="app/static"), name="static")
 
 @app.get("/")
