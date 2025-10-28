@@ -5,9 +5,8 @@ services:
     rootDir: .
     pythonVersion: 3.11.9
     buildCommand: |
-      corepack prepare pnpm@8.15.4 --activate \
-        && pnpm install \
-        && pnpm --filter dashboard-vite build \
+      npx pnpm@8.15.4 install \
+        && npx pnpm@8.15.4 --filter dashboard-vite build \
         && python -m pip install -r requirements.txt \
         && python -m pip install -r automation_prototype/backend/requirements.txt
     startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
