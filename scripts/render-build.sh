@@ -2,11 +2,16 @@
 
 set -euo pipefail
 
+
 corepack enable
+
+pushd frontend >/dev/null
 
 pnpm install
 
 pnpm --filter dashboard-vite build
+
+popd >/dev/null
 
 python -m pip install -r requirements.txt
 
