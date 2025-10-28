@@ -7,7 +7,7 @@ corepack enable
 
 pushd frontend >/dev/null
 
-pnpm install
+pnpm install --no-frozen-lockfile
 
 pnpm --filter dashboard-vite build
 
