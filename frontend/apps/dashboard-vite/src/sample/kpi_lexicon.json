@@ -1,0 +1,7 @@
+{
+  "terms": {
+    "dso": "Days sales outstanding. Measures the average number of days to collect receivables.",
+    "denial_rate": "Percentage of claims denied by payers divided by total claims submitted.",
+    "sla": "Service level agreement measuring adherence to contractual turnaround times."
+  }
+}
