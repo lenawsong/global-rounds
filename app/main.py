@@ -10,6 +10,7 @@ from pathlib import Path
 
 load_dotenv()
 app = FastAPI()
+repo_root = Path(__file__).resolve().parents[1]
 
 # session cookie for login state
 app.add_middleware(
@@ -48,6 +49,14 @@ templates.env.globals["command_center_base"] = COMMAND_CENTER_BASE
 
 app.mount("/static", StaticFiles(directory="app/static"), name="static")
 
+dashboard_dist = repo_root / "frontend" / "apps" / "dashboard-vite" / "dist"
+if dashboard_dist.exists():
+    app.mount(
+        "/dashboard",
+        StaticFiles(directory=str(dashboard_dist), html=True),
+        name="dashboard-vite",
+    )
+
 @app.get("/")
 def home(request: Request):
     return templates.TemplateResponse("home.html", {"request": request})
@@ -77,27 +86,15 @@ from app import checkout
 app.include_router(checkout.router)
 
 
-# Optional: mount Command Center (automation_prototype) if present
+# Optional: mount legacy Command Center (automation_prototype) if present
 try:
-    repo_root = Path(__file__).resolve().parents[1]
     cc_root = repo_root / "automation_prototype"
     if cc_root.exists():
         if str(cc_root) not in sys.path:
             sys.path.insert(0, str(cc_root))
         from backend.app import app as command_center_app  # type: ignore
+
         app.mount("/command-center", command_center_app)
-        # If the sub-app redirects '/' -> '/dashboard/' as an absolute path,
-        # catch '/dashboard/' at the top level and send users back to the mounted path.
-        from fastapi.responses import RedirectResponse  # inline import to avoid unused if CC absent
-
-        @app.get("/dashboard/", include_in_schema=False)
-        def redirect_global_dashboard():
-            return RedirectResponse(url="/command-center/dashboard/")
-
-        @app.api_route("/api/{full_path:path}", methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"], include_in_schema=False)
-        async def proxy_api(full_path: str):
-            # Preserve method/body via 307 redirect
-            return RedirectResponse(url=f"/command-center/api/{full_path}", status_code=307)
 except Exception:
-    # If command center is not available, keep main app running
+    # If legacy command center is unavailable, continue without mounting it.
     pass
