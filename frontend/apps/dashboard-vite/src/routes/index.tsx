@@ -1,5 +1,6 @@
 import type { MenuDataItem } from '@ant-design/pro-components';
 import type { RouteObject } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { OverviewPage } from '../pages/OverviewPage';
 import { OpsPage } from '../pages/OpsPage';
 import { FinancePage } from '../pages/FinancePage';
@@ -13,7 +14,8 @@ import { NavigationMapPage } from '../pages/NavigationMapPage';
 import { IntakePage } from '../pages/IntakePage';
 
 export const appRoutes: RouteObject[] = [
-  { path: '/', element: <OverviewPage /> },
+  { path: '/', element: <Navigate to="/navigation-map" replace /> },
+  { path: '/overview', element: <OverviewPage /> },
   { path: '/ops', element: <OpsPage /> },
   { path: '/finance', element: <FinancePage /> },
   { path: '/inventory', element: <InventoryPage /> },
@@ -27,7 +29,7 @@ export const appRoutes: RouteObject[] = [
 ];
 
 export const menuItems: MenuDataItem[] = [
-  { path: '/', name: 'Overview', key: 'overview' },
+  { path: '/overview', name: 'Overview', key: 'overview' },
   { path: '/ops', name: 'Ops', key: 'ops' },
   { path: '/finance', name: 'Finance', key: 'finance' },
   { path: '/inventory', name: 'Inventory', key: 'inventory' },

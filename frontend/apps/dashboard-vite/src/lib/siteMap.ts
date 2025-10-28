@@ -19,7 +19,7 @@ export const siteNodes: SiteNode[] = [
   {
     id: 'overview',
     label: 'Overview',
-    path: '/',
+    path: '/overview',
     description: 'Executive pulse across labor savings, breach risk, backlog velocity, and run-rate forecasts.',
     tags: ['metrics', 'antv']
   },
