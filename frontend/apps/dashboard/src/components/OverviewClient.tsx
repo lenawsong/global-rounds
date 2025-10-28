@@ -10,7 +10,10 @@ import { withLoadingState } from './ui/withLoadingState';
 import { HeroSurface } from './HeroSurface';
 import { useDashboardSnapshot, useDashboardTasks, usePortalOrders } from '../hooks/useDashboardData';
 
-const DASHBOARD_VITE_URL = process.env.NEXT_PUBLIC_DASHBOARD_VITE_URL || 'http://localhost:3001';
+const DASHBOARD_VITE_URL =
+  process.env.NEXT_PUBLIC_DASHBOARD_VITE_URL ||
+  (process.env.NODE_ENV === 'development' ? 'http://localhost:3001' : '/dashboard');
+const DASHBOARD_VITE_BASE = DASHBOARD_VITE_URL.replace(/\/$/, '');
 
 const MetricsPanel = withLoadingState(function MetricsPanel({
   openTasks,
@@ -52,7 +55,7 @@ export function OverviewClient() {
       activeKey="overview"
       menuItems={dashboardMenu.map((item) => ({ ...item }))}
       primaryAction={
-        <Button href={`${DASHBOARD_VITE_URL}/intake`} target="_blank" rel="noreferrer">
+        <Button href={`${DASHBOARD_VITE_BASE}/intake`} target="_blank" rel="noreferrer">
           New Patient Intake
         </Button>
       }

@@ -2,7 +2,11 @@ import '../styles/globals.css';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 
-const DASHBOARD_URL = process.env.NEXT_PUBLIC_DASHBOARD_URL || 'http://localhost:3001';
+const DASHBOARD_URL =
+  process.env.NEXT_PUBLIC_DASHBOARD_URL ||
+  process.env.NEXT_PUBLIC_COMMAND_CENTER_URL ||
+  (process.env.NODE_ENV === 'development' ? 'http://localhost:3001' : '/dashboard');
+const DASHBOARD_BASE = DASHBOARD_URL.replace(/\/$/, '');
 const LEGACY_DASHBOARD_URL =
   process.env.NEXT_PUBLIC_LEGACY_DASHBOARD_URL || 'http://localhost:8001/command-center/dashboard/';
 
@@ -23,7 +27,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <nav className="flex items-center gap-4 text-sm">
               <Link href="/">Home</Link>
               <Link href="/login">Login</Link>
-              <a href={DASHBOARD_URL} className="text-blue-700" target="_blank" rel="noreferrer">
+              <a href={DASHBOARD_BASE} className="text-blue-700" target="_blank" rel="noreferrer">
                 Command Center
               </a>
               <a href={LEGACY_DASHBOARD_URL} className="text-slate-600" target="_blank" rel="noreferrer">

@@ -1,9 +1,13 @@
 import { Button, Card, CardBody, CardSubtle, CardTitle, Metric } from '@gr/ui';
 
-const DASHBOARD_URL = process.env.NEXT_PUBLIC_DASHBOARD_URL || 'http://localhost:3001';
+const DASHBOARD_URL =
+  process.env.NEXT_PUBLIC_DASHBOARD_URL ||
+  process.env.NEXT_PUBLIC_COMMAND_CENTER_URL ||
+  (process.env.NODE_ENV === 'development' ? 'http://localhost:3001' : '/dashboard');
+const DASHBOARD_BASE = DASHBOARD_URL.replace(/\/$/, '');
 const LEGACY_DASHBOARD_URL =
   process.env.NEXT_PUBLIC_LEGACY_DASHBOARD_URL || 'http://localhost:8001/command-center/dashboard/';
-const INTAKE_URL = process.env.NEXT_PUBLIC_INTAKE_URL || `${DASHBOARD_URL}/intake`;
+const INTAKE_URL = process.env.NEXT_PUBLIC_INTAKE_URL || `${DASHBOARD_BASE}/intake`;
 
 export default function Page() {
   return (
@@ -20,7 +24,7 @@ export default function Page() {
               built for six-figure SaaS deployments.
             </p>
             <div className="flex flex-wrap gap-4">
-              <a href={`${DASHBOARD_URL}/ops`} className="inline-flex" target="_blank" rel="noreferrer">
+              <a href={`${DASHBOARD_BASE}/ops`} className="inline-flex" target="_blank" rel="noreferrer">
                 <Button>Explore dashboard</Button>
               </a>
               <a href={INTAKE_URL} className="inline-flex" target="_blank" rel="noreferrer">
