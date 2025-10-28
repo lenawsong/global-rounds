@@ -10,10 +10,21 @@ import { withLoadingState } from './ui/withLoadingState';
 import { HeroSurface } from './HeroSurface';
 import { useDashboardSnapshot, useDashboardTasks, usePortalOrders } from '../hooks/useDashboardData';
 
-const DASHBOARD_VITE_URL =
-  process.env.NEXT_PUBLIC_DASHBOARD_VITE_URL ||
-  (process.env.NODE_ENV === 'development' ? 'http://localhost:3001' : '/dashboard');
-const DASHBOARD_VITE_BASE = DASHBOARD_VITE_URL.replace(/\/$/, '');
+function resolveDashboardBase() {
+  const defaultBase = process.env.NODE_ENV === 'development' ? 'http://localhost:3001' : '/dashboard';
+  const raw =
+    process.env.NEXT_PUBLIC_COMMAND_CENTER_URL ||
+    process.env.NEXT_PUBLIC_DASHBOARD_VITE_URL ||
+    process.env.NEXT_PUBLIC_DASHBOARD_URL;
+  if (!raw) return defaultBase;
+  const trimmed = raw.replace(/\/$/, '');
+  if (trimmed.includes('/command-center/')) {
+    return defaultBase;
+  }
+  return trimmed;
+}
+
+const DASHBOARD_VITE_BASE = resolveDashboardBase();
 
 const MetricsPanel = withLoadingState(function MetricsPanel({
   openTasks,

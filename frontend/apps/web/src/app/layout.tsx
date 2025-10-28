@@ -2,11 +2,21 @@ import '../styles/globals.css';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 
-const DASHBOARD_URL =
-  process.env.NEXT_PUBLIC_DASHBOARD_URL ||
-  process.env.NEXT_PUBLIC_COMMAND_CENTER_URL ||
-  (process.env.NODE_ENV === 'development' ? 'http://localhost:3001' : '/dashboard');
-const DASHBOARD_BASE = DASHBOARD_URL.replace(/\/$/, '');
+function resolveDashboardBase() {
+  const defaultBase = process.env.NODE_ENV === 'development' ? 'http://localhost:3001' : '/dashboard';
+  const raw =
+    process.env.NEXT_PUBLIC_COMMAND_CENTER_URL ||
+    process.env.NEXT_PUBLIC_DASHBOARD_URL ||
+    process.env.NEXT_PUBLIC_DASHBOARD_VITE_URL;
+  if (!raw) return defaultBase;
+  const trimmed = raw.replace(/\/$/, '');
+  if (trimmed.includes('/command-center/')) {
+    return defaultBase;
+  }
+  return trimmed;
+}
+
+const DASHBOARD_BASE = resolveDashboardBase();
 const LEGACY_DASHBOARD_URL =
   process.env.NEXT_PUBLIC_LEGACY_DASHBOARD_URL || 'http://localhost:8001/command-center/dashboard/';
 
