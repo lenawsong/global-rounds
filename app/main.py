@@ -56,6 +56,12 @@ if dashboard_dist.exists():
         StaticFiles(directory=str(dashboard_dist), html=True),
         name="dashboard-vite",
     )
+    # Ensure absolute asset URLs like "/assets/..." resolve when the app is
+    # served from "/dashboard". Vite's default build emits absolute asset
+    # paths unless base is configured. This mount makes those URLs available.
+    assets_dir = dashboard_dist / "assets"
+    if assets_dir.exists():
+        app.mount("/assets", StaticFiles(directory=str(assets_dir)), name="dashboard-vite-assets")
 
 @app.get("/")
 def home(request: Request):

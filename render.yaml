@@ -15,3 +15,5 @@ services:
         fromServiceUrl: nexus-health
       - key: ANTHROPIC_API_KEY
         sync: false
+      - key: VITE_API_BASE
+        value: /command-center
