@@ -87,23 +87,17 @@ export function AppLayout({ children }: AppLayoutProps) {
   );
 }
 
+import { NEXUS_LOGO_JPG } from '../assets/nexusLogoDataUri';
+
 function BrandLogo() {
   return (
-    <div
-      style={{
-        width: 36,
-        height: 36,
-        borderRadius: 12,
-        background: '#2563eb',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        color: '#fff',
-        fontWeight: 600
-      }}
-    >
-      NH
-    </div>
+    <img
+      src={NEXUS_LOGO_JPG}
+      alt="Nexus Health"
+      width={36}
+      height={36}
+      style={{ borderRadius: 8, objectFit: 'cover' }}
+    />
   );
 }
 
@@ -172,7 +166,7 @@ function HeaderActions({ mode, onToggleTheme, onNavigate }: HeaderActionsProps) 
         {mode === 'dark' ? 'Dark' : 'Light'}
       </Button>
       <Badge count="Sandbox" color="#2563eb" />
-      <Avatar shape="circle" size="small" style={{ background: '#2563eb' }}>
+      <Avatar shape="circle" size="small" style={{ background: '#1e3a8a' }}>
         NH
       </Avatar>
     </Space>
